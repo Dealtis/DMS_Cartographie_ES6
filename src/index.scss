@@ -1,3 +1,22 @@
-body {
-  background-color: lightgrey;
+@import 'node_modules/angular-material/angular-material.scss';
+@import 'node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
+
+body,
+html {
+  height: 100%;
+}
+
+.main_wrapper {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.toolbar {}
+
+aside {}
+
+.mapContainer {
+  .angular-google-map-container {
+    min-height: 95vh;;
+  }
 }

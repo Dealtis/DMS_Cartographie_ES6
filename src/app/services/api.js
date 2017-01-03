@@ -5,7 +5,7 @@ export class Api {
     HTTP.set(this, $http);
   }
   loadChauffeurs(idsoc) {
-    return HTTP.get(this).get(`${url}dmsSalarieT?val=${idsoc}`);
+    return HTTP.get(this).get(`${url}dmsSalarieT?val=${idsoc}`).then(result => result.data);
   }
   loadPositionSociete(idsoc) {
     return HTTP.get(`${url}dmsCenter?val=' + ${idsoc})`);

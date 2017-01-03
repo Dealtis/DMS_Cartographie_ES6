@@ -4,20 +4,20 @@ import {
 
 class MapContainerController {
   constructor($scope, $log, uiGmapGoogleMapApi, api) {
-    // this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
-    this.api = api;
-    uiGmapGoogleMapApi.then(maps =>
-      $log.log(maps),
-      // Map config init
-      $scope.map = config.mapOptions,
-      $scope.clusterOptions = config.cluserOptions,
-      $scope.clusterChauffeurOptions = config.clusterChauffeurOptions,
+    // Map config init
+    $scope.map = config.mapOptions;
+    $scope.clusterOptions = config.cluserOptions;
+    $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
+    uiGmapGoogleMapApi.then(maps => {
+      $log.log(maps);
       // Get Chauffeurs de la societe
-      api.loadChauffeurs('73').then(response =>
-        $log.log(response.data))
+      api.loadChauffeurs('73').then(chauffeurs => {
+        $scope.chauffeurs = angular.fromJson(chauffeurs);
+        $log.log($scope.chauffeurs);
+      });
       // Get Position de la societe
       // Get des messages en attentes
-    );
+    });
   }
 }
 

@@ -4,7 +4,10 @@ export const config = {
       latitude: 45,
       longitude: -73
     },
-    zoom: 8
+    zoom: 8,
+    control: {},
+    markersControl: {},
+    events: {}
   },
   cluserOptions: {
     gridSize: 20,

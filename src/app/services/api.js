@@ -4,10 +4,10 @@ export class Api {
   constructor($http) {
     HTTP.set(this, $http);
   }
-  loadChauffeurs(idsoc) {
-    return HTTP.get(this).get(`${url}dmsSalarieT?val=${idsoc}`).then(result => result.data);
+  loadChauffeurs(idSoc) {
+    return HTTP.get(this).get(`${url}dmsSalarieT?val=${idSoc}`).then(result => result.data);
   }
-  loadPositionSociete(idsoc) {
-    return HTTP.get(`${url}dmsCenter?val=' + ${idsoc})`);
+  loadSocposition(idSoc) {
+    return HTTP.get(this).get(`${url}dmsCenter?val=${idSoc}`).then(result => result.data);
   }
 }

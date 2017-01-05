@@ -1,10 +1,8 @@
 class ToolBarController {
-  constructor($scope, $log, api, $element) {
+  constructor($scope, $log, api, getPositionsFun, $element) {
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
-    // The md-select directive eats keydown events for some quick select
-    // logic. Since we have a search input here, we don't need that logic.
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
@@ -12,6 +10,10 @@ class ToolBarController {
     api.loadChauffeurs('73').then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
     });
+    $scope.markers = [];
+    $scope.getPositionsLivraisons = (selectedChaufeurs, cbLivraison, dateCalendar) => {
+      $scope.markers.push(getPositionsFun.getPositions(selectedChaufeurs, cbLivraison, dateCalendar));
+    };
   }
 }
 

@@ -1,18 +1,30 @@
-<md-input-container>
-        <label>Chauffeurs</label>
-        <md-select ng-model="selectedChaufeurs"
-                   md-on-close="clearSearchTerm()"
-                   data-md-container-class="selectHeader"
-                   multiple>
-          <md-select-header class="select-header">
-            <input ng-model="searchTerm"
-                   type="search"
-                   placeholder="Choisissez de(s) chauffeur(s)"
-                   class="header-searchbox md-text">
-          </md-select-header>
-          <md-optgroup label="chauffeur">
-            <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs |
-              filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
-          </md-optgroup>
-        </md-select>
-      </md-input-container>
+<md-input-container class="toolbar_select_chauffeurs" flex="10">
+  <label>Chauffeurs</label>
+  <md-select ng-model="selectedChaufeurs"
+             md-on-close="clearSearchTerm()"
+             data-md-container-class="selectHeader"
+             multiple>
+    <md-select-header class="select-header">
+      <input ng-model="searchTerm"
+             type="search"
+             placeholder="Choisissez de(s) chauffeur(s)"
+             class="header-searchbox md-text">
+    </md-select-header>
+    <md-optgroup label="chauffeur">
+      <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs |
+        filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
+    </md-optgroup>
+  </md-select>
+</md-input-container>
+<div class="toolbar_checkbox" layout="column"  layout-align="none" flex>
+  <div class="toolbar_checkbox_livraisons" flex>
+    <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(selectedChaufeurs,cbLivraison,dateCalendar)" ng-disabled="selectedChaufeurs == null">
+      Livraisons
+    </md-checkbox>
+  </div>
+  <div class="toolbar_checkbox_ramasses" flex>
+    <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(selectedChauffeur,cb4,date)" ng-disabled="selectedChaufeurs == null">
+      Ramasses
+    </md-checkbox>
+  </div>
+</div>

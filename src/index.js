@@ -5,6 +5,7 @@ import {App} from './app/containers/App';
 import {toolBar} from './app/components/toolBar';
 import {mapContainer} from './app/components/mapcontainer';
 import {Api} from './app/services/api';
+import {getPositionsFun} from './app/functions/getPositionsFun';
 // Dependencies
 import 'angular-ui-router';
 import 'angular-material';
@@ -30,4 +31,5 @@ angular
   .component('app', App)
   .component('toolbar', toolBar)
   .component('mapcontainer', mapContainer)
-  .service('api', Api);
+  .service('api', Api)
+  .service('getPositionsFun', getPositionsFun);

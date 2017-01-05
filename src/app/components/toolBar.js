@@ -1,5 +1,6 @@
 class ToolBarController {
   constructor($scope, $log, api, getPositionsFun, $element) {
+    $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };

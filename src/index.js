@@ -25,6 +25,9 @@ export const app = 'app';
 angular
   .module(app, ['ui.router', 'ngMaterial', 'uiGmapgoogle-maps'])
   .config(routesConfig)
+  .config($compileProvider => {
+    $compileProvider.preAssignBindingsEnabled(true);
+  })
   .config($mdDateLocaleProvider => {
     $mdDateLocaleProvider.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
     $mdDateLocaleProvider.shortMonths = ['janv', 'févr', 'mars', 'avri', 'mai', 'juin', 'juill', 'août', 'sept', 'octo', 'nove', 'déce'];

@@ -16,15 +16,55 @@
     </md-optgroup>
   </md-select>
 </md-input-container>
-<div class="toolbar_checkbox" layout="column"  layout-align="none" flex>
-  <div class="toolbar_checkbox_livraisons" flex>
-    <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(selectedChaufeurs,cbLivraison,dateCalendar)" ng-disabled="selectedChaufeurs == null">
-      Livraisons
-    </md-checkbox>
+<div class="toolbar_checkbox" layout="row"  layout-align="none" flex>
+  <div flex>
+    <div class="toolbar_checkbox_livraisons">
+      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(selectedChaufeurs,cbLivraison,dateCalendar)" ng-disabled="selectedChaufeurs == null">
+        Livraisons
+      </md-checkbox>
+    </div>
+    <div class="toolbar_checkbox_ramasses" flex>
+      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(selectedChaufeurs,cb4,date)" ng-disabled="selectedChaufeurs == null">
+        Ramasses
+      </md-checkbox>
+    </div>
   </div>
-  <div class="toolbar_checkbox_ramasses" flex>
-    <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(selectedChauffeur,cb4,date)" ng-disabled="selectedChaufeurs == null">
-      Ramasses
-    </md-checkbox>
+  <div flex>
+    <div class="toolbar_checkbox_trajet" flex>
+      <md-checkbox class="md-primary" ng-model="cbTrajet" aria-label="Trajet" ng-change="getTrajetLivraison(selectedChaufeurs,cb2,date)" ng-disabled="selectedChaufeurs == null">
+        Trajets
+      </md-checkbox>
+    </div>
+    <div class="toolbar_checkbox_chauffeurs" flex>
+      <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChaufeurs,cb4,date)" ng-disabled="selectedChaufeurs == null">
+        Autres chauffeurs
+      </md-checkbox>
+    </div>
   </div>
+</div>
+<md-datepicker flex="15" ng-model="dateCalendar" md-placeholder="Enter date" ng-disabled="selectedChaufeurs == null" ng-change="dateChange()"></md-datepicker>
+<div flex class="toolbar_button">
+  <md-button class="md-icon-button md-raised" ng-disabled="selectedChaufeurs == null" aria-label="recadre" ng-click="recadre()">
+    <md-icon md-svg-icon="images/ico/ico_fullscreen.svg"></md-icon>
+    <md-tooltip md-direction="bottom">
+      Recentrer la carte
+    </md-tooltip>
+  </md-button>
+  <md-button class="md-icon-button md-raised" ng-disabled="selectedChaufeurs == null" aria-label="refresh" ng-click="refresh()">
+    <md-icon md-svg-icon="images/ico/ico_refresh.svg"></md-icon>
+    <md-tooltip md-direction="bottom">
+      Recharger la carte
+    </md-tooltip>
+  </md-button>
+  <md-button class="md-icon-button md-raised md-warn" ng-click="showAlert($event)">
+    <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
+    <md-tooltip md-direction="bottom">
+      Aide
+    </md-tooltip>
+  </md-button>
+</div>
+<div flex class="toolbar_switch">
+  <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch 1" ng-disabled="selectedChaufeurs == null" ng-change="reloadAuto(selectedChaufeurs,cb1,cb2,cb3,sw1,date)">
+    Rafraîchissement auto
+  </md-switch>
 </div>

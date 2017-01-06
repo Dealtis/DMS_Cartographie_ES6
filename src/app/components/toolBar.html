@@ -1,6 +1,6 @@
 <md-input-container class="toolbar_select_chauffeurs" flex="10">
   <label>Chauffeurs</label>
-  <md-select ng-model="tool.selectedChaufeurs"
+  <md-select ng-model="selectedChauffeurs"
              md-on-close="clearSearchTerm()"
              data-md-container-class="selectHeader"
              multiple>
@@ -19,24 +19,24 @@
 <div class="toolbar_checkbox" layout="row"  layout-align="none" flex>
   <div flex>
     <div class="toolbar_checkbox_livraisons">
-      <md-checkbox class="md-primary" ng-model="tool.cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(tool.selectedChaufeurs,tool.cbLivraison,tool.dateCalendar)" ng-disabled="tool.selectedChaufeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(selectedChauffeurs,cbLivraison,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Livraisons
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_ramasses" flex>
-      <md-checkbox class="md-primary" ng-model="tool.cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(tool.selectedChaufeurs,tool.cbRamasses,tool.dateCalendar)" ng-disabled="tool.selectedChaufeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(selectedChauffeurs,cbRamasses,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Ramasses
       </md-checkbox>
     </div>
   </div>
   <div flex>
     <div class="toolbar_checkbox_trajet" flex>
-      <md-checkbox class="md-primary" ng-model="tool.cbTrajet" aria-label="Trajet" ng-change="getTrajetLivraison(tool.selectedChaufeurs,tool.cbTrajet,tool.dateCalendar)" ng-disabled="tool.selectedChaufeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbTrajet" aria-label="Trajet" ng-change="getTrajetLivraison(selectedChauffeurs,cbTrajet,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Trajets
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_chauffeurs" flex>
-      <md-checkbox class="md-primary" ng-model="tool.cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(tool.selectedChaufeurs,tool.cbChauffeurs,tool.dateCalendar)" ng-disabled="tool.selectedChaufeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChauffeurs,cbChauffeurs,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Autres chauffeurs
       </md-checkbox>
     </div>
@@ -44,13 +44,13 @@
 </div>
 <md-datepicker flex="15" ng-model="dateCalendar" md-placeholder="Enter date"></md-datepicker>
 <div flex class="toolbar_button">
-  <md-button class="md-icon-button md-raised" ng-disabled="tool.selectedChaufeurs == null" aria-label="recadre" ng-click="recadre()">
+  <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="recadre" ng-click="recadre()">
     <md-icon md-svg-icon="images/ico/ico_fullscreen.svg"></md-icon>
     <md-tooltip md-direction="bottom">
       Recentrer la carte
     </md-tooltip>
   </md-button>
-  <md-button class="md-icon-button md-raised" ng-disabled="tool.selectedChaufeurs == null" aria-label="refresh" ng-click="refresh()">
+  <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="refresh" ng-click="refresh()">
     <md-icon md-svg-icon="images/ico/ico_refresh.svg"></md-icon>
     <md-tooltip md-direction="bottom">
       Recharger la carte
@@ -64,7 +64,7 @@
   </md-button>
 </div>
 <div flex class="toolbar_switch">
-  <md-switch class="switch_auto" ng-model="tool.switch_reloadAuto" aria-label="Switch auto 1" ng-disabled="tool.selectedChaufeurs == null" ng-change="reloadAuto(selectedChaufeurs,cb1,cb2,cb3,sw1,date)">
+  <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-disabled="selectedChauffeurs == null" ng-change="reloadAuto(selectedChauffeurs,cb1,cb2,cb3,sw1,date)">
     Rafraîchissement auto
   </md-switch>
 </div>

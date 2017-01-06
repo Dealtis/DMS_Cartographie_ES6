@@ -1,11 +1,21 @@
 import angular from 'angular';
 
 // Components
-import {App} from './app/containers/App';
-import {toolBar} from './app/components/toolBar';
-import {mapContainer} from './app/components/mapcontainer';
-import {Api} from './app/services/api';
-import {getPositionsFun} from './app/functions/getPositionsFun';
+import {
+  App
+} from './app/containers/App';
+import {
+  toolBar
+} from './app/components/toolBar';
+import {
+  mapContainer
+} from './app/components/mapcontainer';
+import {
+  Api
+} from './app/services/api';
+import {
+  getPositionsFun
+} from './app/functions/getPositionsFun';
 // Dependencies
 import 'angular-ui-router';
 import 'angular-material';
@@ -52,4 +62,24 @@ angular
   .component('toolbar', toolBar)
   .component('mapcontainer', mapContainer)
   .service('api', Api)
-  .service('getPositionsFun', getPositionsFun);
+  .service('getPositionsFun', getPositionsFun)
+  .factory('MarkersFactory', () => {
+    const markers = [];
+    const markerLastPos = [];
+    return {
+      markers: () => {
+        return markers;
+      },
+      markerLastPos: () => {
+        return markerLastPos;
+      },
+      addmarkerLastPos: marker => {
+        markerLastPos.push(marker);
+        return markerLastPos;
+      },
+      cleanLastPos: () => {
+        markerLastPos.length = 0;
+        return markerLastPos;
+      }
+    };
+  });

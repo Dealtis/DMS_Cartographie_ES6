@@ -10,4 +10,7 @@ export class Api {
   loadSocposition(idSoc) {
     return HTTP.get(this).get(`${url}dmsCenter?val=${idSoc}`).then(result => result.data);
   }
+  loadLastPos(chauffeur) {
+    return HTTP.get(this).get(`${url}dmsLastPosGpsT?val=${chauffeur}`).then(result => result.data);
+  }
 }

@@ -3,12 +3,15 @@ import {
 } from '../constants/config.js';
 
 class MapContainerController {
-  constructor($scope, $log, uiGmapGoogleMapApi, api) {
+  constructor($scope, $log, uiGmapGoogleMapApi, api, MarkersFactory) {
     // Map config init
+    $scope.markers = MarkersFactory.markers();
+    $scope.markerLastPos = MarkersFactory.markerLastPos();
     $scope.map = config.mapOptions;
     $scope.clusterOptions = config.cluserOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
-    uiGmapGoogleMapApi.then(() => {
+    uiGmapGoogleMapApi.then(maps => {
+      $log.log(maps);
       // Get Position de la societe
       api.loadSocposition('73').then(posSociete => {
         const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
@@ -36,6 +39,10 @@ class MapContainerController {
         // TODO: Get des messages en attentes
       });
     });
+  }
+
+  getLastPos() {
+    return "hello";
   }
 }
 

@@ -16,6 +16,9 @@ import {
 import {
   getPositionsFun
 } from './app/functions/getPositionsFun';
+import {
+  diversFun
+} from './app/functions/diversFun';
 // Dependencies
 import 'angular-ui-router';
 import 'angular-material';
@@ -63,6 +66,7 @@ angular
   .component('mapcontainer', mapContainer)
   .service('api', Api)
   .service('getPositionsFun', getPositionsFun)
+  .service('diversFun', diversFun)
   .factory('MarkersFactory', () => {
     const markers = [];
     const markerLastPos = [];
@@ -72,6 +76,10 @@ angular
       },
       markerLastPos: () => {
         return markerLastPos;
+      },
+      addmarkers: marker => {
+        markers.push(marker);
+        return markers;
       },
       addmarkerLastPos: marker => {
         markerLastPos.push(marker);

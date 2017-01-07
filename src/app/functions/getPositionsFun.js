@@ -1,16 +1,80 @@
 export class getPositionsFun {
-  constructor($log) {
+  constructor($log, $mdToast, uiGmapGoogleMapApi, api, diversFun, MarkersFactory) {
     this.log = $log;
+    this.mdToast = $mdToast;
+    this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
+    this.api = api;
+    this.diversFun = diversFun;
+    this.MarkersFactory = MarkersFactory;
   }
 
-  getPositions(selectedChaufeurs, cbLivraison, dateCalendar) {
-    this.log.log(cbLivraison);
-    this.log.log(dateCalendar);
-    // let markers = [];
-    // Get marker des differents chauffeurs select
-    selectedChaufeurs.forEach(chauffeur => {
-      this.log.log(chauffeur);
+  getPositions(selectedChaufeurs, dateCalendar, typeMission) {
+    this.uiGmapGoogleMapApi.then(maps => {
+      const markers = [];
+      // Get marker des differents chauffeurs select
+      selectedChaufeurs.forEach(chauffeur => {
+        this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
+          .then(dataPositions => {
+            this.log.log(dataPositions);
+            if (dataPositions.length > 0) {
+              dataPositions.forEach(pos => {
+                if (pos.CODEANO !== "PARTIC" && pos.CODEANO !== "FLASHAGE") {
+                  const posGps = pos.POSGPS.replace(",", ".").replace(",", ".");
+                  const coords = posGps.split(";");
+                  const heure = pos.DATESUIVI.split(" ");
+                  const addPosition = {
+                    id: pos.ID,
+                    numpos: pos.NUM,
+                    coords: {
+                      latitude: coords[0],
+                      longitude: coords[1]
+                    },
+                    design: {
+                      color: this.diversFun.getClassColor(pos.CODEANO),
+                      ico: this.diversFun.getIco(pos.CODEANO)
+                    },
+                    options: {
+                      icon: {
+                        url: this.diversFun.getImg(pos.CODEANO)
+                      },
+                      animation: maps.Animation.Hp,
+                      labelContent: heure[1],
+                      labelAnchor: '20 40',
+                      labelClass: "labels"
+                    },
+                    info: {
+                      codeano: pos.CODEANO,
+                      libano: pos.LIBANO,
+                      memo: pos.MEMO,
+                      datesuivi: pos.DATESUIVI,
+                      livnom: pos.LIVNOM,
+                      nomclient: pos.NOMCLIENT,
+                      expnom: pos.EXPNOM,
+                      micode: pos.MICODE,
+                      voydbx: pos.VOYBDX,
+                      livadr: pos.LIVADR,
+                      livcp: pos.LIVVILCP,
+                      livville: pos.LIVVILLIB,
+                      expadr: pos.EXPADR,
+                      expcp: pos.EXPVILCP,
+                      expville: pos.EXPVILLIB
+                    }
+                  };
+                  this.MarkersFactory.addmarkers(addPosition);
+                  // TODO: boonds
+                }
+              });
+            } else {
+              const toast = this.mdToast.simple()
+                .textContent(`Pas de données de positions pour ${chauffeur.SALNOM}`)
+                .action('X')
+                .highlightAction(true)
+                .position('top right');
+              this.mdToast.show(toast);
+            }
+          });
+      });
+      return markers;
     });
-    return selectedChaufeurs;
   }
 }

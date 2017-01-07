@@ -19,12 +19,12 @@
 <div class="toolbar_checkbox" layout="row"  layout-align="none" flex>
   <div flex>
     <div class="toolbar_checkbox_livraisons">
-      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositionsLivraisons(selectedChauffeurs,cbLivraison,dateCalendar)" ng-disabled="selectedChauffeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar,'liv')" ng-disabled="selectedChauffeurs == null">
         Livraisons
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_ramasses" flex>
-      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositionsRamasses(selectedChauffeurs,cbRamasses,dateCalendar)" ng-disabled="selectedChauffeurs == null">
+      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar, 'ram')" ng-disabled="selectedChauffeurs == null">
         Ramasses
       </md-checkbox>
     </div>

@@ -11,8 +11,10 @@ class ToolBarController {
     api.loadChauffeurs('73').then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
     });
-    $scope.getPositionsLivraisons = (selectedChaufeurs, cbLivraison, dateCalendar) => {
-      $scope.markers.push(getPositionsFun.getPositions(selectedChaufeurs, cbLivraison, dateCalendar));
+    $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
+      if (checkbox) {
+        getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
+      }
     };
     uiGmapGoogleMapApi.then(maps => {
       // watcher selectedChauffeurs
@@ -54,6 +56,20 @@ class ToolBarController {
               }
             });
           });
+          // get informations des jauges and display it
+          // Condition d'affichage
+          if ($scope.cbLivraison) {
+            // function getPositionsLivraisons
+          }
+          if ($scope.cbRamasses) {
+            // function getPositionsRamasses
+          }
+          if ($scope.cbTrajet) {
+            // function Trajet
+          }
+          if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
+            // function afficher les positions gps des autres chauffeurs
+          }
         }
       });
     });

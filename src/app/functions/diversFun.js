@@ -34,7 +34,6 @@ export class diversFun {
       return "#error";
     }
   }
-
   getClassColor(codeAno) {
     let output;
     switch (codeAno) {

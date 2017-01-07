@@ -40,7 +40,10 @@ export class getPositionsFun {
                       animation: maps.Animation.Hp,
                       labelContent: heure[1],
                       labelAnchor: '20 40',
-                      labelClass: "labels"
+                      labelClass: "labels",
+                      labelStyle: {
+                        'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                      }
                     },
                     info: {
                       codeano: pos.CODEANO,

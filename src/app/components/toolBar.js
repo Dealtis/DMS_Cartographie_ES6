@@ -1,3 +1,7 @@
+import {
+  config
+} from '../constants/config.js';
+
 class ToolBarController {
   constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, $element, MarkersFactory) {
     $scope.dateCalendar = new Date();
@@ -10,6 +14,9 @@ class ToolBarController {
     // Get Chauffeurs de la societe
     api.loadChauffeurs('73').then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
+      $scope.chauffeurs.forEach((chauffeur, index) => {
+        chauffeur.color = config.chauffColor[index];
+      });
     });
     $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
       if (checkbox) {
@@ -41,7 +48,10 @@ class ToolBarController {
                     animation: maps.Animation.Hp,
                     labelContent: `${chauffeur.SALNOM}<br>${heureGps[1]}`,
                     labelAnchor: '20 40',
-                    labelClass: "labels"
+                    labelClass: "labels",
+                    labelStyle: {
+                      'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                    }
                   }
                 };
                 MarkersFactory.addmarkerLastPos(addMarkerLastPos);

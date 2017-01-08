@@ -1,11 +1,11 @@
 export class getPositionsFun {
-  constructor($log, $mdToast, uiGmapGoogleMapApi, api, diversFun, MarkersFactory) {
+  constructor($log, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
     this.mdToast = $mdToast;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.api = api;
     this.diversFun = diversFun;
-    this.MarkersFactory = MarkersFactory;
+    this.VariablesShare = VariablesShare;
   }
 
   getPositions(selectedChaufeurs, dateCalendar, typeMission) {
@@ -15,7 +15,6 @@ export class getPositionsFun {
       selectedChaufeurs.forEach(chauffeur => {
         this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
           .then(dataPositions => {
-            this.log.log(dataPositions);
             if (dataPositions.length > 0) {
               dataPositions.forEach(pos => {
                 if (pos.CODEANO !== "PARTIC" && pos.CODEANO !== "FLASHAGE") {
@@ -63,8 +62,8 @@ export class getPositionsFun {
                       expville: pos.EXPVILLIB
                     }
                   };
-                  this.MarkersFactory.addmarkers(addPosition);
-                  // TODO: boonds
+                  this.VariablesShare.addmarkers(addPosition);
+                  // TODO: bounds
                 }
               });
             } else {

@@ -4,6 +4,7 @@ export const config = {
       latitude: 45,
       longitude: -73
     },
+    bounds: {},
     zoom: 8,
     control: {},
     markersControl: {},

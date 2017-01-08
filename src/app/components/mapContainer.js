@@ -3,10 +3,10 @@ import {
 } from '../constants/config.js';
 
 class MapContainerController {
-  constructor($scope, $log, uiGmapGoogleMapApi, api, MarkersFactory) {
+  constructor($scope, $log, uiGmapGoogleMapApi, api, VariablesShare) {
     // Map config init
-    $scope.markers = MarkersFactory.markers();
-    $scope.markerLastPos = MarkersFactory.markerLastPos();
+    $scope.markers = VariablesShare.markers;
+    $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.map = config.mapOptions;
     $scope.clusterOptions = config.cluserOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
@@ -39,10 +39,6 @@ class MapContainerController {
         // TODO: Get des messages en attentes
       });
     });
-  }
-
-  getLastPos() {
-    return "hello";
   }
 }
 

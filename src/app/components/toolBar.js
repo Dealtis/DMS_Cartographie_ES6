@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, $element, MarkersFactory) {
+  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -26,7 +26,7 @@ class ToolBarController {
     uiGmapGoogleMapApi.then(maps => {
       // watcher selectedChauffeurs
       $scope.$watch('selectedChauffeurs', () => {
-        MarkersFactory.cleanLastPos();
+        VariablesShare.cleanLastPos();
         if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
           // function get last pos de selectedChauffeurs and set marker
           $scope.selectedChauffeurs.forEach(chauffeur => {
@@ -54,7 +54,7 @@ class ToolBarController {
                     }
                   }
                 };
-                MarkersFactory.addmarkerLastPos(addMarkerLastPos);
+                VariablesShare.addmarkerLastPos(addMarkerLastPos);
               } else {
                 const toast = $mdToast.simple()
                   .textContent(`Pas de données GPS pour ${chauffeur.SALNOM}`)

@@ -14,6 +14,9 @@ import {
   Api
 } from './app/services/api';
 import {
+  VariablesShare
+} from './app/services/variablesshare';
+import {
   getPositionsFun
 } from './app/functions/getPositionsFun';
 import {
@@ -65,29 +68,6 @@ angular
   .component('toolbar', toolBar)
   .component('mapcontainer', mapContainer)
   .service('api', Api)
+  .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
-  .service('diversFun', diversFun)
-  .factory('MarkersFactory', () => {
-    const markers = [];
-    const markerLastPos = [];
-    return {
-      markers: () => {
-        return markers;
-      },
-      markerLastPos: () => {
-        return markerLastPos;
-      },
-      addmarkers: marker => {
-        markers.push(marker);
-        return markers;
-      },
-      addmarkerLastPos: marker => {
-        markerLastPos.push(marker);
-        return markerLastPos;
-      },
-      cleanLastPos: () => {
-        markerLastPos.length = 0;
-        return markerLastPos;
-      }
-    };
-  });
+  .service('diversFun', diversFun);

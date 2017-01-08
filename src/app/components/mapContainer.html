@@ -1,12 +1,13 @@
-<ui-gmap-google-map center='map.center'  control='map.control' zoom='map.zoom' events="map.events" bounds='map.bounds' pan='true' refresh="true" fit="true">
+<ui-gmap-google-map center='map.center'  control='map.control' zoom='map.zoom' events="map.events" bounds='map.bounds' pan='true' refresh="true">
 <ui-gmap-marker coords="map.homeMarker.coords" options="map.homeMarker.options" idkey="10"></ui-gmap-marker>
   <ui-gmap-markers
     models="markerLastPos"
     coords="'coords'"
     icon="'options.icon'"
-    options="'options'">
+    options="'options'"
+    fit='true'>
   </ui-gmap-markers>
-  <ui-gmap-markers models="markers" coords="'coords'" options="'options'" icon="'options.icon'" type="cluster" doCluster="true" clusterOptions="clusterOptions" click="markersClick(idClick)"></ui-gmap-markers>
+  <ui-gmap-markers models="markers" coords="'coords'" options="'options'" icon="'options.icon'" type="cluster" doCluster="true" clusterOptions="clusterOptions" click="markersClick(idClick)" fit='true'></ui-gmap-markers>
   <!-- <ui-gmap-markers models="markersRam" coords="'coords'" options="'options'" icon="'options.icon'" type="cluster" doCluster="true" clusterOptions="clusterOptions" click="markersClick(idClick)"></ui-gmap-markers>
   <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline> --> -->
 </ui-gmap-google-map>

@@ -44,6 +44,14 @@ export class getPositionsFun {
                         'box-shadow': `2px 2px 2px ${chauffeur.color}`
                       }
                     },
+                    events: {
+                      click: (marker, eventName, model) => {
+                        model.show = !model.show;
+                      },
+                      rightclick: () => {
+                        this.log.log(pos.NUM);
+                      }
+                    },
                     info: {
                       codeano: pos.CODEANO,
                       libano: pos.LIBANO,
@@ -60,6 +68,16 @@ export class getPositionsFun {
                       expadr: pos.EXPADR,
                       expcp: pos.EXPVILCP,
                       expville: pos.EXPVILLIB
+                    },
+                    infowindowOptions: {
+                      url: "../containers/infowindowTemplate.html",
+                      param: {
+                        num: pos.NUM
+                      },
+                      options: {
+                        boxClass: "infobox",
+                        content: "Text"
+                      }
                     }
                   };
                   this.VariablesShare.addmarkers(addPosition);

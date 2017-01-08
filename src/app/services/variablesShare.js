@@ -5,10 +5,14 @@ export class VariablesShare {
     const markers = [];
     const markerLastPos = [];
     const homeMarker = [];
+    const windowOptions = {
+      visible: false
+    };
     this.mapObject = mapObject;
     this.markers = markers;
     this.markerLastPos = markerLastPos;
     this.homeMarker = homeMarker;
+    this.windowOptions = windowOptions;
   }
 
   addmarkers(marker) {

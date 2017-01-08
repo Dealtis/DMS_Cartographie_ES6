@@ -8,6 +8,7 @@ class MapContainerController {
     $scope.markers = VariablesShare.markers;
     $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.map = config.mapOptions;
+    $scope.windowOptions = VariablesShare.windowOptions;
     $scope.clusterOptions = config.cluserOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
     uiGmapGoogleMapApi.then(maps => {

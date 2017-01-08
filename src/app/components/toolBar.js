@@ -70,6 +70,7 @@ class ToolBarController {
             });
           });
           // get informations des jauges and display it
+          // TODO:
           // Condition d'affichage
           if ($scope.cbLivraison) {
             // function getPositionsLivraisons

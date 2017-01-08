@@ -7,7 +7,6 @@ export const config = {
     bounds: {},
     zoom: 8,
     control: {},
-    markersControl: {},
     events: {}
   },
   cluserOptions: {

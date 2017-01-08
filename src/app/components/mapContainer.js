@@ -17,13 +17,14 @@ class MapContainerController {
         const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
         const gpsSocLat = gpsPosSociete[0];
         const gpsSocLong = gpsPosSociete[1].split('|');
+        VariablesShare.mapObject = $scope.map.control.getGMap();
         // Center map to Societe Position
         $scope.map.control.getGMap().panTo({
           lat: Number(gpsSocLat),
           lng: Number(gpsSocLong[0])
         });
         // Add home marker
-        $scope.map.homeMarker = {
+        VariablesShare.homeMarker = {
           id: Date.now(),
           coords: {
             latitude: gpsSocLat,
@@ -35,6 +36,7 @@ class MapContainerController {
             }
           }
         };
+        VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
         // Get des messages en attentes
         // TODO: Get des messages en attentes
       });

@@ -63,7 +63,6 @@ export class getPositionsFun {
                     }
                   };
                   this.VariablesShare.addmarkers(addPosition);
-                  // TODO: bounds
                 }
               });
             } else {

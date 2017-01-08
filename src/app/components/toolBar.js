@@ -20,7 +20,10 @@ class ToolBarController {
     });
     $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
       if (checkbox) {
+        VariablesShare.cleanMarkers();
         getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
+      } else {
+        VariablesShare.cleanMarkers();
       }
     };
     uiGmapGoogleMapApi.then(maps => {
@@ -82,6 +85,9 @@ class ToolBarController {
           }
         }
       });
+      $scope.fitBounds = () => {
+        VariablesShare.mapObject.setZoom(8);
+      };
     });
   }
 }

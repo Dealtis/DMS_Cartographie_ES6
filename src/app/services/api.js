@@ -13,6 +13,9 @@ export class Api {
   loadLastPos(chauffeur) {
     return HTTP.get(this).get(`${url}dmsLastPosGpsT?val=${chauffeur}`).then(result => result.data);
   }
+  loadTrajet(chauffeur, date) {
+    return HTTP.get(this).get(`${url}dmsTrajetT?val=${chauffeur}&date=${date}`).then(result => result.data);
+  }
   loadPositions(chauffeur, date, typeMission) {
     if (typeMission === "liv") {
       return HTTP.get(this).get(`${url}dmsPosT?val=${chauffeur}&date=${date}`).then(result => result.data);

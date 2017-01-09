@@ -13,6 +13,21 @@
       </div>
     </ui-gmap-windows>
   </ui-gmap-markers>
-  <!-- <ui-gmap-markers models="markersRam" coords="'coords'" options="'options'" icon="'options.icon'" type="cluster" doCluster="true" clusterOptions="clusterOptions" click="markersClick(idClick)"></ui-gmap-markers>
-  <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline> --> -->
+  <ui-gmap-polyline
+        ng-repeat="p in Trajets"
+        path="p.path"
+        stroke="p.stroke"
+        clickable="true"
+        draggable="false"
+        editable="false"
+        geodesic="true"
+        icons="p.icons"
+        visible="true"
+        fit='true'
+        events="p.events"
+        >
+        <ui-gmap-window coords="" options="windowOptions" closeClick="closeClick()">
+                <div>{{title}}</div>
+        </ui-gmap-window>
+</ui-gmap-polyline>
 </ui-gmap-google-map>

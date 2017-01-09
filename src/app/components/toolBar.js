@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, $element, VariablesShare) {
+  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -18,12 +18,22 @@ class ToolBarController {
         chauffeur.color = config.chauffColor[index];
       });
     });
+    // Get Positions
     $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
       if (checkbox) {
         VariablesShare.cleanMarkers();
         getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
       } else {
         VariablesShare.cleanMarkers();
+      }
+    };
+    // Get Trajets
+    $scope.getTrajets = (selectedChaufeurs, checkbox, dateCalendar) => {
+      if (checkbox) {
+        VariablesShare.cleanTrajets();
+        getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
+      } else {
+        VariablesShare.cleanTrajets();
       }
     };
     uiGmapGoogleMapApi.then(maps => {

@@ -10,7 +10,6 @@ export class getPositionsFun {
 
   getPositions(selectedChaufeurs, dateCalendar, typeMission) {
     this.uiGmapGoogleMapApi.then(maps => {
-      const markers = [];
       // Get marker des differents chauffeurs select
       selectedChaufeurs.forEach(chauffeur => {
         this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
@@ -93,7 +92,6 @@ export class getPositionsFun {
             }
           });
       });
-      return markers;
     });
   }
 }

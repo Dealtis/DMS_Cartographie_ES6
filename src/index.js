@@ -20,6 +20,9 @@ import {
   getPositionsFun
 } from './app/functions/getPositionsFun';
 import {
+  getTrajetsFun
+} from './app/functions/getTrajetsFun';
+import {
   diversFun
 } from './app/functions/diversFun';
 // Dependencies
@@ -70,4 +73,5 @@ angular
   .service('api', Api)
   .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
+  .service('getTrajetsFun', getTrajetsFun)
   .service('diversFun', diversFun);

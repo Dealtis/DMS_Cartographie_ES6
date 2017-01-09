@@ -8,28 +8,32 @@ export class VariablesShare {
     const windowOptions = {
       visible: false
     };
+    const trajets = [];
     this.mapObject = mapObject;
     this.markers = markers;
     this.markerLastPos = markerLastPos;
     this.homeMarker = homeMarker;
     this.windowOptions = windowOptions;
+    this.trajets = trajets;
   }
 
   addmarkers(marker) {
     this.markers.push(marker);
-    return this.markers;
   }
   addmarkerLastPos(marker) {
     this.markerLastPos.push(marker);
-    return this.markerLastPos;
   }
   cleanMarkers() {
     this.markers.length = 0;
-    return this.markers;
   }
   cleanLastPos() {
     this.markerLastPos.length = 0;
     this.markerLastPos.push(this.homeMarker);
-    return this.markerLastPos;
+  }
+  addTrajet(trajet) {
+    this.trajets.push(trajet);
+  }
+  cleanTrajets() {
+    this.trajets.length = 0;
   }
 }

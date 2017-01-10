@@ -25,6 +25,9 @@ import {
   getTrajetsFun
 } from './app/functions/getTrajetsFun';
 import {
+  getAttentesFun
+} from './app/functions/getAttentesFun';
+import {
   diversFun
 } from './app/functions/diversFun';
 // Dependencies
@@ -76,6 +79,7 @@ angular
   .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
   .service('getTrajetsFun', getTrajetsFun)
+  .service('getAttentesFun', getAttentesFun)
   .service('diversFun', diversFun);
 
 Raven

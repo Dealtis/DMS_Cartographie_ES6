@@ -13,6 +13,8 @@
       </div>
     </ui-gmap-windows>
   </ui-gmap-markers>
+  <ui-gmap-markers models="attentes" coords="'coords'" events="'events'" type="cluster" doCluster="true" typeOptions="clusterOptions" fit='true'>
+  </ui-gmap-markers>
   <ui-gmap-polyline
         ng-repeat="p in Trajets"
         path="p.path"
@@ -23,7 +25,7 @@
         geodesic="true"
         icons="p.icons"
         visible="true"
-        fit='true'
+        fit="true"
         events="p.events"
         >
         <ui-gmap-window coords="" options="windowOptions" closeClick="closeClick()">

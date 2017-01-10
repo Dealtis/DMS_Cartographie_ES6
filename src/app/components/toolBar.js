@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, $element, VariablesShare) {
+  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -34,6 +34,15 @@ class ToolBarController {
         getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
       } else {
         VariablesShare.cleanTrajets();
+      }
+    };
+    // Get Attentes
+    $scope.getAttentes = (selectedChaufeurs, checkbox, dateCalendar) => {
+      if (checkbox) {
+        VariablesShare.cleanAttentes();
+        getAttentesFun.getAttentes(selectedChaufeurs, dateCalendar);
+      } else {
+        VariablesShare.cleanAttentes();
       }
     };
     uiGmapGoogleMapApi.then(maps => {

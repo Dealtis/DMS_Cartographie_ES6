@@ -43,7 +43,7 @@ export class getTrajetsFun {
               },
               icons: [{
                 icon: {
-                  path: maps.SymbolPath.BACKWARD_OPEN_ARROW
+                  path: maps.SymbolPath.FORWARD_OPEN_ARROW
                 },
                 offset: '25px',
                 repeat: '200px'

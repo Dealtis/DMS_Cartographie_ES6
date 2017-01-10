@@ -1,4 +1,6 @@
 import angular from 'angular';
+import Raven from 'raven-js';
+import RavenPlugin from '../node_modules/raven-js/dist/plugins/angular.js';
 
 // Components
 import {
@@ -75,3 +77,8 @@ angular
   .service('getPositionsFun', getPositionsFun)
   .service('getTrajetsFun', getTrajetsFun)
   .service('diversFun', diversFun);
+
+Raven
+  .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043')
+  .addPlugin(RavenPlugin)
+  .install();

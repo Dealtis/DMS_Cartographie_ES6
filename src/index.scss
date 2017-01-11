@@ -26,7 +26,6 @@ html {
     color: black;
     animation: pulse 0.5s ease-out;
   }
-
   @keyframes pulse {
     0% {
       opacity: 0;
@@ -62,14 +61,36 @@ html {
         margin: 0;
       }
     }
-    .toolbar_checkbox_chauffeurs{
-      .md-label{
+
+    .toolbar_checkbox_chauffeurs {
+      .md-label {
         font-size: 12px;
       }
     }
   }
+
+  .toolbar_button_cancelSelect {
+    opacity: 1;
+    margin: 0;
+    padding: 0;
+    &.ng-hide {
+      opacity: 0;
+      width: 0px;
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-remove {
+      transition: all ease 1s;
+    }
+    .check-element {
+      border: 1px solid black;
+      opacity: 1;
+      padding: 10px;
+    }
+  }
 }
 // selectedChauffeur
+
 .selectHeader .header-searchbox {
   border: none;
   outline: none;
@@ -93,6 +114,7 @@ html {
   max-height: 240px;
 }
 // infowindows
-.infobox{
+
+.infobox {
   background-color: black;
 }

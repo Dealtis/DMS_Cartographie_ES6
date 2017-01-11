@@ -45,6 +45,15 @@ class ToolBarController {
         VariablesShare.cleanAttentes();
       }
     };
+    // See Traffic
+    $scope.seeTraffic = () => {
+      VariablesShare.Trafficshow = !VariablesShare.Trafficshow;
+      $log.log(VariablesShare.Trafficshow);
+    };
+    $scope.cancelSelected = () => {
+      $scope.selectedChauffeurs.length = 0;
+    };
+
     uiGmapGoogleMapApi.then(maps => {
       // watcher selectedChauffeurs
       $scope.$watch('selectedChauffeurs', () => {

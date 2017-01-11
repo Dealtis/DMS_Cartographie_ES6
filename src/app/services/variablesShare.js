@@ -12,6 +12,7 @@ export class VariablesShare {
     };
     const trajets = [];
     const attentes = [];
+    const Trafficshow = true;
     this.mapObject = mapObject;
     this.markers = markers;
     this.markerLastPos = markerLastPos;
@@ -19,6 +20,7 @@ export class VariablesShare {
     this.windowOptions = windowOptions;
     this.trajets = trajets;
     this.attentes = attentes;
+    this.Trafficshow = Trafficshow;
   }
 
   addmarkers(marker) {

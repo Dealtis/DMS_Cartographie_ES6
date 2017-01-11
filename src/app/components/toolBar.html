@@ -16,6 +16,9 @@
     </md-optgroup>
   </md-select>
 </md-input-container>
+<md-button class="toolbar_button_cancelSelect md-icon-button md-accent" aria-label="Cancel" ng-show="selectedChauffeurs.length > 0" ng-click="cancelSelected()">
+  <md-icon md-svg-icon="images/ico/ico_cancel.svg"></md-icon>
+</md-button>
 <div class="toolbar_checkbox" layout="row"  layout-align="none" flex>
   <div flex>
     <div class="toolbar_checkbox_livraisons">
@@ -40,6 +43,11 @@
         Attentes
       </md-checkbox>
     </div>
+    <!-- <div class="toolbar_checkbox_traffic" flex>
+      <md-checkbox class="md-primary" ng-model="cbTraffic" aria-label="Traffic" ng-change="seeTraffic()">
+        Traffic
+      </md-checkbox>
+    </div> -->
     <div class="toolbar_checkbox_chauffeurs" flex>
       <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChauffeurs,cbChauffeurs,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Autres chauffeurs

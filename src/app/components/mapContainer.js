@@ -9,6 +9,7 @@ class MapContainerController {
     $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.Trajets = VariablesShare.trajets;
     $scope.attentes = VariablesShare.attentes;
+    $scope.Trafficshow = VariablesShare.Trafficshow;
     $scope.map = config.mapOptions;
     $scope.windowOptions = VariablesShare.windowOptions;
     $scope.clusterOptions = config.cluserOptions;

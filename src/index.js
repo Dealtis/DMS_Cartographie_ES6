@@ -10,6 +10,9 @@ import {
   toolBar
 } from './app/components/toolBar';
 import {
+  messageToolbar
+} from './app/components/messageToolbar';
+import {
   mapContainer
 } from './app/components/mapcontainer';
 import {
@@ -32,6 +35,7 @@ import {
 } from './app/functions/diversFun';
 // Dependencies
 import 'angular-ui-router';
+import 'angular-animate';
 import 'angular-material';
 import 'lodash';
 import moment from 'moment';
@@ -47,7 +51,7 @@ import './index.scss';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);
@@ -74,6 +78,7 @@ angular
   }))
   .component('app', App)
   .component('toolbar', toolBar)
+  .component('messagetoolbar', messageToolbar)
   .component('mapcontainer', mapContainer)
   .service('api', Api)
   .service('VariablesShare', VariablesShare)

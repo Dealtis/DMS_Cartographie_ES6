@@ -4,6 +4,7 @@ export class VariablesShare {
     this.q = $q;
     this.timeout = $timeout;
     const mapObject = {};
+    const chauffeurs = [];
     const markers = [];
     const markerLastPos = [];
     const homeMarker = [];
@@ -13,7 +14,9 @@ export class VariablesShare {
     const trajets = [];
     const attentes = [];
     const Trafficshow = true;
+    const messagesNonlu = [];
     this.mapObject = mapObject;
+    this.chauffeurs = chauffeurs;
     this.markers = markers;
     this.markerLastPos = markerLastPos;
     this.homeMarker = homeMarker;
@@ -21,6 +24,7 @@ export class VariablesShare {
     this.trajets = trajets;
     this.attentes = attentes;
     this.Trafficshow = Trafficshow;
+    this.messagesNonlu = messagesNonlu;
   }
 
   addmarkers(marker) {
@@ -28,6 +32,9 @@ export class VariablesShare {
   }
   addmarkerLastPos(marker) {
     this.markerLastPos.push(marker);
+  }
+  addChauffeur(chauffeur) {
+    this.chauffeurs.push(chauffeur);
   }
   cleanMarkers() {
     this.markers.length = 0;
@@ -47,5 +54,8 @@ export class VariablesShare {
   }
   cleanAttentes() {
     this.attentes.length = 0;
+  }
+  addMessage(message) {
+    this.messagesNonlu.push(message);
   }
 }

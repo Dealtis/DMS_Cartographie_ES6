@@ -73,15 +73,17 @@ html {
     opacity: 1;
     margin: 0;
     padding: 0;
+
     &.ng-hide {
       opacity: 0;
-      width: 0px;
+      width: 0;
     }
 
     &.ng-hide-add,
     &.ng-hide-remove {
       transition: all ease 1s;
     }
+
     .check-element {
       border: 1px solid black;
       opacity: 1;
@@ -117,4 +119,165 @@ html {
 
 .infobox {
   background-color: black;
+}
+// messageToolbar
+
+.messagetoolbar {
+  color: #FFFFFA;
+  background-color: #5c6bc0;
+  opacity: 0;
+  width: 100%;
+  height: 80px;
+  bottom: -80px;
+  position: fixed;
+  top: 100%;
+  transition: all ease 0.5s;
+  text-align: center;
+
+  &.-active {
+    top: initial;
+    bottom: 0 !important;
+    opacity: 1;
+  }
+
+  p:first-of-type {
+    font-size: 18px !important;
+  }
+
+  .messagetoolbar_archive,
+  .messagetoolbar_new,
+  .messagetoolbar_newmessage_sendbutton,
+  .noMSg {
+    min-height: 80px;
+    margin-top: 23px;
+  }
+
+  .messagetoolbar_newmessage {
+    transition: all ease 0.5s;
+    flex: 1 1 0;
+    max-width: 0;
+    max-height: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    opacity: 0;
+
+    &.-active {
+      opacity: 1;
+      flex: 1 1 80%;
+      max-width: 80%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .messagetoolbar_messagecontent {
+    flex: 1;
+    box-sizing: border-box;
+    opacity: 1;
+    max-width: 100%;
+    transition: all ease 0.5s;
+
+    &.-disabled {
+      opacity: 0;
+      flex: 1 1 0;
+      max-width: 0;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .messagetoolbar_inputmessage {
+    opacity: 0;
+    flex: 1 1 0;
+    max-width: 0;
+    max-height: 100%;
+    box-sizing: border-box;
+    transition: all ease 0.5s;
+    color: #FFFFFA;
+
+    label {
+      color: #FFFFFA !important;
+    }
+
+    input {
+      color: #FFFFFA;
+      border-color: #FFFFFA !important;
+    }
+
+    &.-active {
+      flex: 1;
+      box-sizing: border-box;
+      opacity: 1;
+      max-width: 100%;
+    }
+  }
+
+  .messagetoolbar_inputmessage_sendbutton {
+    opacity: 0;
+
+    &.-active {
+      opacity: 1;
+    }
+  }
+}
+
+.fab_message {
+  position: fixed;
+  bottom: 5px;
+  transition: all ease 0.5s !important;
+
+  &.-active {
+    bottom: 85px;
+  }
+  @keyframes bounceIn {
+    20%,
+    40%,
+    60%,
+    80%,
+    from,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+
+    20% {
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    40% {
+      transform: scale3d(.9, .9, .9);
+    }
+
+    60% {
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    80% {
+      transform: scale3d(.9, .9, .9);
+    }
+
+    to {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  span {
+    position: absolute;
+    top: 2px;
+    padding: 10px;
+    left: 10px;
+    background-color: red;
+    border-radius: 20px;
+    line-height: 9px;
+    margin: 0;
+    animation: bounceIn 5s infinite;
+  }
+}
+// Animation Ngreapt message
+
+.item {
+  left: 0;
 }

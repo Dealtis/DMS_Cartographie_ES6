@@ -16,6 +16,7 @@ class ToolBarController {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
+        VariablesShare.addChauffeur(chauffeur);
       });
     });
     // Get Positions
@@ -82,6 +83,14 @@ class ToolBarController {
                     labelClass: "labels",
                     labelStyle: {
                       'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                    }
+                  },
+                  events: {
+                    click: (marker, eventName, model) => {
+                      model.show = !model.show;
+                    },
+                    rightclick: () => {
+                      $log.log(chauffeur.color);
                     }
                   }
                 };

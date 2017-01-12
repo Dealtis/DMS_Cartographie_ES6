@@ -41,8 +41,6 @@ class MapContainerController {
           }
         };
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
-        // Get des messages en attentes
-        // TODO: Get des messages en attentes
       });
     });
   }

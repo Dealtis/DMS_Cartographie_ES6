@@ -1,0 +1,66 @@
+<div class="messagetoolbar" ng-class="messagetoolbarActive ? '-active' : '-disabled'" layout>
+  <div class="messagetoolbar_new">
+    <md-button class="md-icon-button" aria-label="New" ng-click="newMessage = !newMessage">
+      <md-icon md-svg-icon="images/ico/ico_newmessage.svg"></md-icon>
+    </md-button>
+  </div>
+  <div class="messagetoolbar_newmessage" layout ng-class="newMessage ? '-active' : '-disabled'">
+    <md-input-container class="messagetoolbar_newmessage_select_chauffeurs" flex="20">
+      <label>Chauffeurs</label>
+      <md-select ng-model="selectedChauffeurs"
+                 md-on-close="clearSearchTerm()"
+                 data-md-container-class="selectHeader">
+        <md-select-header class="select-header">
+          <input ng-model="searchTerm"
+                 type="search"
+                 placeholder="Choisissez de(s) chauffeur(s)"
+                 class="header-searchbox md-text">
+        </md-select-header>
+        <md-optgroup label="chauffeur">
+          <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs | filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
+        </md-optgroup>
+      </md-select>
+    </md-input-container>
+    <md-input-container class="messagetoolbar_newmessage_input md-block" flex>
+      <label>Message</label>
+      <input name="message" ng-model="Textmessage">
+    </md-input-container>
+    <div class="messagetoolbar_newmessage_sendbutton">
+      <md-button class="md-icon-button" aria-label="Send" >
+        <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
+      </md-button>
+    </div>
+  </div>
+  <div class="messagetoolbar_archive">
+    <md-button class="md-icon-button" aria-label="Archive">
+      <md-icon md-svg-icon="images/ico/ico_archive.svg"></md-icon>
+    </md-button>
+  </div>
+  <md-button class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'" aria-label="Send">
+    <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
+  </md-button>
+  <md-list-item class="md-2-line item" ng-repeat="m in messageNonlu | orderBy:'id' | limitTo:1 | filter:{isLu:false}">
+    <div class="messagetoolbar_messagecontent md-list-item-text" layout="column">
+      <p>{{m.text}}</p>
+      <p>{{m.chauffeur}} {{m.datereception}}</p>
+    </div>
+    <md-input-container class="messagetoolbar_inputmessage md-block" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'">
+      <label>Message</label>
+      <input name="message" ng-model="Textmessage">
+      <md-button class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'" aria-label="Send">
+        <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
+      </md-button>
+    </md-input-container>
+    <md-button class="md-secondary md-icon-button" ng-click="messagetoolbar_inputmessageActive = !messagetoolbar_inputmessageActive" aria-label="Reply">
+      <md-icon md-svg-icon="images/ico/ico_reply.svg"></md-icon>
+    </md-button>
+    <md-button class="md-secondary md-icon-button" aria-label="lu" ng-click="markAsRead(m.id)">
+      <md-icon md-svg-icon="images/ico/ico_checked.svg"></md-icon>
+    </md-button>
+  </md-list-item>
+  <p flex class="noMSg" ng-hide="messageNonlu.length > 0">Pas de nouveau message</p>
+</div>
+<md-button class="fab_message md-fab md-primary" aria-label="Message" ng-click="messagetoolbarActive = !messagetoolbarActive" ng-class="messagetoolbarActive ? '-active' : '-disabled'">
+  <md-icon md-svg-src="images/ico/ico_message.svg"></md-icon>
+  <span ng-show="messageNonlu.length > 0">{{messageNonlu.length}}</span>
+</md-button>

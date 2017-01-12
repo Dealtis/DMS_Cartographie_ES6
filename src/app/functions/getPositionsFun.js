@@ -21,7 +21,7 @@ export class getPositionsFun {
                   const coords = posGps.split(";");
                   const heure = pos.DATESUIVI.split(" ");
                   const addPosition = {
-                    id: pos.ID,
+                    id: Number(pos.ID),
                     numpos: pos.NUM,
                     coords: {
                       latitude: coords[0],

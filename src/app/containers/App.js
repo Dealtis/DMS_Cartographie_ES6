@@ -1,6 +1,6 @@
 class AppController {
   constructor() {
-    this.todos = "toto";
+    this.todo = "lol";
   }
 }
 

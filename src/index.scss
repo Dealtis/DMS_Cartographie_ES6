@@ -1,5 +1,15 @@
 @import 'node_modules/angular-material/angular-material.scss';
 @import 'node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
+@import 'node_modules/please-wait/src/please-wait.scss';
+@import 'node_modules/spinkit/scss/spinners/9-cube-grid.scss';
+
+body > .inner {
+  display: none;
+}
+
+body.pg-loaded > .inner {
+  display: block;
+}
 
 body,
 html {

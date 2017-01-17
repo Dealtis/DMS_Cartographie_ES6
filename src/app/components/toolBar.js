@@ -23,7 +23,15 @@ class ToolBarController {
     $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
       if (checkbox) {
         VariablesShare.cleanMarkers();
-        getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
+        const getPositionPromise = getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
+        getPositionPromise.message = "Chargement des positions";
+        VariablesShare.setPromise(getPositionPromise);
+        getPositionPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
       } else {
         VariablesShare.cleanMarkers();
       }
@@ -32,7 +40,15 @@ class ToolBarController {
     $scope.getTrajets = (selectedChaufeurs, checkbox, dateCalendar) => {
       if (checkbox) {
         VariablesShare.cleanTrajets();
-        getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
+        const getTrajetPromise = getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
+        getTrajetPromise.message = "Chargement des Trajets";
+        VariablesShare.setPromise(getTrajetPromise);
+        getTrajetPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
       } else {
         VariablesShare.cleanTrajets();
       }
@@ -41,15 +57,18 @@ class ToolBarController {
     $scope.getAttentes = (selectedChaufeurs, checkbox, dateCalendar) => {
       if (checkbox) {
         VariablesShare.cleanAttentes();
-        getAttentesFun.getAttentes(selectedChaufeurs, dateCalendar);
+        const getAttentesPromise = getAttentesFun.getAttentes(selectedChaufeurs, dateCalendar);
+        getAttentesPromise.message = "Chargement des Attentes";
+        VariablesShare.setPromise(getAttentesPromise);
+        getAttentesPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
       } else {
         VariablesShare.cleanAttentes();
       }
-    };
-    // See Traffic
-    $scope.seeTraffic = () => {
-      VariablesShare.Trafficshow = !VariablesShare.Trafficshow;
-      $log.log(VariablesShare.Trafficshow);
     };
     $scope.cancelSelected = () => {
       $scope.selectedChauffeurs.length = 0;

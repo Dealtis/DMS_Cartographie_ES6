@@ -1,6 +1,10 @@
 class AppController {
-  constructor() {
-    this.todo = "lol";
+  constructor($scope, $log, VariablesShare) {
+    // Promises
+    $scope.Promise = VariablesShare.Promises;
+    $scope.$watch('getPositionPromise', () => {
+      $log.info(`tg ${$scope.getPositionPromise}`);
+    });
   }
 }
 

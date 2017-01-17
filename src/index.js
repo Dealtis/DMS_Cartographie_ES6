@@ -6,6 +6,7 @@ import RavenPlugin from '../node_modules/raven-js/dist/plugins/angular.js';
 import {
   App
 } from './app/containers/App';
+import './app/containers/loading.html';
 import {
   toolBar
 } from './app/components/toolBar';
@@ -35,6 +36,7 @@ import {
 } from './app/functions/diversFun';
 // Dependencies
 import 'angular-ui-router';
+import '@cgross/angular-busy';
 import 'angular-animate';
 import 'angular-material';
 import 'lodash';
@@ -47,11 +49,12 @@ import 'angular-simple-logger';
 import routesConfig from './routes';
 
 import './index.scss';
+import '../node_modules/@cgross/angular-busy/dist/angular-busy.min.css';
 
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'cgBusy', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);

@@ -1,6 +1,7 @@
 export class getAttentesFun {
-  constructor($log, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
+  constructor($log, $q, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
+    this.q = $q;
     this.mdToast = $mdToast;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.api = api;
@@ -9,161 +10,27 @@ export class getAttentesFun {
   }
 
   getAttentes(selectedChaufeurs, dateCalendar) {
-    this.uiGmapGoogleMapApi.then(maps => {
-      selectedChaufeurs.forEach(chauffeur => {
-        this.api.loadTrajet(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
-          .then(dataTrajet => {
-            const dataTrajetGps = dataTrajet[0].DGPPOSITION.split("|");
-            const dataTrajetHeure = dataTrajet[0].DGPHEUREPOS.split("|");
-            let prevObjectAttente = {
-              id: Date.now(),
-              chauffeur: dataTrajet[0].DGPCOND,
-              coords: {
-                latitude: 0,
-                longitude: 0
-              },
-              options: {
-                icon: {
-                  url: "images/ICO/ico_attente.svg"
-                },
-                animation: maps.Animation.Hp,
-                labelContent: "",
-                labelAnchor: '20 40',
-                labelClass: "labels",
-                labelStyle: {
-                  'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                }
-              }
-            };
-            let inAttenteLoop = false;
-            let origineHeureTemp = "";
-            const attenteArray = [];
-            dataTrajetGps.forEach((line, index) => {
-              const gpsFormat = (line.replace(",", ".").replace(",", ".")).split(";");
-              // si la distance avec prevObjectAttente et currentObject est < à 150 mètres
-              if (this.diversFun.getDistanceFromLatLonInKm(prevObjectAttente.coords.latitude, prevObjectAttente.coords.longitude, Number(gpsFormat[0]), Number(gpsFormat[1])) < 0.15 || index === 0) {
-                if (index === 0) {
-                  prevObjectAttente = {
-                    id: Math.floor((Math.random() * 9999999) + 1),
-                    chauffeur: dataTrajet[0].DGPCOND,
-                    origineHeure: dataTrajetHeure[index],
-                    endHeure: dataTrajetHeure[index],
-                    coords: {
-                      latitude: Number(gpsFormat[0]),
-                      longitude: Number(gpsFormat[1])
-                    },
-                    options: {
-                      icon: {
-                        url: "images/ICO/ico_attente.svg"
-                      },
-                      animation: maps.Animation.Hp,
-                      labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
-                      labelAnchor: '20 40',
-                      labelClass: "labels",
-                      labelStyle: {
-                        'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                      }
-                    }
-                  };
-                } else {
-                  if (inAttenteLoop) {
-                    prevObjectAttente = {
-                      id: Math.floor((Math.random() * 9999999) + 1),
-                      chauffeur: dataTrajet[0].DGPCOND,
-                      origineHeure: origineHeureTemp,
-                      endHeure: dataTrajetHeure[index],
-                      coords: {
-                        latitude: Number(gpsFormat[0]),
-                        longitude: Number(gpsFormat[1])
-                      },
-                      options: {
-                        icon: {
-                          url: "images/ICO/ico_attente.svg"
-                        },
-                        animation: maps.Animation.Hp,
-                        labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
-                        labelAnchor: '20 40',
-                        labelClass: "labels",
-                        labelStyle: {
-                          'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                        }
-                      }
-                    };
-                  } else {
-                    origineHeureTemp = dataTrajetHeure[index];
-                    prevObjectAttente = {
-                      id: Math.floor((Math.random() * 9999999) + 1),
-                      chauffeur: dataTrajet[0].DGPCOND,
-                      origineHeure: origineHeureTemp,
-                      endHeure: dataTrajetHeure[index],
-                      coords: {
-                        latitude: Number(gpsFormat[0]),
-                        longitude: Number(gpsFormat[1])
-                      },
-                      options: {
-                        icon: {
-                          url: "images/ICO/ico_attente.svg"
-                        },
-                        animation: maps.Animation.Hp,
-                        labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
-                        labelAnchor: '20 40',
-                        labelClass: "labels",
-                        labelStyle: {
-                          'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                        }
-                      }
-                    };
-                  }
-                  inAttenteLoop = true;
-                }
-                if (dataTrajetGps.length === index + 1) {
-                  const origineHeureSplit = prevObjectAttente.origineHeure.split(":");
-                  const endHeureSplit = prevObjectAttente.endHeure.split(":");
-                  const startDate = new Date(0, 0, 0, origineHeureSplit[0], origineHeureSplit[1]);
-                  const endDate = new Date(0, 0, 0, endHeureSplit[0], endHeureSplit[1]);
-
-                  const millis = endDate - startDate;
-                  const minutes = millis / 1000 / 60;
-                  if (minutes > 10) {
-                    attenteArray.push(prevObjectAttente);
-                  }
-                }
-              } else {
-                // this.log.info(`Plus de 150m`);
-                // if inAttenteLoop true
-                if (inAttenteLoop) {
-                  inAttenteLoop = false;
-
-                  const origineHeureSplit = prevObjectAttente.origineHeure.split(":");
-                  const endHeureSplit = prevObjectAttente.endHeure.split(":");
-                  const startDate = new Date(0, 0, 0, origineHeureSplit[0], origineHeureSplit[1]);
-                  const endDate = new Date(0, 0, 0, endHeureSplit[0], endHeureSplit[1]);
-
-                  const millis = endDate - startDate;
-                  const minutes = millis / 1000 / 60;
-                  if (minutes > 10) {
-                    attenteArray.push(prevObjectAttente);
-                  }
-                }
-                // ne pas tenir compte du point gps
-                // prevObjectAttente.origineHeure = dataTrajetHeure[index];
-                // prevObjectAttente.coords.latitude = Number(gpsFormat[0]);
-                // prevObjectAttente.coords.longitude = Number(gpsFormat[1]);
-                prevObjectAttente = {
-                  id: Math.floor((Math.random() * 9999999) + 1),
+    return this.q((resolve, reject) => {
+      try {
+        this.uiGmapGoogleMapApi.then(maps => {
+          selectedChaufeurs.forEach(chauffeur => {
+            this.api.loadTrajet(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
+              .then(dataTrajet => {
+                const dataTrajetGps = dataTrajet[0].DGPPOSITION.split("|");
+                const dataTrajetHeure = dataTrajet[0].DGPHEUREPOS.split("|");
+                let prevObjectAttente = {
+                  id: Date.now(),
                   chauffeur: dataTrajet[0].DGPCOND,
-                  origineHeure: dataTrajetHeure[index],
-                  endHeure: dataTrajetHeure[index],
                   coords: {
-                    latitude: Number(gpsFormat[0]),
-                    longitude: Number(gpsFormat[1])
+                    latitude: 0,
+                    longitude: 0
                   },
                   options: {
                     icon: {
                       url: "images/ICO/ico_attente.svg"
                     },
                     animation: maps.Animation.Hp,
-                    labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
+                    labelContent: "",
                     labelAnchor: '20 40',
                     labelClass: "labels",
                     labelStyle: {
@@ -171,11 +38,152 @@ export class getAttentesFun {
                     }
                   }
                 };
-              }
-            });
-            this.VariablesShare.addAttentes(attenteArray);
+                let inAttenteLoop = false;
+                let origineHeureTemp = "";
+                const attenteArray = [];
+                dataTrajetGps.forEach((line, index) => {
+                  const gpsFormat = (line.replace(",", ".").replace(",", ".")).split(";");
+                  // si la distance avec prevObjectAttente et currentObject est < à 150 mètres
+                  if (this.diversFun.getDistanceFromLatLonInKm(prevObjectAttente.coords.latitude, prevObjectAttente.coords.longitude, Number(gpsFormat[0]), Number(gpsFormat[1])) < 0.15 || index === 0) {
+                    if (index === 0) {
+                      prevObjectAttente = {
+                        id: Math.floor((Math.random() * 9999999) + 1),
+                        chauffeur: dataTrajet[0].DGPCOND,
+                        origineHeure: dataTrajetHeure[index],
+                        endHeure: dataTrajetHeure[index],
+                        coords: {
+                          latitude: Number(gpsFormat[0]),
+                          longitude: Number(gpsFormat[1])
+                        },
+                        options: {
+                          icon: {
+                            url: "images/ICO/ico_attente.svg"
+                          },
+                          animation: maps.Animation.Hp,
+                          labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
+                          labelAnchor: '20 40',
+                          labelClass: "labels",
+                          labelStyle: {
+                            'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                          }
+                        }
+                      };
+                    } else {
+                      if (inAttenteLoop) {
+                        prevObjectAttente = {
+                          id: Math.floor((Math.random() * 9999999) + 1),
+                          chauffeur: dataTrajet[0].DGPCOND,
+                          origineHeure: origineHeureTemp,
+                          endHeure: dataTrajetHeure[index],
+                          coords: {
+                            latitude: Number(gpsFormat[0]),
+                            longitude: Number(gpsFormat[1])
+                          },
+                          options: {
+                            icon: {
+                              url: "images/ICO/ico_attente.svg"
+                            },
+                            animation: maps.Animation.Hp,
+                            labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
+                            labelAnchor: '20 40',
+                            labelClass: "labels",
+                            labelStyle: {
+                              'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                            }
+                          }
+                        };
+                      } else {
+                        origineHeureTemp = dataTrajetHeure[index];
+                        prevObjectAttente = {
+                          id: Math.floor((Math.random() * 9999999) + 1),
+                          chauffeur: dataTrajet[0].DGPCOND,
+                          origineHeure: origineHeureTemp,
+                          endHeure: dataTrajetHeure[index],
+                          coords: {
+                            latitude: Number(gpsFormat[0]),
+                            longitude: Number(gpsFormat[1])
+                          },
+                          options: {
+                            icon: {
+                              url: "images/ICO/ico_attente.svg"
+                            },
+                            animation: maps.Animation.Hp,
+                            labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
+                            labelAnchor: '20 40',
+                            labelClass: "labels",
+                            labelStyle: {
+                              'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                            }
+                          }
+                        };
+                      }
+                      inAttenteLoop = true;
+                    }
+                    if (dataTrajetGps.length === index + 1) {
+                      const origineHeureSplit = prevObjectAttente.origineHeure.split(":");
+                      const endHeureSplit = prevObjectAttente.endHeure.split(":");
+                      const startDate = new Date(0, 0, 0, origineHeureSplit[0], origineHeureSplit[1]);
+                      const endDate = new Date(0, 0, 0, endHeureSplit[0], endHeureSplit[1]);
+
+                      const millis = endDate - startDate;
+                      const minutes = millis / 1000 / 60;
+                      if (minutes > 10) {
+                        attenteArray.push(prevObjectAttente);
+                      }
+                    }
+                  } else {
+                    // this.log.info(`Plus de 150m`);
+                    // if inAttenteLoop true
+                    if (inAttenteLoop) {
+                      inAttenteLoop = false;
+
+                      const origineHeureSplit = prevObjectAttente.origineHeure.split(":");
+                      const endHeureSplit = prevObjectAttente.endHeure.split(":");
+                      const startDate = new Date(0, 0, 0, origineHeureSplit[0], origineHeureSplit[1]);
+                      const endDate = new Date(0, 0, 0, endHeureSplit[0], endHeureSplit[1]);
+
+                      const millis = endDate - startDate;
+                      const minutes = millis / 1000 / 60;
+                      if (minutes > 10) {
+                        attenteArray.push(prevObjectAttente);
+                      }
+                    }
+                    // ne pas tenir compte du point gps
+                    // prevObjectAttente.origineHeure = dataTrajetHeure[index];
+                    // prevObjectAttente.coords.latitude = Number(gpsFormat[0]);
+                    // prevObjectAttente.coords.longitude = Number(gpsFormat[1]);
+                    prevObjectAttente = {
+                      id: Math.floor((Math.random() * 9999999) + 1),
+                      chauffeur: dataTrajet[0].DGPCOND,
+                      origineHeure: dataTrajetHeure[index],
+                      endHeure: dataTrajetHeure[index],
+                      coords: {
+                        latitude: Number(gpsFormat[0]),
+                        longitude: Number(gpsFormat[1])
+                      },
+                      options: {
+                        icon: {
+                          url: "images/ICO/ico_attente.svg"
+                        },
+                        animation: maps.Animation.Hp,
+                        labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
+                        labelAnchor: '20 40',
+                        labelClass: "labels",
+                        labelStyle: {
+                          'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                        }
+                      }
+                    };
+                  }
+                });
+                this.VariablesShare.addAttentes(attenteArray);
+              });
           });
-      });
+          resolve("getPosition finish");
+        });
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 }

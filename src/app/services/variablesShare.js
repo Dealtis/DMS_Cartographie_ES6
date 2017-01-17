@@ -25,8 +25,17 @@ export class VariablesShare {
     this.attentes = attentes;
     this.Trafficshow = Trafficshow;
     this.messagesNonlu = messagesNonlu;
-  }
 
+    // Promises
+    const Promises = [];
+    this.Promises = Promises;
+  }
+  setPromise(promise) {
+    this.Promises.push(promise);
+  }
+  clearPromise() {
+    this.Promises.length = 0;
+  }
   addmarkers(marker) {
     this.markers.push(marker);
   }

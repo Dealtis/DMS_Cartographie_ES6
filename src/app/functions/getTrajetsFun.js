@@ -21,7 +21,6 @@ export class getTrajetsFun {
                 latitude: Number(gpsFormat[0]),
                 longitude: Number(gpsFormat[1])
               });
-              // this.log.log(`${gpsFormat[0]},${gpsFormat[1]}`);
             });
             const polylines = {
               id: Date.now,

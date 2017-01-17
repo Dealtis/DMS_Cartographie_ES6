@@ -10,8 +10,6 @@ class MapContainerController {
       backgroundColor: '#4fc3f7',
       loadingHtml: "<div class='sk-cube-grid'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div><div class='sk-cube sk-cube3'></div><div class='sk-cube sk-cube4'></div><div class='sk-cube sk-cube5'></div><div class='sk-cube sk-cube6'></div><div class='sk-cube sk-cube7'></div><div class='sk-cube sk-cube8'></div><div class='sk-cube sk-cube9'></div></div>"
     });
-
-    loadingScreen.finish();
     // Map config init
     $scope.markers = VariablesShare.markers;
     $scope.markerLastPos = VariablesShare.markerLastPos;
@@ -49,6 +47,7 @@ class MapContainerController {
           }
         };
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
+        loadingScreen.finish();
       });
     });
   }

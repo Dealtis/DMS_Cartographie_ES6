@@ -49,8 +49,10 @@ export class VariablesShare {
   cleanTrajets() {
     this.trajets.length = 0;
   }
-  addAttentes(attente) {
-    this.attentes.push(attente);
+  addAttentes(attentes) {
+    attentes.forEach(attente => {
+      this.attentes.push(attente);
+    });
   }
   cleanAttentes() {
     this.attentes.length = 0;

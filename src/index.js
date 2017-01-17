@@ -7,6 +7,7 @@ import {
   App
 } from './app/containers/App';
 import './app/containers/loading.html';
+import './app/containers/infowindowTemplate.html';
 import {
   toolBar
 } from './app/components/toolBar';

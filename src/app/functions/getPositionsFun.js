@@ -50,6 +50,7 @@ export class getPositionsFun {
                         events: {
                           click: (marker, eventName, model) => {
                             model.show = !model.show;
+                            this.log.log(model);
                           },
                           rightclick: () => {
                             this.log.log(pos.NUM);
@@ -73,7 +74,7 @@ export class getPositionsFun {
                           expville: pos.EXPVILLIB
                         },
                         infowindowOptions: {
-                          url: "../containers/infowindowTemplate.html",
+                          url: "app/containers/infowindowTemplate.html",
                           param: {
                             num: pos.NUM
                           },

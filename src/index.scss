@@ -3,6 +3,10 @@
 @import 'node_modules/please-wait/src/please-wait.scss';
 @import 'node_modules/spinkit/scss/spinners/9-cube-grid.scss';
 
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
 body > .inner {
   display: none;
 }
@@ -14,6 +18,7 @@ body.pg-loaded > .inner {
 body,
 html {
   height: 100%;
+  background: #93F9B9;
 }
 
 .main_wrapper {

@@ -60,7 +60,6 @@ export class getAttentesFun {
                             url: "images/ICO/ico_attente.svg"
                           },
                           animation: maps.Animation.Hp,
-                          labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
                           labelAnchor: '20 40',
                           labelClass: "labels",
                           labelStyle: {
@@ -84,7 +83,6 @@ export class getAttentesFun {
                               url: "images/ICO/ico_attente.svg"
                             },
                             animation: maps.Animation.Hp,
-                            labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
                             labelAnchor: '20 40',
                             labelClass: "labels",
                             labelStyle: {
@@ -108,7 +106,6 @@ export class getAttentesFun {
                               url: "images/ICO/ico_attente.svg"
                             },
                             animation: maps.Animation.Hp,
-                            labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
                             labelAnchor: '20 40',
                             labelClass: "labels",
                             labelStyle: {
@@ -128,6 +125,7 @@ export class getAttentesFun {
                       const millis = endDate - startDate;
                       const minutes = millis / 1000 / 60;
                       if (minutes > 10) {
+                        prevObjectAttente.options.labelContent = `${minutes} minutes<br>${origineHeureTemp} à ${dataTrajetHeure[index]}`;
                         attenteArray.push(prevObjectAttente);
                       }
                     }
@@ -145,6 +143,7 @@ export class getAttentesFun {
                       const millis = endDate - startDate;
                       const minutes = millis / 1000 / 60;
                       if (minutes > 10) {
+                        prevObjectAttente.options.labelContent = `${minutes} minutes<br>${origineHeureTemp} à ${dataTrajetHeure[index]}`;
                         attenteArray.push(prevObjectAttente);
                       }
                     }
@@ -166,7 +165,6 @@ export class getAttentesFun {
                           url: "images/ICO/ico_attente.svg"
                         },
                         animation: maps.Animation.Hp,
-                        labelContent: `${origineHeureTemp} à ${dataTrajetHeure[index]}`,
                         labelAnchor: '20 40',
                         labelClass: "labels",
                         labelStyle: {

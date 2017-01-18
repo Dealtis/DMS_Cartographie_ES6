@@ -15,6 +15,7 @@ export class VariablesShare {
     const attentes = [];
     const Trafficshow = true;
     const messagesNonlu = [];
+    const progressBars = [];
     this.mapObject = mapObject;
     this.chauffeurs = chauffeurs;
     this.markers = markers;
@@ -25,6 +26,7 @@ export class VariablesShare {
     this.attentes = attentes;
     this.Trafficshow = Trafficshow;
     this.messagesNonlu = messagesNonlu;
+    this.progressBars = progressBars;
 
     // Promises
     const Promises = [];
@@ -66,7 +68,13 @@ export class VariablesShare {
   cleanAttentes() {
     this.attentes.length = 0;
   }
+  cleanProgressBars() {
+    this.progressBars.length = 0;
+  }
   addMessage(message) {
     this.messagesNonlu.push(message);
+  }
+  addProgress(progressBar) {
+    this.progressBars.push(progressBar);
   }
 }

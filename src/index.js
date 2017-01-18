@@ -16,6 +16,9 @@ import {
   mapContainer
 } from './app/components/mapcontainer';
 import {
+  asideContainer
+} from './app/components/asidecontainer';
+import {
   Api
 } from './app/services/api';
 import {
@@ -30,6 +33,9 @@ import {
 import {
   getAttentesFun
 } from './app/functions/getAttentesFun';
+import {
+  getProgressFun
+} from './app/functions/getProgressFun';
 import {
   diversFun
 } from './app/functions/diversFun';
@@ -87,11 +93,13 @@ angular
   .component('toolbar', toolBar)
   .component('messagetoolbar', messageToolbar)
   .component('mapcontainer', mapContainer)
+  .component('asidecontainer', asideContainer)
   .service('api', Api)
   .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
   .service('getTrajetsFun', getTrajetsFun)
   .service('getAttentesFun', getAttentesFun)
+  .service('getProgressFun', getProgressFun)
   .service('diversFun', diversFun);
 
 Raven

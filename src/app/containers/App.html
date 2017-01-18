@@ -1,10 +1,10 @@
-<div class="main_wrapper" layout="row">
+<div class="main_wrapper" layout="row" layout-padding>
   <section layout="column" flex="80">
     <toolbar class="toolbar" flex="none" layout="row" layout-align=" center"></toolbar>
     <mapContainer cg-busy="{promise:Promise[0],message:Promise[0].message,templateUrl:'app/containers/loading.html'}" class="mapContainer" flex="auto"></mapContainer>
   </section>
   <aside flex>
-    <asideContainer></asideContainer>
+    <asideContainer layout="column"></asideContainer>
   </aside>
 </div>
 <messageToolbar></messageToolbar>

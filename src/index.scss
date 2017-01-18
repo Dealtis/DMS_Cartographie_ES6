@@ -23,6 +23,11 @@ html {
   background: #eeeeee;
 }
 
+aside{
+  height: 100vh;
+  overflow-x: auto;
+}
+
 .main_wrapper {
   min-height: 100vh;
   min-width: 100vw;
@@ -347,4 +352,38 @@ html {
     top: 0;
     right: 0;
   }
+}
+
+.progressBar {
+  h4,
+  p {
+    margin: 0;
+  }
+  .liv {
+    .md-bar2 {
+      background-color: #4caf50;
+    }
+  }
+
+  .ram {
+    .md-bar2 {
+      background-color: #ffc107;
+    }
+  }
+}
+
+.progressBar.ng-enter,
+.progressBar.ng-move {
+  transition: all linear 0.5s;
+}
+
+.progressBar.ng-enter,
+.progressBar.ng-leave.ng-leave-active,
+.progressBar.ng-move {
+  opacity: 0;
+}
+
+.progressBar.ng-enter.ng-enter-active,
+.progressBar.ng-move.ng-move-active {
+  opacity: 1;
 }

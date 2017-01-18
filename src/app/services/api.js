@@ -34,4 +34,8 @@ export class Api {
     this.log.log(`${url}dmsMessage?val=${socid}&minute=${minute}`);
     return HTTP.get(this).get(`${url}dmsMessage?val=${socid}&minute=${minute}`).then(result => result.data);
   }
+  loadProgress(chauffeur, date) {
+    this.log.log(`${url}dmsGaugeChauffT?val=${chauffeur}&date=${date}`);
+    return HTTP.get(this).get(`${url}dmsGaugeChauffT?val=${chauffeur}&date=${date}`).then(result => result.data);
+  }
 }

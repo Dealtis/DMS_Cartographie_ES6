@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $document, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -20,64 +20,29 @@ class ToolBarController {
       });
     });
     // Get Positions
-    $scope.getPositions = (selectedChaufeurs, checkbox, dateCalendar, typeMission) => {
-      if (checkbox) {
-        VariablesShare.cleanMarkers();
-        const getPositionPromise = getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
-        getPositionPromise.message = "Chargement des positions";
-        VariablesShare.setPromise(getPositionPromise);
-        getPositionPromise.then(() => {
-          VariablesShare.clearPromise();
-        }, err => {
-          // if reject
-          $log.error(err);
-        });
-      } else {
-        VariablesShare.cleanMarkers();
-      }
-    };
+    $scope.getPositions = getPositions;
     // Get Trajets
-    $scope.getTrajets = (selectedChaufeurs, checkbox, dateCalendar) => {
-      if (checkbox) {
-        VariablesShare.cleanTrajets();
-        const getTrajetPromise = getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
-        getTrajetPromise.message = "Chargement des Trajets";
-        VariablesShare.setPromise(getTrajetPromise);
-        getTrajetPromise.then(() => {
-          VariablesShare.clearPromise();
-        }, err => {
-          // if reject
-          $log.error(err);
-        });
-      } else {
-        VariablesShare.cleanTrajets();
-      }
-    };
+    $scope.getTrajets = getTrajets;
     // Get Attentes
-    $scope.getAttentes = (selectedChaufeurs, checkbox, dateCalendar) => {
-      if (checkbox) {
-        VariablesShare.cleanAttentes();
-        const getAttentesPromise = getAttentesFun.getAttentes(selectedChaufeurs, dateCalendar);
-        getAttentesPromise.message = "Chargement des Attentes";
-        VariablesShare.setPromise(getAttentesPromise);
-        getAttentesPromise.then(() => {
-          VariablesShare.clearPromise();
-        }, err => {
-          // if reject
-          $log.error(err);
-        });
-      } else {
-        VariablesShare.cleanAttentes();
-      }
-    };
+    $scope.getAttentes = getAttentes;
+
+    // Get Progress bar
+
     $scope.cancelSelected = () => {
       $scope.selectedChauffeurs.length = 0;
+      VariablesShare.cleanLastPos();
+      VariablesShare.cleanProgressBars();
+      VariablesShare.cleanAttentes();
+      VariablesShare.cleanTrajets();
     };
 
     uiGmapGoogleMapApi.then(maps => {
       // watcher selectedChauffeurs
       $scope.$watch('selectedChauffeurs', () => {
         VariablesShare.cleanLastPos();
+        VariablesShare.cleanProgressBars();
+        VariablesShare.cleanAttentes();
+        VariablesShare.cleanTrajets();
         if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
           // function get last pos de selectedChauffeurs and set marker
           $scope.selectedChauffeurs.forEach(chauffeur => {
@@ -126,16 +91,19 @@ class ToolBarController {
             });
           });
           // get informations des jauges and display it
-          // TODO:
+          setProgressBar($scope.selectedChauffeurs, $scope.dateCalendar);
           // Condition d'affichage
           if ($scope.cbLivraison) {
-            // function getPositionsLivraisons
+            getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'liv');
           }
           if ($scope.cbRamasses) {
-            // function getPositionsRamasses
+            getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'ram');
           }
           if ($scope.cbTrajet) {
-            // function Trajet
+            getTrajets($scope.selectedChauffeurs, true, $scope.dateCalendar);
+          }
+          if ($scope.cbAttentes) {
+            getAttentes($scope.selectedChauffeurs, true, $scope.dateCalendar);
           }
           if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
             // function afficher les positions gps des autres chauffeurs
@@ -146,6 +114,68 @@ class ToolBarController {
         VariablesShare.mapObject.setZoom(8);
       };
     });
+
+    function getPositions(selectedChaufeurs, checkbox, dateCalendar, typeMission) {
+      if (checkbox) {
+        VariablesShare.cleanMarkers();
+        const getPositionPromise = getPositionsFun.getPositions(selectedChaufeurs, dateCalendar, typeMission);
+        getPositionPromise.message = "Chargement des positions";
+        VariablesShare.setPromise(getPositionPromise);
+        getPositionPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          $log.error(err);
+        });
+      } else {
+        VariablesShare.cleanMarkers();
+      }
+    }
+
+    function getAttentes(selectedChaufeurs, checkbox, dateCalendar) {
+      if (checkbox) {
+        VariablesShare.cleanAttentes();
+        const getAttentesPromise = getAttentesFun.getAttentes(selectedChaufeurs, dateCalendar);
+        getAttentesPromise.message = "Chargement des Attentes";
+        VariablesShare.setPromise(getAttentesPromise);
+        getAttentesPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
+      } else {
+        VariablesShare.cleanAttentes();
+      }
+    }
+
+    function getTrajets(selectedChaufeurs, checkbox, dateCalendar) {
+      if (checkbox) {
+        VariablesShare.cleanTrajets();
+        const getTrajetPromise = getTrajetsFun.getTrajets(selectedChaufeurs, dateCalendar);
+        getTrajetPromise.message = "Chargement des Trajets";
+        VariablesShare.setPromise(getTrajetPromise);
+        getTrajetPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
+      } else {
+        VariablesShare.cleanTrajets();
+      }
+    }
+
+    function setProgressBar(selectedChaufeurs, dateCalendar) {
+      const getProgressBarPromise = getProgressFun.getProgress(selectedChaufeurs, dateCalendar);
+      // getProgressBarPromise.message = "Chargement";
+      // VariablesShare.setPromise(getProgressBarPromise);
+      getProgressBarPromise.then(() => {
+        // VariablesShare.clearPromise();
+      }, err => {
+        // if reject
+        $log.error(err);
+      });
+    }
   }
 }
 

@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';

@@ -6,8 +6,6 @@ import RavenPlugin from '../node_modules/raven-js/dist/plugins/angular.js';
 import {
   App
 } from './app/containers/App';
-import './app/containers/loading.html';
-import './app/containers/infowindowTemplate.html';
 import {
   toolBar
 } from './app/components/toolBar';
@@ -35,6 +33,11 @@ import {
 import {
   diversFun
 } from './app/functions/diversFun';
+
+// html
+import './app/containers/loading.html';
+import './app/containers/infowindowTemplate.html';
+
 // Dependencies
 import 'angular-ui-router';
 import '@cgross/angular-busy';

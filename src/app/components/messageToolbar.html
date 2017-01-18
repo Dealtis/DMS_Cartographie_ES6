@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="messagetoolbar_archive">
-    <md-button class="md-icon-button" aria-label="Archive">
+    <md-button class="md-icon-button" aria-label="Archive" ng-click="modalArchive = !modalArchive">
       <md-icon md-svg-icon="images/ico/ico_archive.svg"></md-icon>
     </md-button>
   </div>
@@ -64,3 +64,18 @@
   <md-icon md-svg-src="images/ico/ico_message.svg"></md-icon>
   <span ng-show="messageNonlu.length > 0">{{messageNonlu.length}}</span>
 </md-button>
+<div class="modalarchive_container" ng-class="modalArchive ? '-active' : '-disabled'">
+  <md-button class="md-icon-button modalarchive_close" aria-label="New" ng-click="modalArchive = !modalArchive">
+    <md-icon md-svg-icon="images/ico/ico_close.svg"></md-icon>
+  </md-button>
+  <div class="modalarchive_content_container">
+    <md-list class="md-dense" flex>
+      <md-list-item class="">
+        <div class="md-list-item-text">
+          <h3>Toto</h3>
+          <p>Le message de toto</p>
+        </div>
+      </md-list-item>
+    </md-list>
+  </div>
+</div>

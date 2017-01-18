@@ -3,8 +3,10 @@
 @import 'node_modules/please-wait/src/please-wait.scss';
 @import 'node_modules/spinkit/scss/spinners/9-cube-grid.scss';
 
-*, *::after, *::before {
-	box-sizing: border-box;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 body > .inner {
@@ -18,7 +20,7 @@ body.pg-loaded > .inner {
 body,
 html {
   height: 100%;
-  background: #93F9B9;
+  background: #eeeeee;
 }
 
 .main_wrapper {
@@ -295,4 +297,54 @@ html {
 
 .item {
   left: 0;
+}
+// Archive Modal
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+}
+
+.modalarchive_container {
+  background: #4db6ac;
+  position: fixed;
+  z-index: 21;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all ease 0.5s;
+
+  &.-active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .modalarchive_content_container {
+    max-width: 1280px;
+    margin: auto;
+
+    .md-2-line {
+      background: red;
+    }
+
+    .emis {}
+  }
+
+  .modalarchive_close {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }

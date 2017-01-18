@@ -97,7 +97,9 @@ export class getPositionsFun {
                 }
               });
           });
-          resolve("getPosition finish");
+          this.timeout(() => {
+            resolve("getPosition finish");
+          }, 1000);
         });
       } catch (e) {
         reject(e);

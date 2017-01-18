@@ -49,6 +49,7 @@ import 'angular-ui-router';
 import '@cgross/angular-busy';
 import 'angular-animate';
 import 'angular-material';
+import '../node_modules/angular-audio/app/angular.audio.js';
 import 'lodash';
 import moment from 'moment';
 // Dependencies google maps
@@ -64,7 +65,7 @@ import '../node_modules/@cgross/angular-busy/dist/angular-busy.min.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'cgBusy', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngAudio', 'cgBusy', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);

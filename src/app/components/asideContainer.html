@@ -1,25 +1,29 @@
 <div class="progressBar" ng-repeat="progressBar in progressBars | orderBy:'chauffeur'" layout-padding layout-align="center center">
   <h4 ng-style="{color:progressBar.color}">{{progressBar.chauffeur}}</h4>
   <div ng-hide="progressBar.livTot == 0">
-    <div class="gauge" layout="column">
+    <div class="gauge" layout="row" layout-align="space-around center">
       <div class="num_box" layout layout-align="space-around center">
         <p flex="none">Livraisons</p>
+      </div>
+      <div layout="column" class="progressBar_bar" layout-align="center center">
         <p>
           {{progressBar.liv}} / {{progressBar.livTot}}
         </p>
+        <md-progress-linear class="liv" md-mode="determinate" value="{{progressBar.livPercent}}"></md-progress-linear>
       </div>
-      <md-progress-linear class="liv" md-mode="determinate" value="{{progressBar.livPercent}}"></md-progress-linear>
     </div>
   </div>
   <div ng-hide="progressBar.ramTot == 0">
-    <div class="gauge" layout="column">
+    <div class="gauge" layout="row" layout-align="space-around center">
       <div class="num_box" layout layout-align="space-around center">
         <p flex="none">Ramasses</p>
+      </div>
+      <div layout="column" class="progressBar_bar" layout-align="center center">
         <p>
           {{progressBar.ram}} / {{progressBar.ramTot}}
         </p>
+        <md-progress-linear class="ram" md-mode="determinate" value="{{progressBar.ramPercent}}"></md-progress-linear>
       </div>
-      <md-progress-linear class="ram" md-mode="determinate" value="{{progressBar.ramPercent}}"></md-progress-linear>
     </div>
   </div>
 </div>

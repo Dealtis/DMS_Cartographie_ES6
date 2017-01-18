@@ -1,6 +1,7 @@
 export class getAttentesFun {
-  constructor($log, $q, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
+  constructor($log, $timeout, $q, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
+    this.timeout = $timeout;
     this.q = $q;
     this.mdToast = $mdToast;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
@@ -177,7 +178,9 @@ export class getAttentesFun {
                 this.VariablesShare.addAttentes(attenteArray);
               });
           });
-          resolve("getPosition finish");
+          this.timeout(() => {
+            resolve("getPosition finish");
+          }, 1000);
         });
       } catch (e) {
         reject(e);

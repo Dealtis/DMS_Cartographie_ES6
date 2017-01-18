@@ -55,7 +55,9 @@ export class getTrajetsFun {
                 this.VariablesShare.addTrajet(polylines);
               });
           });
-          resolve("getPosition finish");
+          this.timeout(() => {
+            resolve("getPosition finish");
+          }, 1000);
         });
       } catch (e) {
         reject(e);

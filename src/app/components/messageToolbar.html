@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="messagetoolbar_archive">
-    <md-button class="md-icon-button" aria-label="Archive" ng-click="modalArchive = !modalArchive">
+    <md-button class="md-icon-button" aria-label="Archive" ng-click="modalArchive = !modalArchive;loadMessagesArchive()">
       <md-icon md-svg-icon="images/ico/ico_archive.svg"></md-icon>
     </md-button>
   </div>
@@ -70,10 +70,10 @@
   </md-button>
   <div class="modalarchive_content_container">
     <md-list class="md-dense" flex>
-      <md-list-item class="">
+      <md-list-item ng-repeat="m in messageArchive">
         <div class="md-list-item-text">
-          <h3>Toto</h3>
-          <p>Le message de toto</p>
+          <h3>{{m.chauffeur}} {{m.datereception}}</h3>
+          <p>{{m.text}}</p>
         </div>
       </md-list-item>
     </md-list>

@@ -19,11 +19,12 @@ body.pg-loaded > .inner {
 
 body,
 html {
-  height: 100%;
-  background: #eeeeee;
+  max-height: 100%;
+  background: #fff;
+  overflow: hidden;
 }
 
-aside{
+aside {
   height: 100vh;
   overflow-x: auto;
 }
@@ -36,6 +37,11 @@ aside{
 .mapContainer {
   .angular-google-map-container {
     min-height: 90vh;
+    -moz-box-shadow: 10px 10px 5px #656565;
+    -webkit-box-shadow: 10px 10px 5px #656565;
+    -o-box-shadow: 10px 10px 5px #656565;
+    box-shadow: 10px 10px 5px #656565;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
   }
 
   .labels {
@@ -60,6 +66,13 @@ aside{
 }
 
 .toolbar {
+  background-color: #b2dfdb;
+  -moz-box-shadow: 10px 10px 5px #656565;
+  -webkit-box-shadow: 10px 10px 5px #656565;
+  -o-box-shadow: 10px 10px 5px #656565;
+  box-shadow: 10px 10px 5px #656565;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
+
   md-select {
     font-size: 12px;
   }
@@ -340,6 +353,11 @@ aside{
     max-width: 1280px;
     margin: auto;
 
+    md-list {
+      max-height: 100vh;
+      overflow: auto;
+    }
+
     .md-2-line {
       background: red;
     }
@@ -355,10 +373,27 @@ aside{
 }
 
 .progressBar {
+  background-color: #eeeeee;
+  -moz-box-shadow: 10px 10px 5px #656565;
+  -webkit-box-shadow: 10px 10px 5px #656565;
+  -o-box-shadow: 10px 10px 5px #656565;
+  box-shadow: 10px 10px 5px #656565;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
+  margin-bottom: 5px;
+
   h4,
   p {
     margin: 0;
   }
+
+  .progressBar_bar {
+    width: 50%;
+
+    p {
+      font-size: 12px;
+    }
+  }
+
   .liv {
     .md-bar2 {
       background-color: #4caf50;

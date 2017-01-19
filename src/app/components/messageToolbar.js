@@ -1,12 +1,12 @@
 class MessageToolbarController {
-  constructor($scope, $interval, $log, $element, VariablesShare, api, ngAudio) {
+  constructor($scope, $interval, $timeout, $cookies, $log, $element, VariablesShare, api, ngAudio) {
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
     $scope.messageNonlu = VariablesShare.messagesNonlu;
     $scope.messageArchive = [];
     $scope.chauffeurs = VariablesShare.chauffeurs;
-    api.loadMessages('73', '600').then(dataMessages => {
+    api.loadMessages('73', '15').then(dataMessages => {
       dataMessages.forEach(message => {
         const newMessage = {
           id: Number(message.DMEID),
@@ -18,8 +18,11 @@ class MessageToolbarController {
         VariablesShare.addMessage(newMessage);
       });
       if (VariablesShare.messagesNonlu.length > 0) {
-        const sound = ngAudio.load('assets/sounds/newmessage.mp3');
-        sound.play();
+        // if mute
+        if ($cookies.get('isSoundMuted') === "false") {
+          const sound = ngAudio.load('assets/sounds/newmessage.mp3');
+          sound.play();
+        }
       }
     });
 
@@ -36,8 +39,11 @@ class MessageToolbarController {
           VariablesShare.addMessage(newMessage);
         });
         if (VariablesShare.messagesNonlu.length > 0) {
-          const sound = ngAudio.load('assets/sounds/newmessage.mp3');
-          sound.play();
+          // if mute
+          if ($cookies.get('isSoundMuted') === "false") {
+            const sound = ngAudio.load('assets/sounds/newmessage.mp3');
+            sound.play();
+          }
         }
       });
     }, 120000);

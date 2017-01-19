@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $document, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $cookies, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -26,14 +26,31 @@ class ToolBarController {
     // Get Attentes
     $scope.getAttentes = getAttentes;
 
-    // Get Progress bar
-
     $scope.cancelSelected = () => {
       $scope.selectedChauffeurs.length = 0;
       VariablesShare.cleanLastPos();
       VariablesShare.cleanProgressBars();
       VariablesShare.cleanAttentes();
       VariablesShare.cleanTrajets();
+    };
+
+    $scope.isMuted = $cookies.get('isSoundMuted');
+    if ($scope.isMuted === "false") {
+      $scope.urlSound = "images/ico/ico_speaker.png";
+    } else {
+      $scope.urlSound = "images/ico/ico_mute.png";
+    }
+
+    $scope.muteSound = () => {
+      if ($scope.isMuted === "false") {
+        $cookies.put('isSoundMuted', "true");
+        $scope.urlSound = "images/ico/ico_mute.png";
+        $scope.isMuted = "true";
+      } else {
+        $scope.urlSound = "images/ico/ico_speaker.png";
+        $cookies.put('isSoundMuted', "false");
+        $scope.isMuted = "false";
+      }
     };
 
     uiGmapGoogleMapApi.then(maps => {

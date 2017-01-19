@@ -69,6 +69,12 @@
       Recharger la carte
     </md-tooltip>
   </md-button>
+  <md-button class="md-icon-button md-raised toolbar_button_sound" aria-label="sound" ng-click="muteSound()">
+   <img ng-src="{{urlSound}}" alt="Bookmark">
+  <md-tooltip md-direction="bottom">
+      Désactiver le son
+    </md-tooltip>
+  </md-button>
   <md-button class="md-icon-button md-raised md-warn" ng-click="showAlert($event)">
     <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
     <md-tooltip md-direction="bottom">

@@ -1,4 +1,29 @@
-<md-input-container class="toolbar_select_chauffeurs" flex-offset="5" flex="10">
+<md-menu>
+  <md-button aria-label="Open menu" class="md-icon-button main" ng-click="openMenu($mdOpenMenu, $event)">
+    <md-icon md-svg-icon="images/ico/ico_dms.svg"></md-icon>
+  </md-button>
+  <md-menu-content width="4">
+    <md-menu-item>
+      <p>
+        DMSCARTO© v1.1.0
+      </p>
+    </md-menu-item>
+    <md-menu-divider></md-menu-divider>
+    <md-menu-item>
+      <md-button ng-disabled="true">
+        <md-icon md-svg-icon="images/ico/idea.svg" md-menu-align-target></md-icon>
+        Une suggestion ? (soon)
+      </md-button>
+    </md-menu-item>
+    <md-menu-item>
+      <md-button ng-disabled="true">
+        <md-icon md-svg-icon="images/ico/bug.svg" md-menu-align-target></md-icon>
+        Signaler un bug (soon)
+      </md-button>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>
+<md-input-container class="toolbar_select_chauffeurs" flex="10">
   <label>Chauffeurs</label>
   <md-select ng-model="selectedChauffeurs"
              md-on-close="clearSearchTerm()"
@@ -43,11 +68,6 @@
         Attentes
       </md-checkbox>
     </div>
-    <!-- <div class="toolbar_checkbox_traffic" flex>
-      <md-checkbox class="md-primary" ng-model="cbTraffic" aria-label="Traffic" ng-change="seeTraffic()">
-        Traffic
-      </md-checkbox>
-    </div> -->
     <div class="toolbar_checkbox_chauffeurs" flex>
       <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChauffeurs,cbChauffeurs,dateCalendar)" ng-disabled="selectedChauffeurs == null">
         Autres chauffeurs

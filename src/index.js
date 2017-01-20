@@ -48,8 +48,11 @@ import './app/containers/infowindowTemplate.html';
 import 'angular-ui-router';
 import '@cgross/angular-busy';
 import 'angular-animate';
+import 'angular-messages';
 import 'angular-cookies';
 import 'angular-material';
+import 'v-accordion';
+import 'angular-filter';
 import '../node_modules/angular-audio/app/angular.audio.js';
 import 'lodash';
 import moment from 'moment';
@@ -66,7 +69,7 @@ import '../node_modules/@cgross/angular-busy/dist/angular-busy.min.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngAudio', 'ngCookies', 'cgBusy', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngAudio', 'ngCookies', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);

@@ -2,6 +2,7 @@
 @import 'node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
 @import 'node_modules/please-wait/src/please-wait.scss';
 @import 'node_modules/spinkit/scss/spinners/9-cube-grid.scss';
+@import 'node_modules/v-accordion/src/vAccordion/styles/vAccordion.scss';
 
 *,
 *::after,
@@ -72,6 +73,17 @@ aside {
   -o-box-shadow: 10px 10px 5px #656565;
   box-shadow: 10px 10px 5px #656565;
   filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
+
+  .main {
+    padding: 0;
+    width: 58px;
+    height: 48px;
+
+    md-icon {
+      width: 48px;
+      height: 48px;
+    }
+  }
 
   md-select {
     font-size: 12px;
@@ -159,7 +171,7 @@ aside {
 
 .messagetoolbar {
   color: #FFFFFA;
-  background-color: #5c6bc0;
+  background-color: #00796B;
   opacity: 0;
   width: 100%;
   height: 80px;
@@ -180,6 +192,7 @@ aside {
   }
 
   .messagetoolbar_archive,
+  .messagetoolbar_buttun_cancel,
   .messagetoolbar_new,
   .messagetoolbar_newmessage_sendbutton,
   .noMSg {
@@ -221,6 +234,27 @@ aside {
     }
   }
 
+  .messagetoolbar_newmessage_input {
+    label {
+      color: #FFFFFA !important;
+    }
+
+    input {
+      color: #FFFFFA;
+      border-color: #FFFFFA !important;
+    }
+  }
+
+  .messagetoolbar_newmessage_select_chauffeurs {
+    span {
+      color: #FFFFFA !important;
+    }
+
+    .md-select-value {
+      border-bottom-color: #FFFFFA !important;
+    }
+  }
+
   .messagetoolbar_inputmessage {
     opacity: 0;
     flex: 1 1 0;
@@ -257,6 +291,7 @@ aside {
 }
 
 .fab_message {
+  background-color: #00796B !important;
   position: fixed;
   bottom: 5px;
   transition: all ease 0.5s !important;
@@ -333,7 +368,8 @@ aside {
 }
 
 .modalarchive_container {
-  background: #4db6ac;
+  background: #00796B;
+  color: #FFFFFA;
   position: fixed;
   z-index: 21;
   top: 0;
@@ -362,7 +398,9 @@ aside {
       background: red;
     }
 
-    .emis {}
+    .modalarchive_archiveMessage {
+      border-bottom: 1px solid black;
+    }
   }
 
   .modalarchive_close {

@@ -3,10 +3,13 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $document, $cookies, $mdToast, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
+    };
+    $scope.openMenu = ($mdOpenMenu, ev) => {
+      $mdOpenMenu(ev);
     };
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
@@ -33,23 +36,28 @@ class ToolBarController {
       VariablesShare.cleanAttentes();
       VariablesShare.cleanTrajets();
     };
-
-    $scope.isMuted = $cookies.get('isSoundMuted');
-    if ($scope.isMuted === "false") {
-      $scope.urlSound = "images/ico/ico_speaker.png";
+    let isMuted = "";
+    if (angular.isDefined($cookies.get('isSoundMuted'))) {
+      isMuted = $cookies.get('isSoundMuted');
+      if (isMuted === "false") {
+        $scope.urlSound = "images/ico/ico_speaker.png";
+      } else {
+        $scope.urlSound = "images/ico/ico_mute.png";
+      }
     } else {
-      $scope.urlSound = "images/ico/ico_mute.png";
+      $cookies.put('isSoundMuted', "false");
+      $scope.urlSound = "images/ico/ico_speaker.png";
     }
 
     $scope.muteSound = () => {
-      if ($scope.isMuted === "false") {
+      if (isMuted === "false") {
         $cookies.put('isSoundMuted', "true");
         $scope.urlSound = "images/ico/ico_mute.png";
-        $scope.isMuted = "true";
+        isMuted = "true";
       } else {
         $scope.urlSound = "images/ico/ico_speaker.png";
         $cookies.put('isSoundMuted', "false");
-        $scope.isMuted = "false";
+        isMuted = "false";
       }
     };
 

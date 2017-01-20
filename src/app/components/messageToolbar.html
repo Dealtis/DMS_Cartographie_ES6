@@ -9,7 +9,8 @@
       <label>Chauffeurs</label>
       <md-select ng-model="selectedChauffeurs"
                  md-on-close="clearSearchTerm()"
-                 data-md-container-class="selectHeader">
+                 data-md-container-class="selectHeader"
+                 multiple>
         <md-select-header class="select-header">
           <input ng-model="searchTerm"
                  type="search"
@@ -21,12 +22,17 @@
         </md-optgroup>
       </md-select>
     </md-input-container>
+    <div class="messagetoolbar_buttun_cancel">
+      <md-button class="md-icon-button md-accent" aria-label="Cancel" ng-show="selectedChauffeurs.length > 0" ng-click="cancelSelected()">
+        <md-icon md-svg-icon="images/ico/ico_cancel.svg"></md-icon>
+      </md-button>
+    </div>
     <md-input-container class="messagetoolbar_newmessage_input md-block" flex>
       <label>Message</label>
-      <input name="message" ng-model="Textmessage">
+      <input required name="message" ng-model="Textmessage">
     </md-input-container>
     <div class="messagetoolbar_newmessage_sendbutton">
-      <md-button class="md-icon-button" aria-label="Send" >
+      <md-button class="md-icon-button" aria-label="Send" ng-click="sendMessage(selectedChauffeurs, Textmessage)">
         <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
       </md-button>
     </div>
@@ -36,22 +42,25 @@
       <md-icon md-svg-icon="images/ico/ico_archive.svg"></md-icon>
     </md-button>
   </div>
-  <md-button class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'" aria-label="Send">
+  <md-button class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'" aria-label="Send">
     <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
   </md-button>
   <md-list-item class="md-2-line item" ng-repeat="m in messageNonlu | orderBy:'id' | limitTo:1 | filter:{isLu:false}">
-    <div class="messagetoolbar_messagecontent md-list-item-text" layout="column">
+    <div class="messagetoolbar_messagecontent md-list-item-text" ng-class="messagetoolbarInputmessageActive ? '-disabled' : '-active'" layout="column">
       <p>{{m.text}}</p>
       <p>{{m.chauffeur}} {{m.datereception}}</p>
     </div>
-    <md-input-container class="messagetoolbar_inputmessage md-block" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'">
+    <md-input-container class="messagetoolbar_inputmessage md-block" ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'">
       <label>Message</label>
-      <input name="message" ng-model="Textmessage">
-      <md-button class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-class="messagetoolbar_inputmessageActive ? '-active' : '-disabled'" aria-label="Send">
-        <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
-      </md-button>
+      <input required name="forminput[m.id]" ng-model="forminput[m.id]">
+      <div ng-messages="forminput[m.id].$error">
+        <div ng-message="required">Champ obligatoire.</div>
+      </div>
     </md-input-container>
-    <md-button class="md-secondary md-icon-button" ng-click="messagetoolbar_inputmessageActive = !messagetoolbar_inputmessageActive" aria-label="Reply">
+    <md-button ng-show="forminput[m.id] != undefined" class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-click="sendMessageReply(m.chauffeur, forminput[m.id], forminput);messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive" ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'" aria-label="SendReply">
+      <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
+    </md-button>
+    <md-button class="md-secondary md-icon-button" ng-click="messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive" aria-label="Reply">
       <md-icon md-svg-icon="images/ico/ico_reply.svg"></md-icon>
     </md-button>
     <md-button class="md-secondary md-icon-button" aria-label="lu" ng-click="markAsRead(m.id)">
@@ -70,7 +79,7 @@
   </md-button>
   <div class="modalarchive_content_container">
     <md-list class="md-dense" flex>
-      <md-list-item ng-repeat="m in messageArchive">
+      <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchive">
         <div class="md-list-item-text">
           <h3>{{m.chauffeur}} {{m.datereception}}</h3>
           <p>{{m.text}}</p>

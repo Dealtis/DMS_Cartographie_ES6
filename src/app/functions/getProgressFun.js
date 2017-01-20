@@ -30,6 +30,54 @@ export class getProgressFun {
                   progressBar.ramPercent = (Number(progress.nbFait) * 100) / Number(progress.nbPos);
                 }
               });
+              if (progressBar.liv > 0) {
+                this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), 'liv')
+                  .then(dataPositions => {
+                    progressBar.positionsLivraisons = [];
+                    dataPositions.forEach(position => {
+                      const heureSplit = position.DATESUIVI.split(" ");
+                      if (position.CODEANO !== "FLASHAGE" && position.CODEANO !== "FLASHAGEIMP") {
+                        const newLivraisons = {
+                          id: position.ID,
+                          num: position.NUM,
+                          memo: position.MEMO,
+                          codeano: position.CODEANO,
+                          datesuivi: heureSplit[1],
+                          nom: position.EXPNOM,
+                          adressse: position.EXPADR,
+                          cp: position.EXPVILCP,
+                          ville: position.EXPVILLIB
+                        };
+                        progressBar.positionsLivraisons.push(newLivraisons);
+                      }
+                    });
+                  });
+              }
+              if (progressBar.ram > 0) {
+                this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), 'ram')
+                  .then(dataPositions => {
+                    progressBar.positionsRamasses = [];
+                    dataPositions.forEach(position => {
+                      this.log.log(position);
+                      const heureSplit = position.DATESUIVI.split(" ");
+                      if (position.CODEANO !== "FLASHAGE" && position.CODEANO !== "FLASHAGEIMP") {
+                        const newLivraisons = {
+                          id: position.ID,
+                          num: position.NUM,
+                          memo: position.MEMO,
+                          codeano: position.CODEANO,
+                          datesuivi: heureSplit[1],
+                          nom: position.EXPNOM,
+                          adressse: position.EXPADR,
+                          cp: position.EXPVILCP,
+                          ville: position.EXPVILLIB
+                        };
+                        progressBar.positionsRamasses.push(newLivraisons);
+                        // pos.data = pos.info.livnom + ", " + pos.info.livadr + pos.info.livcp + " " + pos.info.livville;
+                      }
+                    });
+                  });
+              }
               this.VariablesShare.addProgress(progressBar);
             });
         });

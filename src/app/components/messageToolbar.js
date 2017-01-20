@@ -1,12 +1,14 @@
 class MessageToolbarController {
-  constructor($scope, $interval, $timeout, $cookies, $log, $element, VariablesShare, api, ngAudio) {
+  constructor($scope, $interval, $timeout, $parse, $mdToast, $cookies, $log, $element, VariablesShare, api, ngAudio) {
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
     $scope.messageNonlu = VariablesShare.messagesNonlu;
     $scope.messageArchive = [];
     $scope.chauffeurs = VariablesShare.chauffeurs;
-    api.loadMessages('73', '15').then(dataMessages => {
+    $scope.forminput = {};
+    $scope.messagetoolbarInputmessageActive = false;
+    api.loadMessages('73', '60').then(dataMessages => {
       dataMessages.forEach(message => {
         const newMessage = {
           id: Number(message.DMEID),
@@ -25,6 +27,36 @@ class MessageToolbarController {
         }
       }
     });
+
+    $scope.cancelSelected = () => {
+      $scope.selectedChauffeurs.length = 0;
+    };
+
+    $scope.sendMessage = (chauffeurs, message) => {
+      $log.log(chauffeurs);
+      $log.log(message);
+      $scope.Textmessage = "";
+    };
+
+    $scope.sendMessageReply = (chauffeurs, message, forminput) => {
+      if (angular.isDefined(message)) {
+        const toast = $mdToast.simple()
+          .textContent(`Message envoyé à ${chauffeurs}`)
+          .action('X')
+          .highlightAction(true)
+          .position('top right');
+        $mdToast.show(toast);
+        $log.log(forminput);
+        $scope.forminput = {};
+      } else {
+        const toast = $mdToast.simple()
+          .textContent(`Pas de message`)
+          .action('X')
+          .highlightAction(true)
+          .position('bottom right');
+        $mdToast.show(toast);
+      }
+    };
 
     $interval(() => {
       api.loadMessages('73', '2').then(dataMessages => {
@@ -62,6 +94,7 @@ class MessageToolbarController {
     $scope.loadMessagesArchive = loadMessagesArchive;
 
     function loadMessagesArchive() {
+      $scope.messageArchive = [];
       $scope.messageArchivePromise = api.loadMessages('73', '1440').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {

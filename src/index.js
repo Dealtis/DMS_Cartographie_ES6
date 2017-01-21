@@ -37,6 +37,9 @@ import {
   getProgressFun
 } from './app/functions/getProgressFun';
 import {
+  getPredictFun
+} from './app/functions/getPredictFun';
+import {
   diversFun
 } from './app/functions/diversFun';
 
@@ -105,6 +108,7 @@ angular
   .service('getTrajetsFun', getTrajetsFun)
   .service('getAttentesFun', getAttentesFun)
   .service('getProgressFun', getProgressFun)
+  .service('getPredictFun', getPredictFun)
   .service('diversFun', diversFun);
 
 Raven

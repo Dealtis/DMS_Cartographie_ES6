@@ -38,4 +38,12 @@ export class Api {
     this.log.log(`${url}dmsGaugeChauffT?val=${chauffeur}&date=${date}`);
     return HTTP.get(this).get(`${url}dmsGaugeChauffT?val=${chauffeur}&date=${date}`).then(result => result.data);
   }
+  loadPredict(chauffeur) {
+    this.log.log(`${url}dmsInfoPos?val=${chauffeur}`);
+    return HTTP.get(this).get(`${url}dmsInfoPos?val=${chauffeur}`).then(result => result.data);
+  }
+  getGeocode(nom, adr, cp, ville) {
+    this.log.log(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}`);
+    return HTTP.get(this).get(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}`).then(result => result.data);
+  }
 }

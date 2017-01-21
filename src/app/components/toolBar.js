@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $document, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -28,6 +28,8 @@ class ToolBarController {
     $scope.getTrajets = getTrajets;
     // Get Attentes
     $scope.getAttentes = getAttentes;
+    // Get Predict
+    $scope.getPredicts = getPredicts;
 
     $scope.cancelSelected = () => {
       $scope.selectedChauffeurs.length = 0;
@@ -180,6 +182,23 @@ class ToolBarController {
         getTrajetPromise.message = "Chargement des Trajets";
         VariablesShare.setPromise(getTrajetPromise);
         getTrajetPromise.then(() => {
+          VariablesShare.clearPromise();
+        }, err => {
+          // if reject
+          $log.error(err);
+        });
+      } else {
+        VariablesShare.cleanTrajets();
+      }
+    }
+
+    function getPredicts(selectedChaufeurs, checkbox) {
+      if (checkbox) {
+        VariablesShare.cleanTrajets();
+        const getPredictPromise = getPredictFun.getPredict(selectedChaufeurs);
+        getPredictPromise.message = "Chargement des Prédictions";
+        VariablesShare.setPromise(getPredictPromise);
+        getPredictPromise.then(() => {
           VariablesShare.clearPromise();
         }, err => {
           // if reject

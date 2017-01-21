@@ -11,6 +11,7 @@ export class getProgressFun {
     return this.q((resolve, reject) => {
       try {
         selectedChaufeurs.forEach(chauffeur => {
+          // Get progress foreach chauffeur
           this.api.loadProgress(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
             .then(dataProgress => {
               const progressBar = {
@@ -30,6 +31,7 @@ export class getProgressFun {
                   progressBar.ramPercent = (Number(progress.nbFait) * 100) / Number(progress.nbPos);
                 }
               });
+              progressBar.positionsAll = [];
               if (progressBar.liv > 0) {
                 this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), 'liv')
                   .then(dataPositions => {
@@ -49,6 +51,7 @@ export class getProgressFun {
                           ville: position.EXPVILLIB
                         };
                         progressBar.positionsLivraisons.push(newLivraisons);
+                        progressBar.positionsAll.push(newLivraisons);
                       }
                     });
                   });
@@ -58,7 +61,6 @@ export class getProgressFun {
                   .then(dataPositions => {
                     progressBar.positionsRamasses = [];
                     dataPositions.forEach(position => {
-                      this.log.log(position);
                       const heureSplit = position.DATESUIVI.split(" ");
                       if (position.CODEANO !== "FLASHAGE" && position.CODEANO !== "FLASHAGEIMP") {
                         const newLivraisons = {
@@ -73,7 +75,7 @@ export class getProgressFun {
                           ville: position.EXPVILLIB
                         };
                         progressBar.positionsRamasses.push(newLivraisons);
-                        // pos.data = pos.info.livnom + ", " + pos.info.livadr + pos.info.livcp + " " + pos.info.livville;
+                        progressBar.positionsAll.push(newLivraisons);
                       }
                     });
                   });

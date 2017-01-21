@@ -36,6 +36,7 @@ aside {
 }
 
 .mapContainer {
+  position: initial !important;
   .angular-google-map-container {
     min-height: 90vh;
     -moz-box-shadow: 10px 10px 5px #656565;
@@ -112,6 +113,13 @@ aside {
     .toolbar_checkbox_chauffeurs {
       .md-label {
         font-size: 12px;
+      }
+    }
+
+    .toolbar_checkbox_predict {
+      md-switch {
+        padding: 0;
+        margin: 0;
       }
     }
   }

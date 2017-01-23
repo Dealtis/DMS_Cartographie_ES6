@@ -194,7 +194,7 @@ class ToolBarController {
 
     function getPredicts(selectedChaufeurs, checkbox) {
       if (checkbox) {
-        VariablesShare.cleanTrajets();
+        VariablesShare.cleanMarkers();
         const getPredictPromise = getPredictFun.getPredict(selectedChaufeurs);
         getPredictPromise.message = "Chargement des Prédictions";
         VariablesShare.setPromise(getPredictPromise);
@@ -205,7 +205,7 @@ class ToolBarController {
           $log.error(err);
         });
       } else {
-        VariablesShare.cleanTrajets();
+        VariablesShare.cleanMarkers();
       }
     }
 

@@ -6,6 +6,7 @@ export class VariablesShare {
     const mapObject = {};
     const chauffeurs = [];
     const markers = [];
+    const markersPredicts = [];
     const markerLastPos = [];
     const homeMarker = [];
     const windowOptions = {
@@ -19,6 +20,7 @@ export class VariablesShare {
     this.mapObject = mapObject;
     this.chauffeurs = chauffeurs;
     this.markers = markers;
+    this.markersPredicts = markersPredicts;
     this.markerLastPos = markerLastPos;
     this.homeMarker = homeMarker;
     this.windowOptions = windowOptions;
@@ -41,6 +43,9 @@ export class VariablesShare {
   addmarkers(marker) {
     this.markers.push(marker);
   }
+  addPredict(predict) {
+    this.markersPredicts.push(predict);
+  }
   addmarkerLastPos(marker) {
     this.markerLastPos.push(marker);
   }
@@ -49,6 +54,9 @@ export class VariablesShare {
   }
   cleanMarkers() {
     this.markers.length = 0;
+  }
+  cleanPredict() {
+    this.markersPredicts.length = 0;
   }
   cleanLastPos() {
     this.markerLastPos.length = 0;

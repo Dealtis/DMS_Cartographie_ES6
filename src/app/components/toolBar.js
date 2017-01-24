@@ -3,7 +3,7 @@ import {
 } from '../constants/config.js';
 
 class ToolBarController {
-  constructor($scope, $log, $document, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $window, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
@@ -62,6 +62,14 @@ class ToolBarController {
         isMuted = "false";
       }
     };
+
+    // // PRINT
+    // $scope.print = () => {
+    //   printElement($document[0].getElementById('printThis'));
+    //   const modThis = $document[0].querySelector("#printSection .modifyMe");
+    //   modThis.appendChild($document[0].createTextNode(" new"));
+    //   $window.print();
+    // };
 
     uiGmapGoogleMapApi.then(maps => {
       // watcher selectedChauffeurs
@@ -158,6 +166,21 @@ class ToolBarController {
       }
     }
 
+    // function printElement(elem) {
+    //   const domClone = elem.cloneNode(true);
+    //   let printSection = $document[0].getElementById('printSection');
+    //   $log.log(printSection);
+    //   if (!printSection) {
+    //     printSection = $document[0].createElement("div");
+    //     $log.log(printSection);
+    //     printSection.id = "printSection";
+    //     $document[0].body.appendChild(printSection);
+    //   }
+    //   $log.log(printSection);
+    //   printSection.innerHTML = "";
+    //   printSection.appendChild(domClone);
+    // }
+
     function getAttentes(selectedChaufeurs, checkbox, dateCalendar) {
       if (checkbox) {
         VariablesShare.cleanAttentes();
@@ -194,7 +217,7 @@ class ToolBarController {
 
     function getPredicts(selectedChaufeurs, checkbox) {
       if (checkbox) {
-        VariablesShare.cleanMarkers();
+        VariablesShare.cleanPredict();
         const getPredictPromise = getPredictFun.getPredict(selectedChaufeurs);
         getPredictPromise.message = "Chargement des Prédictions";
         VariablesShare.setPromise(getPredictPromise);
@@ -205,7 +228,7 @@ class ToolBarController {
           $log.error(err);
         });
       } else {
-        VariablesShare.cleanMarkers();
+        VariablesShare.cleanPredict();
       }
     }
 

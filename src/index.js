@@ -57,6 +57,7 @@ import 'angular-material';
 import 'v-accordion';
 import 'angular-filter';
 import '../node_modules/angular-audio/app/angular.audio.js';
+import '../node_modules/ngPrint/ngPrint.min.js';
 import 'lodash';
 import moment from 'moment';
 // Dependencies google maps
@@ -68,11 +69,12 @@ import routesConfig from './routes';
 
 import './index.scss';
 import '../node_modules/@cgross/angular-busy/dist/angular-busy.min.css';
+import '../node_modules/ngPrint/ngPrint.css';
 
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngAudio', 'ngCookies', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngAudio', 'ngPrint', 'ngCookies', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);
@@ -95,7 +97,7 @@ angular
   })
   .config(uiGmapGoogleMapApiProvider => uiGmapGoogleMapApiProvider.configure({
     key: 'AIzaSyBraT3buBPTdDmqZ-Urn81aI8zWTfttA2Y',
-    libraries: 'weather,geometry,visualization'
+    libraries: 'weather,geometry,visualization,places'
   }))
   .component('app', App)
   .component('toolbar', toolBar)

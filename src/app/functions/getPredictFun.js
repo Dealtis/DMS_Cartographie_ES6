@@ -47,7 +47,7 @@ export class getPredictFun {
 
                       this.api.getGeocode(nom, adr, cp, ville)
                         .then(response => {
-                          this.log.log(response);
+                          this.log.log(item.OTPTRSCODE);
                           if (response.status === "ZERO_RESULTS") {
                             const failGeo = {
                               nomFail: nom,
@@ -64,15 +64,17 @@ export class getPredictFun {
                                 latitude: response.results[0].geometry.location.lat,
                                 longitude: response.results[0].geometry.location.lng
                               },
-                              design: {
-                                color: "blue",
-                                ico: this.diversFun.getIco(item.CODEANO)
-                              },
                               options: {
                                 icon: {
-                                  url: "images/ICO/ico_pre.svg"
+                                  url: this.diversFun.getImg(item.OTPTRSCODE)
                                 },
-                                animation: maps.Animation.Hp
+                                animation: maps.Animation.Hp,
+                                labelContent: `${nom} ${ville}`,
+                                labelAnchor: '20 40',
+                                labelClass: "labels",
+                                labelStyle: {
+                                  'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                                }
                               },
                               info: {
                                 nomPre: nom,
@@ -81,7 +83,7 @@ export class getPredictFun {
                                 villePre: ville
                               }
                             };
-                            this.VariablesShare.addmarkers(newPredict);
+                            this.VariablesShare.addPredict(newPredict);
                           }
                           deferred.resolve(dataPredict);
                         });

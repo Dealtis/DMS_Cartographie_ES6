@@ -11,16 +11,22 @@ export class diversFun {
     let output = '';
     switch (codeAno) {
       case "LIVCFM":
-        output = 'images/ICO/ico_liv_v.svg';
+        output = 'images/ico/ico_liv_v.svg';
         break;
       case "RAMCFM":
-        output = 'images/ICO/ico_ram_v.svg';
+        output = 'images/ico/ico_ram_v.svg';
         break;
       case "ECHCFM":
-        output = 'images/ICO/ico_ram_v.svg';
+        output = 'images/ico/ico_ram_v.svg';
+        break;
+      case "LIV":
+        output = 'images/ico/ico_pre.svg';
+        break;
+      case "RAM":
+        output = 'images/ico/ico_pre_ram.svg';
         break;
       default:
-        output = 'images/ICO/ico_liv_a.svg';
+        output = 'images/ico/ico_liv_a.svg';
     }
     return output;
   }

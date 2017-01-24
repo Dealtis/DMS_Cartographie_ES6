@@ -12,6 +12,7 @@ class MapContainerController {
     });
     // Map config init
     $scope.markers = VariablesShare.markers;
+    $scope.markersPredicts = VariablesShare.markersPredicts;
     $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.Trajets = VariablesShare.trajets;
     $scope.attentes = VariablesShare.attentes;
@@ -19,6 +20,7 @@ class MapContainerController {
     $scope.map = config.mapOptions;
     $scope.windowOptions = VariablesShare.windowOptions;
     $scope.clusterOptions = config.cluserOptions;
+    $scope.clusterPreOptions = config.cluserPreOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
     uiGmapGoogleMapApi.then(maps => {
       $log.log(maps);

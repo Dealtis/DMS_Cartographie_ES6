@@ -4,12 +4,27 @@ import {
 import pleaseWait from '../../../node_modules/please-wait/build/please-wait.js';
 
 class MapContainerController {
-  constructor($scope, $log, uiGmapGoogleMapApi, api, VariablesShare) {
+  constructor($scope, $log, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
     const loadingScreen = pleaseWait.pleaseWait({
       logo: 'images/ico/ico_home.svg',
       backgroundColor: '#eeeeee',
       loadingHtml: "<div class='sk-cube-grid'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div><div class='sk-cube sk-cube3'></div><div class='sk-cube sk-cube4'></div><div class='sk-cube sk-cube5'></div><div class='sk-cube sk-cube6'></div><div class='sk-cube sk-cube7'></div><div class='sk-cube sk-cube8'></div><div class='sk-cube sk-cube9'></div></div>"
     });
+    $templateCache.put('searchbox.tpl.html', 'This is the content of the template');
+    $log.log(`The template is ${$templateCache.get('searchbox.tpl.html')}`);
+    $scope.searchbox = {
+      template: 'searchbox.tpl.html',
+      events: {
+        /*eslint-disable */
+        places_changed: searchBox => {
+          $scope.map.control.getGMap().panTo({
+            lat: searchBox.getPlaces()[0].geometry.location.lat(),
+            lng: searchBox.getPlaces()[0].geometry.location.lng()
+          });
+        }
+        /*eslint-enable */
+      }
+    };
     // Map config init
     $scope.markers = VariablesShare.markers;
     $scope.markersPredicts = VariablesShare.markersPredicts;
@@ -22,8 +37,8 @@ class MapContainerController {
     $scope.clusterOptions = config.cluserOptions;
     $scope.clusterPreOptions = config.cluserPreOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
-    uiGmapGoogleMapApi.then(maps => {
-      $log.log(maps);
+
+    uiGmapGoogleMapApi.then(() => {
       // Get Position de la societe
       api.loadSocposition('73').then(posSociete => {
         const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');

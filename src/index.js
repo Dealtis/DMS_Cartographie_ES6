@@ -45,7 +45,6 @@ import {
 
 // html
 import './app/containers/loading.html';
-import './app/containers/infowindowTemplate.html';
 
 // Dependencies
 import 'angular-ui-router';

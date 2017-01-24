@@ -45,6 +45,11 @@ aside {
     -o-box-shadow: 10px 10px 5px #656565;
     box-shadow: 10px 10px 5px #656565;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
+
+    input:last-of-type {
+      top: 13px !important;
+      border: 1px solid gray;
+    }
   }
 
   .labels {

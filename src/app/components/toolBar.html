@@ -41,6 +41,9 @@
     </md-optgroup>
   </md-select>
 </md-input-container>
+<md-button class="toolbar_button_cancelSelect md-icon-button md-accent" ng-disabled="true" aria-label="Cancel" ng-click="allSelected()">
+  <md-icon md-svg-icon="images/ico/ico_list.svg"></md-icon>
+</md-button>
 <md-button class="toolbar_button_cancelSelect md-icon-button md-accent" aria-label="Cancel" ng-show="selectedChauffeurs.length > 0" ng-click="cancelSelected()">
   <md-icon md-svg-icon="images/ico/ico_cancel.svg"></md-icon>
 </md-button>
@@ -73,11 +76,11 @@
         Attentes
       </md-checkbox>
     </div>
-    <div class="toolbar_checkbox_chauffeurs" flex>
+    <!-- <div class="toolbar_checkbox_chauffeurs" flex>
       <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChauffeurs,cbChauffeurs,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0)">
         Autres chauffeurs
       </md-checkbox>
-    </div>
+    </div> -->
   </div>
 </div>
 <md-datepicker flex="20" ng-model="dateCalendar" md-placeholder="Enter date"></md-datepicker>

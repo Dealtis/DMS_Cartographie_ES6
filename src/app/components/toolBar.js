@@ -5,6 +5,7 @@ import {
 class ToolBarController {
   constructor($scope, $log, $document, $window, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
+    $scope.selectedChauffeurs = [];
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
@@ -15,10 +16,12 @@ class ToolBarController {
       ev.stopPropagation();
     });
     // Get Chauffeurs de la societe
+    const saveChaufeurs = [];
     api.loadChauffeurs('73').then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
+        saveChaufeurs.push(chauffeur);
         VariablesShare.addChauffeur(chauffeur);
       });
     });
@@ -37,7 +40,9 @@ class ToolBarController {
       VariablesShare.cleanProgressBars();
       VariablesShare.cleanAttentes();
       VariablesShare.cleanTrajets();
+      VariablesShare.cleanPredict();
     };
+
     let isMuted = "";
     if (angular.isDefined($cookies.get('isSoundMuted'))) {
       isMuted = $cookies.get('isSoundMuted');
@@ -71,84 +76,47 @@ class ToolBarController {
     //   $window.print();
     // };
 
-    uiGmapGoogleMapApi.then(maps => {
-      // watcher selectedChauffeurs
-      $scope.$watch('selectedChauffeurs', () => {
-        VariablesShare.cleanLastPos();
-        VariablesShare.cleanProgressBars();
-        VariablesShare.cleanAttentes();
-        VariablesShare.cleanTrajets();
-        if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
-          // function get last pos de selectedChauffeurs and set marker
-          $scope.selectedChauffeurs.forEach(chauffeur => {
-            api.loadLastPos(chauffeur.SALCODE).then(dataGps => {
-              if (dataGps.length > 0) {
-                const dataGpsBrut = dataGps[0].DGPDERNIEREPOS.replace(",", ".").replace(",", ".");
-                const posGps = dataGpsBrut.split(";");
-                const heureGps = dataGps[0].DGPDERNIEREHEURE.split(" ");
-                const addMarkerLastPos = {
-                  id: chauffeur.SALCODE,
-                  coords: {
-                    latitude: posGps[0],
-                    longitude: posGps[1]
-                  },
-                  options: {
-                    icon: {
-                      url: 'images/ICO/ico_truck.svg'
-                    },
-                    animation: maps.Animation.Hp,
-                    labelContent: `${chauffeur.SALNOM}<br>${heureGps[1]}`,
-                    labelAnchor: '20 40',
-                    labelClass: "labels",
-                    labelStyle: {
-                      'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                    }
-                  },
-                  events: {
-                    click: (marker, eventName, model) => {
-                      model.show = !model.show;
-                    },
-                    rightclick: () => {
-                      $log.log(chauffeur.color);
-                    }
-                  }
-                };
-                VariablesShare.addmarkerLastPos(addMarkerLastPos);
-              } else {
-                const toast = $mdToast.simple()
-                  .textContent(`Pas de données GPS pour ${chauffeur.SALNOM}`)
-                  .action('X')
-                  .highlightAction(true)
-                  .position('top right');
-                $mdToast.show(toast);
-                $log.info(`Pas de données GPS pour ${chauffeur.SALCODE}`);
-              }
-            });
-          });
-          // get informations des jauges and display it
-          setProgressBar($scope.selectedChauffeurs, $scope.dateCalendar);
-          // Condition d'affichage
-          if ($scope.cbLivraison) {
-            getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'liv');
-          }
-          if ($scope.cbRamasses) {
-            getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'ram');
-          }
-          if ($scope.cbTrajet) {
-            getTrajets($scope.selectedChauffeurs, true, $scope.dateCalendar);
-          }
-          if ($scope.cbAttentes) {
-            getAttentes($scope.selectedChauffeurs, true, $scope.dateCalendar);
-          }
-          if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
-            // function afficher les positions gps des autres chauffeurs
-          }
+    $scope.allSelected = () => {
+      getLastPos(saveChaufeurs);
+    };
+
+    // watcher selectedChauffeurs
+    $scope.$watch('selectedChauffeurs', () => {
+      VariablesShare.cleanLastPos();
+      VariablesShare.cleanProgressBars();
+      VariablesShare.cleanAttentes();
+      VariablesShare.cleanTrajets();
+      VariablesShare.cleanPredict();
+      if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
+        // function get last pos de selectedChauffeurs and set marker
+        getLastPos($scope.selectedChauffeurs);
+        // get informations des jauges and display it
+        setProgressBar($scope.selectedChauffeurs, $scope.dateCalendar);
+        // Condition d'affichage
+        if ($scope.cbLivraison) {
+          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'liv');
         }
-      });
-      $scope.fitBounds = () => {
-        VariablesShare.mapObject.setZoom(8);
-      };
+        if ($scope.cbRamasses) {
+          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'ram');
+        }
+        if ($scope.cbTrajet) {
+          getTrajets($scope.selectedChauffeurs, true, $scope.dateCalendar);
+        }
+        if ($scope.cbAttentes) {
+          getAttentes($scope.selectedChauffeurs, true, $scope.dateCalendar);
+        }
+        if ($scope.cbPredict) {
+          getPredicts($scope.selectedChauffeurs, true);
+        }
+        if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
+          // function afficher les positions gps des autres chauffeurs
+        }
+      }
     });
+
+    $scope.fitBounds = () => {
+      VariablesShare.mapObject.setZoom(8);
+    };
 
     function getPositions(selectedChaufeurs, checkbox, dateCalendar, typeMission) {
       if (checkbox) {
@@ -164,6 +132,56 @@ class ToolBarController {
       } else {
         VariablesShare.cleanMarkers();
       }
+    }
+
+    function getLastPos(chauffeurs) {
+      uiGmapGoogleMapApi.then(maps => {
+        chauffeurs.forEach(chauffeur => {
+          api.loadLastPos(chauffeur.SALCODE).then(dataGps => {
+            if (dataGps.length > 0) {
+              const dataGpsBrut = dataGps[0].DGPDERNIEREPOS.replace(",", ".").replace(",", ".");
+              const posGps = dataGpsBrut.split(";");
+              const heureGps = dataGps[0].DGPDERNIEREHEURE.split(" ");
+              const addMarkerLastPos = {
+                id: chauffeur.SALCODE,
+                coords: {
+                  latitude: posGps[0],
+                  longitude: posGps[1]
+                },
+                options: {
+                  icon: {
+                    url: 'images/ICO/ico_truck.svg'
+                  },
+                  animation: maps.Animation.Hp,
+                  labelContent: `${chauffeur.SALNOM}<br>${heureGps[1]}`,
+                  labelAnchor: '20 40',
+                  labelClass: "labels",
+                  labelStyle: {
+                    'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                  }
+                },
+                events: {
+                  click: (marker, eventName, model) => {
+                    model.show = !model.show;
+                  },
+                  rightclick: () => {
+                    $log.log(chauffeur.color);
+                  }
+                }
+              };
+              VariablesShare.addmarkerLastPos(addMarkerLastPos);
+            } else {
+              const toast = $mdToast.simple()
+                .textContent(`Pas de données GPS pour ${chauffeur.SALNOM}`)
+                .action('X')
+                .highlightAction(true)
+                .position('top right');
+              $mdToast.show(toast);
+              $log.info(`Pas de données GPS pour ${chauffeur.SALCODE}`);
+            }
+          });
+        });
+      });
     }
 
     // function printElement(elem) {

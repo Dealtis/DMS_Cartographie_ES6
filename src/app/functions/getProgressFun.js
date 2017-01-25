@@ -10,7 +10,9 @@ export class getProgressFun {
   getProgress(selectedChaufeurs, dateCalendar) {
     return this.q((resolve, reject) => {
       try {
+        const promises = [];
         selectedChaufeurs.forEach(chauffeur => {
+          const deferred = this.q.defer();
           // Get progress foreach chauffeur
           this.api.loadProgress(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
             .then(dataProgress => {
@@ -81,9 +83,15 @@ export class getProgressFun {
                   });
               }
               this.VariablesShare.addProgress(progressBar);
+              deferred.resolve();
             });
+          promises.push(deferred.promise);
         });
-        resolve("getPosition finish");
+        this.q.all(promises).then(() => {
+          resolve("getProgress finish");
+        }, response => {
+          this.log.log(response);
+        });
       } catch (e) {
         reject(e);
       }

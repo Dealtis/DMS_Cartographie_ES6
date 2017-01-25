@@ -14,7 +14,9 @@ export class getAttentesFun {
     return this.q((resolve, reject) => {
       try {
         this.uiGmapGoogleMapApi.then(maps => {
+          const promises = [];
           selectedChaufeurs.forEach(chauffeur => {
+            const deferred = this.q.defer();
             this.api.loadTrajet(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
               .then(dataTrajet => {
                 const dataTrajetGps = dataTrajet[0].DGPPOSITION.split("|");
@@ -176,11 +178,15 @@ export class getAttentesFun {
                   }
                 });
                 this.VariablesShare.addAttentes(attenteArray);
+                deferred.resolve();
               });
+            promises.push(deferred.promise);
           });
-          this.timeout(() => {
-            resolve("getPosition finish");
-          }, 1000);
+          this.q.all(promises).then(() => {
+            resolve("getAttentes finish");
+          }, response => {
+            this.log.log(response);
+          });
         });
       } catch (e) {
         reject(e);

@@ -14,8 +14,10 @@ export class getPositionsFun {
     return this.q((resolve, reject) => {
       try {
         this.uiGmapGoogleMapApi.then(maps => {
+          const promises = [];
           // Get marker des differents chauffeurs select
           selectedChaufeurs.forEach(chauffeur => {
+            const deferred = this.q.defer();
             this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
               .then(dataPositions => {
                 if (dataPositions.length > 0) {
@@ -95,11 +97,15 @@ export class getPositionsFun {
                     .position('top right');
                   this.mdToast.show(toast);
                 }
+                deferred.resolve();
               });
+            promises.push(deferred.promise);
           });
-          this.timeout(() => {
+          this.q.all(promises).then(() => {
             resolve("getPosition finish");
-          }, 1000);
+          }, response => {
+            this.log.log(response);
+          });
         });
       } catch (e) {
         reject(e);

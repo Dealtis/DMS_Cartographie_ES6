@@ -77,7 +77,34 @@ class ToolBarController {
     // };
 
     $scope.allSelected = () => {
-      getLastPos(saveChaufeurs);
+      saveChaufeurs.forEach(item => {
+        $scope.selectedChauffeurs.push(item);
+      });
+      if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
+        // function get last pos de selectedChauffeurs and set marker
+        getLastPos($scope.selectedChauffeurs);
+        // get informations des jauges and display it
+        setProgressBar($scope.selectedChauffeurs, $scope.dateCalendar);
+        // Condition d'affichage
+        if ($scope.cbLivraison) {
+          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'liv');
+        }
+        if ($scope.cbRamasses) {
+          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'ram');
+        }
+        if ($scope.cbTrajet) {
+          getTrajets($scope.selectedChauffeurs, true, $scope.dateCalendar);
+        }
+        if ($scope.cbAttentes) {
+          getAttentes($scope.selectedChauffeurs, true, $scope.dateCalendar);
+        }
+        if ($scope.cbPredict) {
+          getPredicts($scope.selectedChauffeurs, true);
+        }
+        if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
+          // function afficher les positions gps des autres chauffeurs
+        }
+      }
     };
 
     // watcher selectedChauffeurs

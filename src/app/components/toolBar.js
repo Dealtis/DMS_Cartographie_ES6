@@ -2,6 +2,7 @@ import {
   config
 } from '../constants/config.js';
 
+import Raven from 'raven-js';
 class ToolBarController {
   constructor($scope, $log, $document, $window, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
@@ -33,6 +34,16 @@ class ToolBarController {
     $scope.getAttentes = getAttentes;
     // Get Predict
     $scope.getPredicts = getPredicts;
+
+    // See Raven.showReportDialog();
+    $scope.reportDialog = () => {
+      try {
+        throw new Error("rapport de bug utilisateur");
+      } catch (err) {
+        Raven.captureException(err);
+        Raven.showReportDialog();
+      }
+    };
 
     $scope.cancelSelected = () => {
       $scope.selectedChauffeurs.length = 0;

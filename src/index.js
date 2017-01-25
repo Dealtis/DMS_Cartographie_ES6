@@ -73,7 +73,7 @@ import '../node_modules/ngPrint/ngPrint.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngAudio', 'ngPrint', 'ngCookies', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngAudio', 'ngRaven', 'ngCookies', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config($compileProvider => {
     $compileProvider.preAssignBindingsEnabled(true);
@@ -110,7 +110,17 @@ angular
   .service('getAttentesFun', getAttentesFun)
   .service('getProgressFun', getProgressFun)
   .service('getPredictFun', getPredictFun)
-  .service('diversFun', diversFun);
+  .service('diversFun', diversFun)
+  .run(() => {
+    /*eslint-disable */
+    // try {
+    //   handleRouteChange()
+    // } catch (err) {
+    //   Raven.captureException(err);
+    //   Raven.showReportDialog();
+    // }
+    /*eslint-enable */
+  });
 
 Raven
   .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043')

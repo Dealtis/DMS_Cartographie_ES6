@@ -20,6 +20,7 @@ export class getPredictFun {
             const deferred = this.q.defer();
             this.api.loadPredict(chauffeur.NOMANDSOFT)
               .then(dataPredict => {
+                this.log.log(dataPredict);
                 const schProgressbar = this.VariablesShare.progressBars.find(progressBar => {
                   return progressBar.chauffeur === chauffeur.SALNOM;
                 });
@@ -57,33 +58,77 @@ export class getPredictFun {
                             };
                             failGeocode.push(failGeo);
                           } else {
-                            const newPredict = {
-                              id: item.OTPID,
-                              numpos: item.OTPOTSNUM,
-                              coords: {
-                                latitude: response.results[0].geometry.location.lat,
-                                longitude: response.results[0].geometry.location.lng
-                              },
-                              options: {
-                                icon: {
-                                  url: this.diversFun.getImg(item.OTPTRSCODE)
-                                },
-                                animation: maps.Animation.Hp,
-                                labelContent: `${nom} ${ville}`,
-                                labelAnchor: '20 40',
-                                labelClass: "labels",
-                                labelStyle: {
-                                  'box-shadow': `2px 2px 2px ${chauffeur.color}`
-                                }
-                              },
-                              info: {
-                                nomPre: nom,
-                                adrPre: adr,
-                                cpPre: cp,
-                                villePre: ville
-                              }
-                            };
-                            this.VariablesShare.addPredict(newPredict);
+                            const schChauffPos = this.VariablesShare.markerLastPos.find(marker => {
+                              return chauffeur.SALCODE === marker.id;
+                            });
+                            this.log.log(schChauffPos);
+                            this.api.getMatrix(`${schChauffPos.coords.latitude},${schChauffPos.coords.longitude}`, `${response.results[0].geometry.location.lat},${response.results[0].geometry.location.lng}`)
+                              .then(dataMatrix => {
+                                const duration = dataMatrix.routes[0].legs[0].duration.text;
+                                const newPredict = {
+                                  id: item.OTPID,
+                                  numpos: item.OTPOTSNUM,
+                                  points: dataMatrix.routes[0].overview_polyline.points,
+                                  coords: {
+                                    latitude: response.results[0].geometry.location.lat,
+                                    longitude: response.results[0].geometry.location.lng
+                                  },
+                                  options: {
+                                    icon: {
+                                      url: this.diversFun.getImg(item.OTPTRSCODE)
+                                    },
+                                    animation: maps.Animation.Hp,
+                                    labelContent: `${nom} ${ville}<br>à ${duration}`,
+                                    labelAnchor: '20 40',
+                                    labelClass: "labels",
+                                    labelStyle: {
+                                      'box-shadow': `2px 2px 2px ${chauffeur.color}`
+                                    }
+                                  },
+                                  events: {
+                                    mouseover: () => {
+                                      const trajetMatrix = maps.geometry.encoding.decodePath(dataMatrix.routes[0].overview_polyline.points);
+                                      const pathGpsArray = [];
+                                      trajetMatrix.forEach(marker => {
+                                        pathGpsArray.push({
+                                          latitude: Number(marker.lat()),
+                                          longitude: Number(marker.lng())
+                                        });
+                                      });
+                                      const polylines = {
+                                        id: 99,
+                                        path: pathGpsArray,
+                                        stroke: {
+                                          color: "#2196f3",
+                                          weight: 2.5
+                                        },
+                                        editable: false,
+                                        draggable: false,
+                                        geodesic: true,
+                                        visible: true,
+                                        icons: [{
+                                          icon: {
+                                            path: maps.SymbolPath.FORWARD_OPEN_ARROW
+                                          },
+                                          offset: '25px',
+                                          repeat: '200px'
+                                        }]
+                                      };
+                                      this.VariablesShare.addTrajetMatrix(polylines);
+                                    },
+                                    mouseout: () => {
+                                      this.VariablesShare.cleanTrajetMatrix();
+                                    }
+                                  },
+                                  info: {
+                                    nomPre: nom,
+                                    adrPre: adr,
+                                    cpPre: cp,
+                                    villePre: ville
+                                  }
+                                };
+                                this.VariablesShare.addPredict(newPredict);
+                              });
                           }
                           deferred.resolve(dataPredict);
                         });

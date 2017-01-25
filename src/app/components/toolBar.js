@@ -40,6 +40,7 @@ class ToolBarController {
       VariablesShare.cleanProgressBars();
       VariablesShare.cleanAttentes();
       VariablesShare.cleanTrajets();
+      VariablesShare.cleanTrajetMatrix();
       VariablesShare.cleanPredict();
     };
 
@@ -113,6 +114,7 @@ class ToolBarController {
       VariablesShare.cleanProgressBars();
       VariablesShare.cleanAttentes();
       VariablesShare.cleanTrajets();
+      VariablesShare.cleanTrajetMatrix();
       VariablesShare.cleanPredict();
       if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
         // function get last pos de selectedChauffeurs and set marker

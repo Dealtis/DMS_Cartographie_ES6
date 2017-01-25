@@ -13,6 +13,7 @@ export class VariablesShare {
       visible: false
     };
     const trajets = [];
+    const trajetMatrix = [];
     const attentes = [];
     const Trafficshow = true;
     const messagesNonlu = [];
@@ -25,6 +26,7 @@ export class VariablesShare {
     this.homeMarker = homeMarker;
     this.windowOptions = windowOptions;
     this.trajets = trajets;
+    this.trajetMatrix = trajetMatrix;
     this.attentes = attentes;
     this.Trafficshow = Trafficshow;
     this.messagesNonlu = messagesNonlu;
@@ -67,6 +69,12 @@ export class VariablesShare {
   }
   cleanTrajets() {
     this.trajets.length = 0;
+  }
+  addTrajetMatrix(trajet) {
+    this.trajetMatrix.push(trajet);
+  }
+  cleanTrajetMatrix() {
+    this.trajetMatrix.length = 0;
   }
   addAttentes(attentes) {
     attentes.forEach(attente => {

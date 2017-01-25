@@ -5,13 +5,13 @@ import pleaseWait from '../../../node_modules/please-wait/build/please-wait.js';
 
 class MapContainerController {
   constructor($scope, $log, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
+    // Loading
     const loadingScreen = pleaseWait.pleaseWait({
       logo: 'images/ico/ico_home.svg',
       backgroundColor: '#eeeeee',
       loadingHtml: "<div class='sk-cube-grid'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div><div class='sk-cube sk-cube3'></div><div class='sk-cube sk-cube4'></div><div class='sk-cube sk-cube5'></div><div class='sk-cube sk-cube6'></div><div class='sk-cube sk-cube7'></div><div class='sk-cube sk-cube8'></div><div class='sk-cube sk-cube9'></div></div>"
     });
-    $templateCache.put('searchbox.tpl.html', 'This is the content of the template');
-    $log.log(`The template is ${$templateCache.get('searchbox.tpl.html')}`);
+    // SEARCHBOX
     $scope.searchbox = {
       template: 'searchbox.tpl.html',
       events: {
@@ -30,6 +30,7 @@ class MapContainerController {
     $scope.markersPredicts = VariablesShare.markersPredicts;
     $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.Trajets = VariablesShare.trajets;
+    $scope.TrajetMatrix = VariablesShare.trajetMatrix;
     $scope.attentes = VariablesShare.attentes;
     $scope.Trafficshow = VariablesShare.Trafficshow;
     $scope.map = config.mapOptions;

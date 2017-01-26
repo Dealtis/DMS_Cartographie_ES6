@@ -8,7 +8,7 @@ class MessageToolbarController {
     $scope.chauffeurs = VariablesShare.chauffeurs;
     $scope.forminput = {};
     $scope.messagetoolbarInputmessageActive = false;
-    api.loadMessages('73', '60').then(dataMessages => {
+    api.loadMessages('73', '60', '2').then(dataMessages => {
       dataMessages.forEach(message => {
         const newMessage = {
           id: Number(message.DMEID),
@@ -33,8 +33,17 @@ class MessageToolbarController {
     };
 
     $scope.sendMessage = (chauffeurs, message) => {
-      $log.log(chauffeurs);
-      $log.log(message);
+      const dataChauffeur = [];
+      chauffeurs.forEach(chauffeur => {
+        dataChauffeur.push(chauffeur.SALCODE);
+      });
+      const dataMessage = {
+        emetteur: "toto",
+        chauffeurs: dataChauffeur,
+        textMessage: message
+      };
+      $log.log(dataMessage);
+      api.postMessages(dataMessage);
       $scope.Textmessage = "";
     };
 
@@ -59,7 +68,7 @@ class MessageToolbarController {
     };
 
     $interval(() => {
-      api.loadMessages('73', '2').then(dataMessages => {
+      api.loadMessages('73', '2', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -95,7 +104,8 @@ class MessageToolbarController {
 
     function loadMessagesArchive() {
       $scope.messageArchive = [];
-      $scope.messageArchivePromise = api.loadMessages('73', '1440').then(dataMessages => {
+      $scope.messageArchiveEmis = [];
+      $scope.messageArchivePromise = api.loadMessages('73', '1440', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -106,7 +116,18 @@ class MessageToolbarController {
           };
           $scope.messageArchive.push(newMessage);
         });
-        $log.log($scope.messageArchive);
+      });
+      $scope.messageArchivePromise = api.loadMessages('73', '1440', '1').then(dataMessages => {
+        dataMessages.forEach(message => {
+          const newMessage = {
+            id: Number(message.DMEID),
+            chauffeur: message.DMECODECHAUF,
+            text: message.DMEMESSAGE,
+            datereception: message.DMEDATERECU,
+            isLu: false
+          };
+          $scope.messageArchiveEmis.push(newMessage);
+        });
       });
     }
   }

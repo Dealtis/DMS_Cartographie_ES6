@@ -7,15 +7,9 @@
   <div class="messagetoolbar_newmessage" layout ng-class="newMessage ? '-active' : '-disabled'">
     <md-input-container class="messagetoolbar_newmessage_select_chauffeurs" flex="20">
       <label>Chauffeurs</label>
-      <md-select ng-model="selectedChauffeurs"
-                 md-on-close="clearSearchTerm()"
-                 data-md-container-class="selectHeader"
-                 multiple>
+      <md-select ng-model="selectedChauffeurs" md-on-close="clearSearchTerm()" data-md-container-class="selectHeader" multiple>
         <md-select-header class="select-header">
-          <input ng-model="searchTerm"
-                 type="search"
-                 placeholder="Choisissez de(s) chauffeur(s)"
-                 class="header-searchbox md-text">
+          <input ng-model="searchTerm" type="search" placeholder="Choisissez de(s) chauffeur(s)" class="header-searchbox md-text">
         </md-select-header>
         <md-optgroup label="chauffeur">
           <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs | filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
@@ -48,7 +42,8 @@
   <md-list-item class="md-2-line item" ng-repeat="m in messageNonlu | orderBy:'id' | limitTo:1 | filter:{isLu:false}">
     <div class="messagetoolbar_messagecontent md-list-item-text" ng-class="messagetoolbarInputmessageActive ? '-disabled' : '-active'" layout="column">
       <p>{{m.text}}</p>
-      <p>{{m.chauffeur}} {{m.datereception}}</p>
+      <p>{{m.chauffeur}}
+        {{m.datereception}}</p>
     </div>
     <md-input-container class="messagetoolbar_inputmessage md-block" ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'">
       <label>Message</label>
@@ -57,7 +52,12 @@
         <div ng-message="required">Champ obligatoire.</div>
       </div>
     </md-input-container>
-    <md-button ng-show="forminput[m.id] != undefined" class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button" ng-click="sendMessageReply(m.chauffeur, forminput[m.id], forminput);messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive" ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'" aria-label="SendReply">
+    <md-button
+      ng-show="forminput[m.id] != undefined"
+      class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button"
+      ng-click="sendMessageReply(m.chauffeur, forminput[m.id], forminput);messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive"
+      ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'"
+      aria-label="SendReply">
       <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>
     </md-button>
     <md-button class="md-secondary md-icon-button" ng-click="messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive" aria-label="Reply">
@@ -78,13 +78,29 @@
     <md-icon md-svg-icon="images/ico/ico_close.svg"></md-icon>
   </md-button>
   <div class="modalarchive_content_container">
-    <md-list class="md-dense" flex>
-      <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchive">
-        <div class="md-list-item-text">
-          <h3>{{m.chauffeur}} {{m.datereception}}</h3>
-          <p>{{m.text}}</p>
-        </div>
-      </md-list-item>
-    </md-list>
+    <md-tabs md-dynamic-height md-center-tabs>
+      <md-tab label="Reçus">
+        <md-list class="md-dense" flex>
+          <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchive">
+            <div class="md-list-item-text">
+              <h3>{{m.chauffeur}}
+                {{m.datereception}}</h3>
+              <p>{{m.text}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-tab>
+      <md-tab label="Emis">
+        <md-list class="md-dense" flex>
+          <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchiveEmis">
+            <div class="md-list-item-text">
+              <h3>{{m.chauffeur}}
+                {{m.datereception}}</h3>
+              <p>{{m.text}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-tab>
+    </md-tabs>
   </div>
 </div>

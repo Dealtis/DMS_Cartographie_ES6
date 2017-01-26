@@ -366,20 +366,7 @@ aside {
   left: 0;
 }
 // Archive Modal
-@keyframes slideInUp {
-  from {
-    transform: translate3d(0, 100%, 0);
-    visibility: visible;
-  }
 
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.slideInUp {
-  animation-name: slideInUp;
-}
 
 .modalarchive_container {
   background: #00796B;
@@ -415,9 +402,57 @@ aside {
     .modalarchive_archiveMessage {
       border-bottom: 1px solid black;
     }
+
+    md-tab-item.md-tab.ng-scope.ng-isolate-scope.md-ink-ripple.md-active{
+      color: white !important;
+    }
   }
 
   .modalarchive_close {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+}
+
+//Modal Aide
+.modalaide_container {
+  background: #00796B;
+  color: #FFFFFA;
+  position: fixed;
+  z-index: 21;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all ease 0.5s;
+
+  &.-active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .modalaide_content_container {
+    max-width: 1280px;
+    margin: auto;
+
+    md-list {
+      max-height: 100vh;
+      overflow: auto;
+    }
+
+    .md-2-line {
+      background: red;
+    }
+
+    .modalaide_archiveMessage {
+      border-bottom: 1px solid black;
+    }
+  }
+
+  .modalaide_close {
     position: fixed;
     top: 0;
     right: 0;

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export class getPredictFun {
   constructor($log, $q, $timeout, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
@@ -21,12 +23,16 @@ export class getPredictFun {
             this.api.loadPredict(chauffeur.NOMANDSOFT)
               .then(dataPredict => {
                 this.log.log(dataPredict);
-                const schProgressbar = this.VariablesShare.progressBars.find(progressBar => {
+                // const schProgressbar = this.VariablesShare.progressBars.find(progressBar => {
+                //   return progressBar.chauffeur === chauffeur.SALNOM;
+                // });
+                const schProgressbar = _.find(this.VariablesShare.progressBars, progressBar => {
                   return progressBar.chauffeur === chauffeur.SALNOM;
                 });
+
                 dataPredict.forEach(item => {
                   if (item.OTPOTSNUM !== "") {
-                    const schPos = schProgressbar.positionsAll.find(pBar => {
+                    const schPos = _.find(schProgressbar.positionsAll, pBar => {
                       return item.OTPOTSNUM === pBar.num;
                     });
                     if (angular.isUndefined(schPos)) {
@@ -58,7 +64,7 @@ export class getPredictFun {
                             };
                             failGeocode.push(failGeo);
                           } else {
-                            const schChauffPos = this.VariablesShare.markerLastPos.find(marker => {
+                            const schChauffPos = _.find(this.VariablesShare.markerLastPos, marker => {
                               return chauffeur.SALCODE === marker.id;
                             });
                             this.log.log(schChauffPos);

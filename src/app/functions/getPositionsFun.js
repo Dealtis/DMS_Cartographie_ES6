@@ -22,7 +22,7 @@ export class getPositionsFun {
               .then(dataPositions => {
                 if (dataPositions.length > 0) {
                   dataPositions.forEach(pos => {
-                    if (pos.CODEANO !== "PARTIC" && pos.CODEANO !== "FLASHAGE" && pos.POSGPS !== "") {
+                    if (pos.CODEANO !== "PARTIC" && pos.CODEANO !== "FLASHAGE" && pos.POSGPS !== "" && pos.CODEANO !== "FLASHAGEIMP") {
                       const posGps = pos.POSGPS.replace(",", ".").replace(",", ".");
                       const coords = posGps.split(";");
                       const heure = pos.DATESUIVI.split(" ");

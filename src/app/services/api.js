@@ -32,7 +32,7 @@ export class Api {
     return this.http.get(`${url}dmsRamT?val=${chauffeur}&date=${date}`).then(result => result.data);
   }
   loadMessages(socid, minute, type) {
-    this.log.log(`${url}dmsMessage?val=${socid}&minute=${minute}`);
+    this.log.log(`${url}dmsMessage?val=${socid}&minute=${minute}&type=${type}`);
     return this.http.get(`${url}dmsMessage?val=${socid}&minute=${minute}&type=${type}`).then(result => result.data);
   }
   postMessages(data) {

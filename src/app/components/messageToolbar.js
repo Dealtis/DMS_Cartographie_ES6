@@ -35,27 +35,36 @@ class MessageToolbarController {
     $scope.sendMessage = (chauffeurs, message) => {
       const dataChauffeur = [];
       chauffeurs.forEach(chauffeur => {
-        dataChauffeur.push(chauffeur.SALCODE);
+        dataChauffeur.push(chauffeur.NOMANDSOFT);
       });
       const dataMessage = {
         emetteur: "toto",
         chauffeurs: dataChauffeur,
-        textMessage: message
+        textMessage: message,
+        typeMessage: 5
       };
       $log.log(dataMessage);
       api.postMessages(dataMessage);
       $scope.Textmessage = "";
     };
 
-    $scope.sendMessageReply = (chauffeurs, message, forminput) => {
+    $scope.sendMessageReply = (chauffeur, message) => {
       if (angular.isDefined(message)) {
         const toast = $mdToast.simple()
-          .textContent(`Message envoyé à ${chauffeurs}`)
+          .textContent(`Message envoyé à ${chauffeur}`)
           .action('X')
           .highlightAction(true)
           .position('top right');
         $mdToast.show(toast);
-        $log.log(forminput);
+        const dataMessage = {
+          emetteur: "toto",
+          chauffeurs: [chauffeur],
+          textMessage: message,
+          typeMessage: 5
+        };
+        $log.log(dataMessage);
+        $log.log(chauffeur);
+        api.postMessages(dataMessage);
         $scope.forminput = {};
       } else {
         const toast = $mdToast.simple()

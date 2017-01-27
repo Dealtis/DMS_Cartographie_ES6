@@ -31,8 +31,8 @@
       </md-button>
     </div>
   </div>
-  <div class="messagetoolbar_archive">
-    <md-button class="md-icon-button" aria-label="Archive" ng-click="modalArchive = !modalArchive;loadMessagesArchive()">
+  <div class="messagetoolbar_archive" ng-click="modalArchive = !modalArchive;loadMessagesArchive()">
+    <md-button class="md-icon-button" aria-label="Archive">
       <md-icon md-svg-icon="images/ico/ico_archive.svg"></md-icon>
     </md-button>
   </div>
@@ -55,7 +55,7 @@
     <md-button
       ng-show="forminput[m.id] != undefined"
       class="messagetoolbar_inputmessage_sendbutton md-secondary md-icon-button"
-      ng-click="sendMessageReply(m.chauffeur, forminput[m.id], forminput);messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive"
+      ng-click="sendMessageReply(m.chauffeur, forminput[m.id]);messagetoolbarInputmessageActive = !messagetoolbarInputmessageActive"
       ng-class="messagetoolbarInputmessageActive ? '-active' : '-disabled'"
       aria-label="SendReply">
       <md-icon md-svg-icon="images/ico/ico_send.svg"></md-icon>

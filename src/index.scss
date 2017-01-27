@@ -94,6 +94,10 @@ aside {
 
   md-select {
     font-size: 12px;
+    span {
+      width: 120px;
+      float: left;
+    }
   }
   // checkbox
   .md-icon {
@@ -127,6 +131,17 @@ aside {
         padding: 0;
         margin: 0;
       }
+    }
+  }
+
+  .toolbar_switch {
+    .switch_auto {
+      margin: 0;
+    }
+
+    .progress_reload {
+      max-width: 150px;
+      margin: 5px;
     }
   }
 
@@ -196,7 +211,7 @@ aside {
   text-align: center;
 
   &.-active {
-    top: initial;
+    top: auto;
     bottom: 0 !important;
     opacity: 1;
   }
@@ -215,6 +230,7 @@ aside {
   }
 
   .messagetoolbar_newmessage {
+    display: none;
     transition: all ease 0.5s;
     flex: 1 1 0;
     max-width: 0;
@@ -224,6 +240,7 @@ aside {
     opacity: 0;
 
     &.-active {
+      display: flex;
       opacity: 1;
       flex: 1 1 80%;
       max-width: 80%;
@@ -367,7 +384,6 @@ aside {
 }
 // Archive Modal
 
-
 .modalarchive_container {
   background: #00796B;
   color: #FFFFFA;
@@ -403,7 +419,7 @@ aside {
       border-bottom: 1px solid black;
     }
 
-    md-tab-item.md-tab.ng-scope.ng-isolate-scope.md-ink-ripple.md-active{
+    md-tab-item.md-tab.ng-scope.ng-isolate-scope.md-ink-ripple.md-active {
       color: white !important;
     }
   }
@@ -414,8 +430,8 @@ aside {
     right: 0;
   }
 }
-
 //Modal Aide
+
 .modalaide_container {
   background: #00796B;
   color: #FFFFFA;

@@ -4,7 +4,7 @@ import {
 
 import Raven from 'raven-js';
 class ToolBarController {
-  constructor($scope, $log, $document, $window, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
+  constructor($scope, $log, $document, $interval, $timeout, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.selectedChauffeurs = [];
     $scope.clearSearchTerm = () => {
@@ -34,6 +34,8 @@ class ToolBarController {
     $scope.getAttentes = getAttentes;
     // Get Predict
     $scope.getPredicts = getPredicts;
+    // Reload auto
+    $scope.reloadAuto = reloadAuto;
 
     // See Raven.showReportDialog();
     $scope.reportDialog = () => {
@@ -121,6 +123,14 @@ class ToolBarController {
 
     // watcher selectedChauffeurs
     $scope.$watch('selectedChauffeurs', () => {
+      whatToDo();
+    });
+
+    $scope.fitBounds = () => {
+      VariablesShare.mapObject.setZoom(8);
+    };
+
+    function whatToDo() {
       VariablesShare.cleanLastPos();
       VariablesShare.cleanProgressBars();
       VariablesShare.cleanAttentes();
@@ -152,11 +162,7 @@ class ToolBarController {
           // function afficher les positions gps des autres chauffeurs
         }
       }
-    });
-
-    $scope.fitBounds = () => {
-      VariablesShare.mapObject.setZoom(8);
-    };
+    }
 
     function getPositions(selectedChaufeurs, checkbox, dateCalendar, typeMission) {
       if (checkbox) {
@@ -238,6 +244,22 @@ class ToolBarController {
     //   printSection.innerHTML = "";
     //   printSection.appendChild(domClone);
     // }
+
+    function reloadAuto(sw1) {
+      if (sw1) {
+        $scope.interval = $interval(() => {
+          $scope.progressReload = 0;
+          whatToDo();
+        }, 120000);
+        $scope.intervalProgress = $interval(() => {
+          $scope.progressReload += 1;
+        }, 1200);
+      } else {
+        $log.log(`Interval stop`);
+        $interval.cancel($scope.interval);
+        $interval.cancel($scope.intervalProgress);
+      }
+    }
 
     function getAttentes(selectedChaufeurs, checkbox, dateCalendar) {
       if (checkbox) {

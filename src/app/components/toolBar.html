@@ -49,7 +49,7 @@
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_ramasses" flex>
-      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar, 'ram')" ng-disabled="!(selectedChauffeurs.length > 0)">
+      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositions(selectedChauffeurs,cbRamasses,dateCalendar, 'ram')" ng-disabled="!(selectedChauffeurs.length > 0)">
         Ramasses
       </md-checkbox>
     </div>
@@ -103,7 +103,7 @@
       Print
     </md-tooltip>
   </md-button> -->
-  <md-button class="md-icon-button md-raised md-warn" ng-click="modalaide = !modalaide">
+  <md-button class="md-icon-button md-raised md-warn" ng-click="modalaide = !modalaide" ng-disabled="true">
     <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
     <md-tooltip md-direction="bottom">
       Aide
@@ -117,8 +117,9 @@
     </div>
   </div>
 </div>
-<div flex class="toolbar_switch">
-  <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-disabled="selectedChauffeurs == null" ng-change="reloadAuto(selectedChauffeurs,cb1,cb2,cb3,sw1,date)">
+<div flex layout="column" layout-align="center center" class="toolbar_switch">
+  <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-change="reloadAuto(switch_reloadAuto)">
     Rafraîchissement auto
   </md-switch>
+  <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
 </div>

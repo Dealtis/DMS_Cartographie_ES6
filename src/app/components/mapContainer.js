@@ -4,6 +4,7 @@ import {
 import pleaseWait from '../../../node_modules/please-wait/build/please-wait.js';
 
 class MapContainerController {
+  /* @ngInject */
   constructor($scope, $log, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
     // Loading
     const loadingScreen = pleaseWait.pleaseWait({
@@ -73,6 +74,6 @@ class MapContainerController {
 }
 
 export const mapContainer = {
-  templateUrl: 'app/components/mapContainer.html',
+  template: require('./mapContainer.html'),
   controller: MapContainerController
 };

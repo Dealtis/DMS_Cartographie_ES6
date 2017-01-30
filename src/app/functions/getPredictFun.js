@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 export class getPredictFun {
+  /* @ngInject */
   constructor($log, $q, $timeout, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
     this.q = $q;

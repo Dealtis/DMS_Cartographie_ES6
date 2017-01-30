@@ -1,6 +1,7 @@
 // const HTTP = new WeakMap();
 const url = 'https://andsoft.jeantettransport.com/dms/api/';
 export class Api {
+  /* @ngInject */
   constructor($http, $log) {
     // HTTP.set(this, $http);
     this.http = $http;
@@ -27,7 +28,6 @@ export class Api {
       this.log.log(`${url}dmsPosT?val=${chauffeur}&date=${date}`);
       return this.http.get(`${url}dmsPosT?val=${chauffeur}&date=${date}`).then(result => result.data);
     }
-
     this.log.log(`${url}dmsRamT?val=${chauffeur}&date=${date}`);
     return this.http.get(`${url}dmsRamT?val=${chauffeur}&date=${date}`).then(result => result.data);
   }

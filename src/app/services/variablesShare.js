@@ -1,4 +1,5 @@
 export class VariablesShare {
+  /* @ngInject */
   constructor($log, $q, $timeout) {
     this.log = $log;
     this.q = $q;

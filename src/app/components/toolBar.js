@@ -4,6 +4,7 @@ import {
 
 import Raven from 'raven-js';
 class ToolBarController {
+  /* @ngInject */
   constructor($scope, $log, $document, $interval, $timeout, $cookies, $mdToast, $mdDialog, api, uiGmapGoogleMapApi, getPositionsFun, getTrajetsFun, getAttentesFun, getProgressFun, getPredictFun, $element, VariablesShare) {
     $scope.dateCalendar = new Date();
     $scope.selectedChauffeurs = [];
@@ -327,6 +328,6 @@ class ToolBarController {
 }
 
 export const toolBar = {
-  templateUrl: 'app/components/toolBar.html',
+  template: require('./toolBar.html'),
   controller: ToolBarController
 };

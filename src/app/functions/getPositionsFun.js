@@ -1,4 +1,5 @@
 export class getPositionsFun {
+  /* @ngInject */
   constructor($log, $timeout, $q, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
     this.q = $q;

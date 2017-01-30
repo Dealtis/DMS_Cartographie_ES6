@@ -1,4 +1,5 @@
 export class getProgressFun {
+  /* @ngInject */
   constructor($log, $q, api, diversFun, VariablesShare) {
     this.log = $log;
     this.q = $q;

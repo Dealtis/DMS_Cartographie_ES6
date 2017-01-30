@@ -1,4 +1,5 @@
 class MessageToolbarController {
+  /* @ngInject */
   constructor($scope, $interval, $timeout, $parse, $mdToast, $cookies, $log, $element, VariablesShare, api, ngAudio) {
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
@@ -143,6 +144,6 @@ class MessageToolbarController {
 }
 
 export const messageToolbar = {
-  templateUrl: 'app/components/messageToolbar.html',
+  template: require('./messageToolbar.html'),
   controller: MessageToolbarController
 };

@@ -1,4 +1,5 @@
 export class getAttentesFun {
+  /* @ngInject */
   constructor($log, $timeout, $q, $mdToast, uiGmapGoogleMapApi, api, diversFun, VariablesShare) {
     this.log = $log;
     this.timeout = $timeout;

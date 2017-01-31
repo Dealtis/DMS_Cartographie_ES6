@@ -19,7 +19,7 @@ class ToolBarController {
     });
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
-    api.loadChauffeurs('73').then(chauffeurs => {
+    api.loadChauffeurs($cookies.get('SOCID')).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];

@@ -7,10 +7,16 @@
         <md-progress-linear class="liv" md-mode="determinate" value="{{progressBar.livPercent}}"></md-progress-linear>
       </v-pane-header>
       <v-pane-content>
-        <div class="progressBar_positions_container" layout="column" layout-align="center center">
-            <p ng-repeat="p in progressBar.positionsLivraisons">
-              {{p.codeano}} {{p.num}} {{p.datesuivi}}
-            </p>
+        <div class="progressBar_positions_container" layout="column" layout-align="center">
+            <div ng-repeat="p in progressBar.positionsLivraisons" layout="row" layout-align="none center">
+              <div class="progressBar_ico">
+                <img ng-src="{{p.ico}}" alt="">
+              </div>
+              <div>
+                <p><b>{{p.nom}}</b></p>
+                <p>{{p.codeano}} {{p.num}} {{p.datesuivi}}</p>
+              </div>
+            </div>
         </div>
       </v-pane-content>
     </v-pane>
@@ -20,10 +26,16 @@
         <md-progress-linear class="ram" md-mode="determinate" value="{{progressBar.ramPercent}}"></md-progress-linear>
       </v-pane-header>
       <v-pane-content>
-        <div class="progressBar_positions_container" layout="column" layout-align="center center">
-            <p ng-repeat="p in progressBar.positionsRamasses">
-              {{p.codeano}} {{p.num}} {{p.datesuivi}}
-            </p>
+        <div class="progressBar_positions_container" layout="column" layout-align="center">
+            <div ng-repeat="p in progressBar.positionsRamasses" layout="row" layout-align="none center">
+              <div class="progressBar_ico">
+                <img ng-src="{{p.ico}}" alt="">
+              </div>
+              <div>
+                <p><b>{{p.nom}}</b></p>
+                <p>{{p.codeano}} {{p.num}} {{p.datesuivi}}</p>
+              </div>
+            </div>
         </div>
       </v-pane-content>
     </v-pane>

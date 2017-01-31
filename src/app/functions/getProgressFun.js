@@ -6,6 +6,18 @@ export class getProgressFun {
     this.api = api;
     this.diversFun = diversFun;
     this.VariablesShare = VariablesShare;
+    this.getIco = getIco;
+
+    function getIco(anom) {
+      switch (anom) {
+        case "LIVCFM":
+        case "RAMCFM":
+        case "ECHCFM":
+          return "../../images/ico_png/ico_valid.png";
+        default:
+          return "../../images/ico_png/ico_anom.png";
+      }
+    }
   }
 
   getProgress(selectedChaufeurs, dateCalendar) {
@@ -51,7 +63,8 @@ export class getProgressFun {
                           nom: position.EXPNOM,
                           adressse: position.EXPADR,
                           cp: position.EXPVILCP,
-                          ville: position.EXPVILLIB
+                          ville: position.EXPVILLIB,
+                          ico: this.getIco(position.CODEANO)
                         };
                         progressBar.positionsLivraisons.push(newLivraisons);
                         progressBar.positionsAll.push(newLivraisons);
@@ -72,10 +85,11 @@ export class getProgressFun {
                           memo: position.MEMO,
                           codeano: position.CODEANO,
                           datesuivi: heureSplit[1],
-                          nom: position.EXPNOM,
+                          nom: position.LIVNOM,
                           adressse: position.EXPADR,
                           cp: position.EXPVILCP,
-                          ville: position.EXPVILLIB
+                          ville: position.EXPVILLIB,
+                          ico: this.getIco(position.CODEANO)
                         };
                         progressBar.positionsRamasses.push(newLivraisons);
                         progressBar.positionsAll.push(newLivraisons);

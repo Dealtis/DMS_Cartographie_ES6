@@ -6,6 +6,9 @@ export class Api {
     // HTTP.set(this, $http);
     this.http = $http;
     this.log = $log;
+    //
+    // $sce.trustAsResourceUrl('https://maps.googleapis.com/maps/api/geocode/json');
+    // $sce.trustAsResourceUrl('https://maps.googleapis.com/maps/api/directions/json');
   }
   loadChauffeurs(idSoc) {
     this.log.log(`${url}dmsSalarieT?val=${idSoc}`);
@@ -47,11 +50,11 @@ export class Api {
     return this.http.get(`${url}dmsInfoPos?val=${chauffeur}`).then(result => result.data);
   }
   getGeocode(nom, adr, cp, ville) {
-    this.log.log(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}`);
-    return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}`).then(result => result.data);
+    this.log.log(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}&key=AIzaSyBOeBriCeuw0BETvQRlKloB4KoooPYzu4g`);
+    return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}&key=AIzaSyBOeBriCeuw0BETvQRlKloB4KoooPYzu4g`).then(result => result.data);
   }
+
   getMatrix(origins, destinations) {
-    this.log.log(`https://maps.googleapis.com/maps/api/directions/json?origin=${origins}&destination=${destinations}&key=AIzaSyBraT3buBPTdDmqZ-Urn81aI8zWTfttA2Y&language=fr`);
-    return this.http.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${origins}&destination=${destinations}&key=AIzaSyBraT3buBPTdDmqZ-Urn81aI8zWTfttA2Y&language=fr`).then(result => result.data);
+    return this.http.get(`${url}mapsDirections?origins=${origins}&destinations=${destinations}`).then(result => result.data);
   }
 }

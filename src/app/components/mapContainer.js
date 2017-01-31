@@ -27,6 +27,7 @@ class MapContainerController {
         /*eslint-enable */
       }
     };
+
     // Map config init
     $scope.markers = VariablesShare.markers;
     $scope.markersPredicts = VariablesShare.markersPredicts;

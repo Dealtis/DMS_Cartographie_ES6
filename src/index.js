@@ -23,6 +23,7 @@ import routesConfig from './routes';
 import mapConfig from './mapConfig';
 import momentConfig from './momentConfig';
 import compilerConfig from './compilerConfig';
+import httpConfig from './httpConfig';
 
 // Components
 import {
@@ -81,6 +82,7 @@ angular
   .config(compilerConfig)
   .config(momentConfig)
   .config(mapConfig)
+  .config(httpConfig)
   .component('app', App)
   .component('toolbar', toolBar)
   .component('messagetoolbar', messageToolbar)

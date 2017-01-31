@@ -55,7 +55,7 @@ export class getPredictFun {
 
                       this.api.getGeocode(nom, adr, cp, ville)
                         .then(response => {
-                          this.log.log(item.OTPTRSCODE);
+                          this.log.log(response);
                           if (response.status === "ZERO_RESULTS") {
                             const failGeo = {
                               nomFail: nom,

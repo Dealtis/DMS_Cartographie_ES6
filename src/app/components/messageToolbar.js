@@ -9,7 +9,7 @@ class MessageToolbarController {
     $scope.chauffeurs = VariablesShare.chauffeurs;
     $scope.forminput = {};
     $scope.messagetoolbarInputmessageActive = false;
-    api.loadMessages('73', '60', '2').then(dataMessages => {
+    api.loadMessages($cookies.get('SOCID'), '60', '2').then(dataMessages => {
       dataMessages.forEach(message => {
         const newMessage = {
           id: Number(message.DMEID),
@@ -39,10 +39,10 @@ class MessageToolbarController {
         dataChauffeur.push(chauffeur.NOMANDSOFT);
       });
       const dataMessage = {
-        emetteur: "toto",
+        emetteur: $cookies.get("USRLOGIN"),
         chauffeurs: dataChauffeur,
         textMessage: message,
-        typeMessage: 5
+        typeMessage: 1
       };
       $log.log(dataMessage);
       api.postMessages(dataMessage);
@@ -58,10 +58,10 @@ class MessageToolbarController {
           .position('top right');
         $mdToast.show(toast);
         const dataMessage = {
-          emetteur: "toto",
+          emetteur: $cookies.get("USRLOGIN"),
           chauffeurs: [chauffeur],
           textMessage: message,
-          typeMessage: 5
+          typeMessage: 1
         };
         $log.log(dataMessage);
         $log.log(chauffeur);
@@ -78,7 +78,7 @@ class MessageToolbarController {
     };
 
     $interval(() => {
-      api.loadMessages('73', '2', '2').then(dataMessages => {
+      api.loadMessages($cookies.get('SOCID'), '2', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -115,7 +115,7 @@ class MessageToolbarController {
     function loadMessagesArchive() {
       $scope.messageArchive = [];
       $scope.messageArchiveEmis = [];
-      $scope.messageArchivePromise = api.loadMessages('73', '1440', '2').then(dataMessages => {
+      $scope.messageArchivePromise = api.loadMessages($cookies.get('SOCID'), '1440', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -127,7 +127,7 @@ class MessageToolbarController {
           $scope.messageArchive.push(newMessage);
         });
       });
-      $scope.messageArchivePromise = api.loadMessages('73', '1440', '1').then(dataMessages => {
+      $scope.messageArchivePromise = api.loadMessages($cookies.get('SOCID'), '1440', '1').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),

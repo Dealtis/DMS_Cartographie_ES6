@@ -5,13 +5,23 @@ import pleaseWait from '../../../node_modules/please-wait/build/please-wait.js';
 
 class MapContainerController {
   /* @ngInject */
-  constructor($scope, $log, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
+  constructor($scope, $log, $cookies, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
     // Loading
+
     const loadingScreen = pleaseWait.pleaseWait({
       logo: 'images/ico/ico_home.svg',
       backgroundColor: '#eeeeee',
       loadingHtml: "<div class='sk-cube-grid'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div><div class='sk-cube sk-cube3'></div><div class='sk-cube sk-cube4'></div><div class='sk-cube sk-cube5'></div><div class='sk-cube sk-cube6'></div><div class='sk-cube sk-cube7'></div><div class='sk-cube sk-cube8'></div><div class='sk-cube sk-cube9'></div></div>"
     });
+
+    if (angular.isUndefined($cookies.get('SOCID'))) {
+      pleaseWait.pleaseWait({
+        logo: 'images/ico/ico_home.svg',
+        backgroundColor: '#eeeeee',
+        loadingHtml: "Merci de vous connecter à Andsoft"
+      });
+      throw new Error("Pas de socid");
+    }
 
     // SEARCHBOX
     $scope.searchbox = {
@@ -44,7 +54,7 @@ class MapContainerController {
 
     uiGmapGoogleMapApi.then(() => {
       // Get Position de la societe
-      api.loadSocposition('73').then(posSociete => {
+      api.loadSocposition($cookies.get('SOCID')).then(posSociete => {
         const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
         const gpsSocLat = gpsPosSociete[0];
         const gpsSocLong = gpsPosSociete[1].split('|');

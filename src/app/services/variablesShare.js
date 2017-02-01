@@ -9,6 +9,7 @@ export class VariablesShare {
     const markers = [];
     const markersPredicts = [];
     const markerLastPos = [];
+    const markerLastPosOther = [];
     const homeMarker = [];
     const windowOptions = {
       visible: false
@@ -24,6 +25,7 @@ export class VariablesShare {
     this.markers = markers;
     this.markersPredicts = markersPredicts;
     this.markerLastPos = markerLastPos;
+    this.markerLastPosOther = markerLastPosOther;
     this.homeMarker = homeMarker;
     this.windowOptions = windowOptions;
     this.trajets = trajets;
@@ -52,6 +54,9 @@ export class VariablesShare {
   addmarkerLastPos(marker) {
     this.markerLastPos.push(marker);
   }
+  addmarkerLastPosOther(marker) {
+    this.markerLastPosOther.push(marker);
+  }
   addChauffeur(chauffeur) {
     this.chauffeurs.push(chauffeur);
   }
@@ -63,7 +68,9 @@ export class VariablesShare {
   }
   cleanLastPos() {
     this.markerLastPos.length = 0;
-    this.markerLastPos.push(this.homeMarker);
+  }
+  cleanLastPosOther() {
+    this.markerLastPosOther.length = 0;
   }
   addTrajet(trajet) {
     this.trajets.push(trajet);

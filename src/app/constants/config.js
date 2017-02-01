@@ -27,7 +27,7 @@ export const config = {
       width: 75
     }]
   },
-  clusterChauffeurOptions: {
+  clusterOptionsOther: {
     gridSize: 20,
     maxZoom: 15,
     styles: [{

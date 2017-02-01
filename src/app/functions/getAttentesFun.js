@@ -23,7 +23,7 @@ export class getAttentesFun {
                 const dataTrajetGps = dataTrajet[0].DGPPOSITION.split("|");
                 const dataTrajetHeure = dataTrajet[0].DGPHEUREPOS.split("|");
                 let prevObjectAttente = {
-                  id: Date.now(),
+                  id: Math.floor((Math.random() * 9999999) + 1),
                   chauffeur: dataTrajet[0].DGPCOND,
                   coords: {
                     latitude: 0,

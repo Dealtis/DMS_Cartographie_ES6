@@ -221,11 +221,6 @@ class ToolBarController {
                   rightclick: () => {
                     $log.log(chauffeur.color);
                   }
-                  /*eslint-disable */
-                  // animation_changed: (marker, eventName, model) => {
-                  //   $log.log(marker);
-                  // }
-                  /*eslint-enable */
                 }
               };
 

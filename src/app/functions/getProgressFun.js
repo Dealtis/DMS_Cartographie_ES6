@@ -13,9 +13,9 @@ export class getProgressFun {
         case "LIVCFM":
         case "RAMCFM":
         case "ECHCFM":
-          return "../../images/ico_png/ico_valid.png";
+          return "images/ico_png/ico_valid.png";
         default:
-          return "../../images/ico_png/ico_anom.png";
+          return "images/ico_png/ico_anom.png";
       }
     }
   }

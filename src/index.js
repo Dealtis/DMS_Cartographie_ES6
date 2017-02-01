@@ -95,10 +95,10 @@ angular
   .service('getAttentesFun', getAttentesFun)
   .service('getProgressFun', getProgressFun)
   .service('getPredictFun', getPredictFun)
-  .service('diversFun', diversFun)
-  .run($cookies => {
-    $cookies.put('SOCID', '73');
-  });
+  .service('diversFun', diversFun);
+  // .run($cookies => {
+  //   $cookies.put('SOCID', '73');
+  // });
 
 Raven
   .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043', {

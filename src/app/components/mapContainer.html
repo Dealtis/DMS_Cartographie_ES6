@@ -1,11 +1,12 @@
 <ui-gmap-google-map center='map.center' control='map.control' zoom='map.zoom' events="map.events" pan='true' refresh="true">
   <ui-gmap-search-box template="null" events="searchbox.events" class="searchbox"></ui-gmap-search-box>
   <ui-gmap-layer type="TrafficLayer" show="Trafficshow"></ui-gmap-layer>
-  <ui-gmap-markers models="markerLastPos" coords="'coords'" icon="'options.icon'" options="'options'" fit='true'></ui-gmap-markers>
-  <ui-gmap-markers models="markers" coords="'coords'" options="'options'" icon="'options.icon'" events="'events'" type="cluster" doCluster="true" typeOptions="clusterOptions" fit='true'>
-    <ui-gmap-markers models="markersPredicts" coords="'coords'" options="'options'" icon="'options.icon'" events="'events'" type="cluster" doCluster="true" typeOptions="clusterPreOptions" fit='true'></ui-gmap-markers>
-    <ui-gmap-markers models="attentes" coords="'coords'" type="cluster" doCluster="true" options="'options'" fit='true'></ui-gmap-markers>
-    <ui-gmap-polyline ng-repeat="p in Trajets" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
-    <ui-gmap-polyline ng-repeat="p in TrajetMatrix" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
-    <div class="modifyMe"></div>
-  </ui-gmap-google-map>
+  <ui-gmap-markers models="markerLastPos" idkey="'id'" coords="'coords'" icon="'options.icon'" options="'options'" fit='true'></ui-gmap-markers>
+  <ui-gmap-markers models="markerLastPosOther" idkey="'id'" coords="'coords'" icon="'options.icon'" options="'options'" type="cluster" doCluster="true" typeOptions="clusterOptionsOther" fit='true' control="{}"></ui-gmap-markers>
+  <ui-gmap-markers models="markers" idkey="'id'" coords="'coords'" options="'options'" icon="'options.icon'" events="'events'" type="cluster" doCluster="true" typeOptions="clusterOptions" fit='true'></ui-gmap-markers>
+  <ui-gmap-markers models="markersPredicts" coords="'coords'" options="'options'" icon="'options.icon'" events="'events'" type="cluster" doCluster="true" typeOptions="clusterPreOptions" fit='true'></ui-gmap-markers>
+  <ui-gmap-markers models="attentes" coords="'coords'" type="cluster" doCluster="true" options="'options'" fit='true'></ui-gmap-markers>
+  <ui-gmap-polyline ng-repeat="p in Trajets" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
+  <ui-gmap-polyline ng-repeat="p in TrajetMatrix" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
+  <div class="modifyMe"></div>
+</ui-gmap-google-map>

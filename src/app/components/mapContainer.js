@@ -25,7 +25,7 @@ class MapContainerController {
 
     // SEARCHBOX
     $scope.searchbox = {
-      template: 'searchbox.tpl.html',
+      template: "../containers/templateId.html",
       events: {
         /*eslint-disable */
         places_changed: searchBox => {
@@ -41,7 +41,6 @@ class MapContainerController {
     // Map config init
     $scope.markers = VariablesShare.markers;
     $scope.markersPredicts = VariablesShare.markersPredicts;
-    $scope.markerLastPos = VariablesShare.markerLastPos;
     $scope.Trajets = VariablesShare.trajets;
     $scope.TrajetMatrix = VariablesShare.trajetMatrix;
     $scope.attentes = VariablesShare.attentes;
@@ -49,6 +48,7 @@ class MapContainerController {
     $scope.map = config.mapOptions;
     $scope.windowOptions = VariablesShare.windowOptions;
     $scope.clusterOptions = config.cluserOptions;
+    $scope.clusterOptionsOther = config.clusterOptionsOther;
     $scope.clusterPreOptions = config.cluserPreOptions;
     $scope.clusterChauffeurOptions = config.clusterChauffeurOptions;
 
@@ -66,7 +66,7 @@ class MapContainerController {
         });
         // Add home marker
         VariablesShare.homeMarker = {
-          id: Date.now(),
+          id: 10,
           coords: {
             latitude: gpsSocLat,
             longitude: gpsSocLong[0]
@@ -78,6 +78,8 @@ class MapContainerController {
           }
         };
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
+        $scope.markerLastPos = VariablesShare.markerLastPos;
+        $scope.markerLastPosOther = VariablesShare.markerLastPosOther;
         loadingScreen.finish();
       });
     });

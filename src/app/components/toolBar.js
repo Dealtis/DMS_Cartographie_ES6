@@ -35,6 +35,8 @@ class ToolBarController {
     $scope.getAttentes = getAttentes;
     // Get Predict
     $scope.getPredicts = getPredicts;
+    // Get Predict
+    $scope.getGpsChauffeurs = getGpsChauffeurs;
     // Reload auto
     $scope.reloadAuto = reloadAuto;
 
@@ -181,7 +183,15 @@ class ToolBarController {
       }
     }
 
-    function getLastPos(chauffeurs) {
+    function getGpsChauffeurs(checkbox) {
+      if (checkbox) {
+        getLastPos(saveChaufeurs, true);
+      } else {
+        VariablesShare.cleanLastPosOther();
+      }
+    }
+
+    function getLastPos(chauffeurs, other) {
       uiGmapGoogleMapApi.then(maps => {
         chauffeurs.forEach(chauffeur => {
           api.loadLastPos(chauffeur.SALCODE).then(dataGps => {
@@ -190,17 +200,14 @@ class ToolBarController {
               const posGps = dataGpsBrut.split(";");
               const heureGps = dataGps[0].DGPDERNIEREHEURE.split(" ");
               const addMarkerLastPos = {
-                id: chauffeur.SALCODE,
+                id: Math.floor((Math.random() * 9999) + 1),
                 coords: {
                   latitude: posGps[0],
                   longitude: posGps[1]
                 },
                 options: {
-                  icon: {
-                    url: 'images/ICO/ico_truck.svg'
-                  },
+                  icon: {},
                   animation: maps.Animation.Hp,
-                  labelContent: `${chauffeur.SALNOM}<br>${heureGps[1]}`,
                   labelAnchor: '20 40',
                   labelClass: "labels",
                   labelStyle: {
@@ -214,9 +221,23 @@ class ToolBarController {
                   rightclick: () => {
                     $log.log(chauffeur.color);
                   }
+                  /*eslint-disable */
+                  // animation_changed: (marker, eventName, model) => {
+                  //   $log.log(marker);
+                  // }
+                  /*eslint-enable */
                 }
               };
-              VariablesShare.addmarkerLastPos(addMarkerLastPos);
+
+              if (angular.isUndefined(other)) {
+                addMarkerLastPos.options.labelContent = `${chauffeur.SALNOM}<br>${heureGps[1]}`;
+                addMarkerLastPos.options.icon.url = 'images/ICO/ico_truck.svg';
+                VariablesShare.addmarkerLastPos(addMarkerLastPos);
+              } else {
+                addMarkerLastPos.options.labelContent = `${chauffeur.SALNOM}`;
+                addMarkerLastPos.options.icon.url = 'images/ICO/ico_truck_other.svg';
+                VariablesShare.addmarkerLastPosOther(addMarkerLastPos);
+              }
             } else {
               const toast = $mdToast.simple()
                 .textContent(`Pas de données GPS pour ${chauffeur.SALNOM}`)
@@ -228,6 +249,7 @@ class ToolBarController {
             }
           });
         });
+        VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
       });
     }
 

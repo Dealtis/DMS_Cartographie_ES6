@@ -41,8 +41,8 @@
 <md-button class="toolbar_button_cancelSelect md-icon-button md-accent" aria-label="Cancel" ng-show="selectedChauffeurs.length > 0" ng-click="cancelSelected()">
   <md-icon md-svg-icon="images/ico/ico_cancel.svg"></md-icon>
 </md-button>
-<div class="toolbar_checkbox" layout="row" layout-align="none" flex>
-  <div flex>
+<div class="toolbar_checkbox" layout="column" layout-gt-sm="row"  layout-align="none" flex="none">
+  <div>
     <div class="toolbar_checkbox_livraisons">
       <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar,'liv')" ng-disabled="!(selectedChauffeurs.length > 0)">
         Livraisons
@@ -59,7 +59,7 @@
       </md-checkbox>
     </div>
   </div>
-  <div flex>
+  <div>
     <div class="toolbar_checkbox_trajet" flex>
       <md-checkbox class="md-primary" ng-model="cbTrajet" aria-label="Trajet" ng-change="getTrajets(selectedChauffeurs,cbTrajet,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0)">
         Trajets
@@ -70,56 +70,52 @@
         Attentes
       </md-checkbox>
     </div>
-    <!-- <div class="toolbar_checkbox_chauffeurs" flex>
-      <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(selectedChauffeurs,cbChauffeurs,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0)">
+    <div class="toolbar_checkbox_chauffeurs" flex>
+      <md-checkbox class="md-primary" ng-model="cbChauffeurs" aria-label="Chauffeurs" ng-change="getGpsChauffeurs(cbChauffeurs)">
         Autres chauffeurs
       </md-checkbox>
-    </div> -->
-  </div>
-</div>
-<md-datepicker flex="20" ng-model="dateCalendar" md-placeholder="Enter date"></md-datepicker>
-<div flex class="toolbar_button">
-  <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="recadre" ng-click="fitBounds()">
-    <md-icon md-svg-icon="images/ico/ico_fullscreen.svg"></md-icon>
-    <md-tooltip md-direction="bottom">
-      Recentrer la carte
-    </md-tooltip>
-  </md-button>
-  <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="refresh" ng-click="refresh()">
-    <md-icon md-svg-icon="images/ico/ico_refresh.svg"></md-icon>
-    <md-tooltip md-direction="bottom">
-      Recharger la carte
-    </md-tooltip>
-  </md-button>
-  <md-button class="md-icon-button md-raised toolbar_button_sound" aria-label="sound" ng-click="muteSound()">
-    <img ng-src="{{urlSound}}" alt="Bookmark">
-    <md-tooltip md-direction="bottom">
-      Désactiver le son
-    </md-tooltip>
-  </md-button>
-  <!-- <md-button class="md-icon-button md-raised md-warn" ng-print print-element-id="printThis">
-    <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
-    <md-tooltip md-direction="bottom">
-      Print
-    </md-tooltip>
-  </md-button> -->
-  <md-button class="md-icon-button md-raised md-warn" ng-click="modalaide = !modalaide" ng-disabled="true">
-    <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
-    <md-tooltip md-direction="bottom">
-      Aide
-    </md-tooltip>
-  </md-button>
-  <div class="modalaide_container" ng-class="modalaide ? '-active' : '-disabled'">
-    <md-button class="md-icon-button modalaide_close" aria-label="New" ng-click="modalaide = !modalaide">
-      <md-icon md-svg-icon="images/ico/ico_close.svg"></md-icon>
-    </md-button>
-    <div class="modalaide_content_container" layout="row">
     </div>
   </div>
 </div>
-<div flex layout="column" layout-align="center center" class="toolbar_switch">
-  <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-change="reloadAuto(switch_reloadAuto)">
-    Rafraîchissement auto
-  </md-switch>
-  <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
+<md-datepicker flex="20" ng-model="dateCalendar" md-placeholder="Enter date"></md-datepicker>
+<div flex class="toolbar_button" layout="column" layout-gt-lg="row" layout-align="center center">
+  <div>
+    <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="recadre" ng-click="fitBounds()">
+      <md-icon md-svg-icon="images/ico/ico_fullscreen.svg"></md-icon>
+      <md-tooltip md-direction="bottom">
+        Recentrer la carte
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button md-raised" ng-disabled="selectedChauffeurs == null" aria-label="refresh" ng-click="refresh()">
+      <md-icon md-svg-icon="images/ico/ico_refresh.svg"></md-icon>
+      <md-tooltip md-direction="bottom">
+        Recharger la carte
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button md-raised toolbar_button_sound" aria-label="sound" ng-click="muteSound()">
+      <img ng-src="{{urlSound}}" alt="Bookmark">
+      <md-tooltip md-direction="bottom">
+        Désactiver le son
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button md-raised md-warn" ng-click="modalaide = !modalaide" ng-disabled="true">
+      <md-icon md-svg-icon="images/ico/info.svg"></md-icon>
+      <md-tooltip md-direction="bottom">
+        Aide
+      </md-tooltip>
+    </md-button>
+  </div>
+  <div flex layout="column" layout-align="center center" class="toolbar_switch">
+    <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-change="reloadAuto(switch_reloadAuto)">
+      Rafraîchissement auto
+    </md-switch>
+    <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
+  </div>
+</div>
+<div class="modalaide_container" ng-class="modalaide ? '-active' : '-disabled'">
+  <md-button class="md-icon-button modalaide_close" aria-label="New" ng-click="modalaide = !modalaide">
+    <md-icon md-svg-icon="images/ico/ico_close.svg"></md-icon>
+  </md-button>
+  <div class="modalaide_content_container" layout="row">
+  </div>
 </div>

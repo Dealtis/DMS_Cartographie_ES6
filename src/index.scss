@@ -428,6 +428,7 @@ aside {
     position: fixed;
     top: 0;
     right: 0;
+    z-index: 50;
   }
 }
 //Modal Aide
@@ -507,6 +508,10 @@ aside {
     .md-bar2 {
       background-color: #ffc107;
     }
+  }
+
+  .progressBar_ico{
+    padding: 10px;
   }
 }
 

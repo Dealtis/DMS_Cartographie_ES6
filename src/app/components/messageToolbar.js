@@ -133,9 +133,13 @@ class MessageToolbarController {
             id: Number(message.DMEID),
             chauffeur: message.DMECODECHAUF,
             text: message.DMEMESSAGE,
-            datereception: message.DMEDATERECU,
             isLu: false
           };
+          if (message.DMEDATELU === "") {
+            newMessage.datereception = `Non lu`;
+          } else {
+            newMessage.datereception = `lu à ${message.DMEDATELU}`;
+          }
           $scope.messageArchiveEmis.push(newMessage);
         });
       });

@@ -19,7 +19,9 @@ class ToolBarController {
     });
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
-    api.loadChauffeurs($cookies.get('SOCID')).then(chauffeurs => {
+    const valDef = $cookies.get('VALDEF');
+    $log.log(valDef);
+    api.loadChauffeurs($cookies.get('SOCID'), valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
@@ -176,7 +178,7 @@ class ToolBarController {
               const posGps = dataGpsBrut.split(";");
               const heureGps = dataGps[0].DGPDERNIEREHEURE.split(" ");
               const addMarkerLastPos = {
-                id: Math.floor((Math.random() * 9999) + 1),
+                id: chauffeur.SALCODE,
                 coords: {
                   latitude: posGps[0],
                   longitude: posGps[1]

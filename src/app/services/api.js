@@ -10,9 +10,13 @@ export class Api {
     // $sce.trustAsResourceUrl('https://maps.googleapis.com/maps/api/geocode/json');
     // $sce.trustAsResourceUrl('https://maps.googleapis.com/maps/api/directions/json');
   }
-  loadChauffeurs(idSoc) {
-    this.log.log(`${url}dmsSalarieT?val=${idSoc}`);
-    return this.http.get(`${url}dmsSalarieT?val=${idSoc}`).then(result => result.data);
+  loadChauffeurs(idSoc, agence) {
+    if (angular.isDefined(agence)) {
+      this.log.log(`${url}dmssalarie?val=${idSoc}&agence=${agence}`);
+      return this.http.get(`${url}dmssalarie?val=${idSoc}&agence=${agence}`).then(result => result.data);
+    }
+    this.log.log(`${url}dmssalarie?val=16&agence=`);
+    return this.http.get(`${url}dmssalarie?val=${idSoc}&agence=`).then(result => result.data);
   }
   loadSocposition(idSoc) {
     this.log.log(`${url}dmsCenter?val=${idSoc}`);

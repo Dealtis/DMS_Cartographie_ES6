@@ -20,7 +20,6 @@ class ToolBarController {
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
     const valDef = $cookies.get('VALDEF');
-    $log.log(valDef);
     api.loadChauffeurs($cookies.get('SOCID'), valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {

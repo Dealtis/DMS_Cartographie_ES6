@@ -23,7 +23,6 @@ export class getPredictFun {
             const deferred = this.q.defer();
             this.api.loadPredict(chauffeur.NOMANDSOFT)
               .then(dataPredict => {
-                this.log.log(dataPredict);
                 // const schProgressbar = this.VariablesShare.progressBars.find(progressBar => {
                 //   return progressBar.chauffeur === chauffeur.SALNOM;
                 // });
@@ -31,7 +30,6 @@ export class getPredictFun {
                   const schProgressbar = _.find(this.VariablesShare.progressBars, progressBar => {
                     return progressBar.chauffeur === chauffeur.SALNOM;
                   });
-
                   dataPredict.forEach(item => {
                     if (item.OTPOTSNUM !== "") {
                       const schPos = _.find(schProgressbar.positionsAll, pBar => {

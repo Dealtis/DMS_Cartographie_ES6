@@ -38,35 +38,47 @@ class MessageToolbarController {
       chauffeurs.forEach(chauffeur => {
         dataChauffeur.push(chauffeur.NOMANDSOFT);
       });
+      let emetteurCookie = "unknown";
+      emetteurCookie = $cookies.get("USRLOGIN");
       const dataMessage = {
-        emetteur: $cookies.get("USRLOGIN"),
+        emetteur: emetteurCookie,
         chauffeurs: dataChauffeur,
         textMessage: message,
         typeMessage: 1
       };
-      $log.log(dataMessage);
       api.postMessages(dataMessage);
       $scope.Textmessage = "";
     };
 
     $scope.sendMessageReply = (chauffeur, message) => {
       if (angular.isDefined(message)) {
-        const toast = $mdToast.simple()
-          .textContent(`Message envoyé à ${chauffeur}`)
-          .action('X')
-          .highlightAction(true)
-          .position('top right');
-        $mdToast.show(toast);
+        let emetteurCookie = "unknown";
+        emetteurCookie = $cookies.get("USRLOGIN");
         const dataMessage = {
-          emetteur: $cookies.get("USRLOGIN"),
+          emetteur: emetteurCookie,
           chauffeurs: [chauffeur],
           textMessage: message,
           typeMessage: 1
         };
-        $log.log(dataMessage);
-        $log.log(chauffeur);
-        api.postMessages(dataMessage);
-        $scope.forminput = {};
+        api.postMessages(dataMessage).then(result => {
+          $log.log(result);
+          if (result === true) {
+            const toast = $mdToast.simple()
+              .textContent(`Message envoyé à ${chauffeur}`)
+              .action('X')
+              .highlightAction(true)
+              .position('top right');
+            $mdToast.show(toast);
+            $scope.forminput = {};
+          } else {
+            const toast = $mdToast.simple()
+              .textContent(`Une erreur est survenue, veuillez réessayer`)
+              .action('X')
+              .highlightAction(true)
+              .position('bottom right');
+            $mdToast.show(toast);
+          }
+        });
       } else {
         const toast = $mdToast.simple()
           .textContent(`Pas de message`)

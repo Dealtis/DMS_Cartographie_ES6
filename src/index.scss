@@ -81,6 +81,10 @@ aside {
   box-shadow: 10px 10px 5px #656565;
   filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
 
+  .toolbar_button {
+    min-height: 100%;
+  }
+
   .main {
     padding: 0;
     width: 58px;
@@ -94,6 +98,7 @@ aside {
 
   md-select {
     font-size: 12px;
+
     span {
       width: 120px;
       float: left;
@@ -142,6 +147,10 @@ aside {
     .progress_reload {
       max-width: 150px;
       margin: 5px;
+      .md-container {
+        width: 150px;
+        height: 5px;
+      }
     }
   }
 
@@ -510,7 +519,7 @@ aside {
     }
   }
 
-  .progressBar_ico{
+  .progressBar_ico {
     padding: 10px;
   }
 }

@@ -9,7 +9,7 @@ class MessageToolbarController {
     $scope.chauffeurs = VariablesShare.chauffeurs;
     $scope.forminput = {};
     $scope.messagetoolbarInputmessageActive = false;
-    api.loadMessages($cookies.get('SOCID'), '60', '2').then(dataMessages => {
+    api.loadMessages(VariablesShare.socID, '60', '2').then(dataMessages => {
       dataMessages.forEach(message => {
         const newMessage = {
           id: Number(message.DMEID),
@@ -90,7 +90,7 @@ class MessageToolbarController {
     };
 
     $interval(() => {
-      api.loadMessages($cookies.get('SOCID'), '2', '2').then(dataMessages => {
+      api.loadMessages(VariablesShare.socID, '2', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -127,7 +127,7 @@ class MessageToolbarController {
     function loadMessagesArchive() {
       $scope.messageArchive = [];
       $scope.messageArchiveEmis = [];
-      $scope.messageArchivePromise = api.loadMessages($cookies.get('SOCID'), '1440', '2').then(dataMessages => {
+      $scope.messageArchivePromise = api.loadMessages(VariablesShare.socID, '1440', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -139,7 +139,7 @@ class MessageToolbarController {
           $scope.messageArchive.push(newMessage);
         });
       });
-      $scope.messageArchivePromise = api.loadMessages($cookies.get('SOCID'), '1440', '1').then(dataMessages => {
+      $scope.messageArchivePromise = api.loadMessages(VariablesShare.socID, '1440', '1').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),

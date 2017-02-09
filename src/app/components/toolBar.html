@@ -111,6 +111,14 @@
       <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
     </md-switch>
   </div>
+  <md-input-container ng-show="adminMode">
+    <label>Cookie ID</label>
+    <md-select ng-model="societeId" ng-change="setCookie(societeId);">
+      <md-option ng-repeat="item in cookiesSoc" ng-value="item.socId">
+        {{item.socName}}
+      </md-option>
+    </md-select>
+  </md-input-container>
 </div>
 <div class="modalaide_container" ng-class="modalaide ? '-active' : '-disabled'">
   <md-button class="md-icon-button modalaide_close" aria-label="New" ng-click="modalaide = !modalaide">

@@ -11,6 +11,7 @@ class ToolBarController {
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
+    $scope.adminMode = false;
     $scope.openMenu = ($mdOpenMenu, ev) => {
       $mdOpenMenu(ev);
     };
@@ -20,7 +21,8 @@ class ToolBarController {
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
     const valDef = $cookies.get('VALDEF');
-    api.loadChauffeurs($cookies.get('SOCID'), valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
+    VariablesShare.socID = $cookies.get('SOCID');
+    api.loadChauffeurs(VariablesShare.socID, valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
@@ -86,13 +88,106 @@ class ToolBarController {
       }
     };
 
-    // // PRINT
-    // $scope.print = () => {
-    //   printElement($document[0].getElementById('printThis'));
-    //   const modThis = $document[0].querySelector("#printSection .modifyMe");
-    //   modThis.appendChild($document[0].createTextNode(" new"));
-    //   $window.print();
-    // };
+    // Mode admin
+    $scope.cookiesSoc = [{
+      socName: "Comaldis",
+      socId: 73
+    }, {
+      socName: "Mj",
+      socId: 3
+    }, {
+      socName: "Rodis",
+      socId: 36
+    }, {
+      socName: "Jeantet",
+      socId: 16
+    }, {
+      socName: "Stjo",
+      socId: 55
+    }, {
+      socName: "Transaldis",
+      socId: 61
+    }, {
+      socName: "Sdtl",
+      socId: 29
+    }, {
+      socName: "Tradis",
+      socId: 82
+    }];
+
+    $scope.setCookie = val => {
+      VariablesShare.socID = val;
+      // reload chauffeurs
+      api.loadChauffeurs(VariablesShare.socID, valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
+        $scope.chauffeurs = angular.fromJson(chauffeurs);
+        $scope.chauffeurs.forEach((chauffeur, index) => {
+          chauffeur.color = config.chauffColor[index];
+          saveChaufeurs.push(chauffeur);
+          VariablesShare.addChauffeur(chauffeur);
+        });
+      });
+
+      // reload pos societe
+      api.loadSocposition(VariablesShare.socID).then(posSociete => {
+        const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
+        const gpsSocLat = gpsPosSociete[0];
+        const gpsSocLong = gpsPosSociete[1].split('|');
+
+        // Center map to Societe Position
+        VariablesShare.mapObject.panTo({
+          lat: Number(gpsSocLat),
+          lng: Number(gpsSocLong[0])
+        });
+        // Add home marker
+        VariablesShare.homeMarker = {
+          id: 10,
+          coords: {
+            latitude: gpsSocLat,
+            longitude: gpsSocLong[0]
+          },
+          options: {
+            icon: {
+              url: 'images/ico/ico_home.svg'
+            }
+          }
+        };
+        VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
+      });
+      $scope.selectedChauffeurs.length = 0;
+      VariablesShare.cleanLastPos();
+      VariablesShare.cleanProgressBars();
+      VariablesShare.cleanAttentes();
+      VariablesShare.cleanTrajets();
+      VariablesShare.cleanTrajetMatrix();
+      VariablesShare.cleanPredict();
+    };
+
+    const adminKeys = [65, 68, 77, 73, 78];
+    let keyIndex = 0;
+
+    function keydown(e) {
+      if (e.keyCode === adminKeys[keyIndex++]) {
+        if (keyIndex === adminKeys.length) {
+          keyIndex = 0;
+          $log.log("admin");
+          $scope.adminMode = true;
+        }
+      } else {
+        keyIndex = 0;
+      }
+    }
+
+    function stopListening() {
+      $document.off('keydown', keydown);
+    }
+
+    // Start listening to key typing.
+    $document.on('keydown', keydown);
+
+    // Stop listening when scope is destroyed.
+    $scope.$on('$destroy', stopListening);
+
+    // end mode admin
 
     $scope.allSelected = () => {
       saveChaufeurs.forEach(item => {
@@ -108,6 +203,11 @@ class ToolBarController {
 
     $scope.fitBounds = () => {
       VariablesShare.mapObject.setZoom(8);
+    };
+
+    $scope.refresh = () => {
+      whatToDo();
+      VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
     };
 
     function whatToDo() {
@@ -137,6 +237,9 @@ class ToolBarController {
         }
         if ($scope.cbPredict) {
           getPredicts($scope.selectedChauffeurs, true);
+        }
+        if ($scope.cbChauffeurs) {
+          getGpsChauffeurs(true);
         }
         if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
           // function afficher les positions gps des autres chauffeurs
@@ -224,21 +327,6 @@ class ToolBarController {
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
       });
     }
-
-    // function printElement(elem) {
-    //   const domClone = elem.cloneNode(true);
-    //   let printSection = $document[0].getElementById('printSection');
-    //   $log.log(printSection);
-    //   if (!printSection) {
-    //     printSection = $document[0].createElement("div");
-    //     $log.log(printSection);
-    //     printSection.id = "printSection";
-    //     $document[0].body.appendChild(printSection);
-    //   }
-    //   $log.log(printSection);
-    //   printSection.innerHTML = "";
-    //   printSection.appendChild(domClone);
-    // }
 
     function reloadAuto(sw1) {
       if (sw1) {

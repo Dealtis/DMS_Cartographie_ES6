@@ -33,6 +33,18 @@ class MapContainerController {
             lat: searchBox.getPlaces()[0].geometry.location.lat(),
             lng: searchBox.getPlaces()[0].geometry.location.lng()
           });
+          $scope.markerPlaces = {
+            coords: {
+              latitude: searchBox.getPlaces()[0].geometry.location.lat(),
+              longitude: searchBox.getPlaces()[0].geometry.location.lng()
+            },
+            options: {
+              icon: {
+                url: 'images/ico/ico_places.svg'
+              }
+            }
+          }
+
         }
         /*eslint-enable */
       }

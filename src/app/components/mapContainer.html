@@ -8,5 +8,5 @@
   <ui-gmap-markers models="attentes" coords="'coords'" type="cluster" doCluster="true" options="'options'" fit='true'></ui-gmap-markers>
   <ui-gmap-polyline ng-repeat="p in Trajets" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
   <ui-gmap-polyline ng-repeat="p in TrajetMatrix" path="p.path" stroke="p.stroke" clickable="true" draggable="false" editable="false" geodesic="true" icons="p.icons" visible="true" fit="true" events="p.events"></ui-gmap-polyline>
-  <div class="modifyMe"></div>
+  <ui-gmap-marker coords="markerPlaces.coords" options="markerPlaces.options" idkey="88"></ui-gmap-marker>
 </ui-gmap-google-map>

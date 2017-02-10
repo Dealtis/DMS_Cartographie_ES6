@@ -19,7 +19,7 @@ class ToolBarController {
       ev.stopPropagation();
     });
     // Get Chauffeurs de la societe
-    const saveChaufeurs = [];
+    let saveChaufeurs = [];
     VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
     VariablesShare.socID = $cookies.get('SOCID');
     api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
@@ -126,6 +126,7 @@ class ToolBarController {
       if (val === 69) {
         VariablesShare.SocieteName = "COM60";
       }
+      saveChaufeurs = [];
       // reload chauffeurs
       api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
         $scope.chauffeurs = angular.fromJson(chauffeurs);
@@ -163,12 +164,7 @@ class ToolBarController {
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
       });
       $scope.selectedChauffeurs.length = 0;
-      VariablesShare.cleanLastPos();
-      VariablesShare.cleanProgressBars();
-      VariablesShare.cleanAttentes();
-      VariablesShare.cleanTrajets();
-      VariablesShare.cleanTrajetMatrix();
-      VariablesShare.cleanPredict();
+      whatToDo();
     };
 
     const adminKeys = [65, 68, 77, 73, 78];
@@ -227,6 +223,7 @@ class ToolBarController {
       VariablesShare.cleanTrajets();
       VariablesShare.cleanTrajetMatrix();
       VariablesShare.cleanPredict();
+      VariablesShare.cleanLastPosOther();
       if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
         // function get last pos de selectedChauffeurs and set marker
         getLastPos($scope.selectedChauffeurs);
@@ -252,8 +249,6 @@ class ToolBarController {
           // function afficher les positions gps des autres chauffeurs
         }
       }
-
-      $log.log($scope.cbChauffeurs);
       if ($scope.cbChauffeurs) {
         getGpsChauffeurs(true);
       }

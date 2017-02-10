@@ -49,6 +49,14 @@ aside {
     input:last-of-type {
       top: 13px !important;
       border: 1px solid gray;
+      background-color: #fff;
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 300px;
     }
   }
 
@@ -81,6 +89,10 @@ aside {
   box-shadow: 10px 10px 5px #656565;
   filter:progid:DXImageTransform.Microsoft.Shadow(color=  '#6565', Direction=135, Strength=5);
 
+  .toolbar_button {
+    min-height: 100%;
+  }
+
   .main {
     padding: 0;
     width: 58px;
@@ -94,6 +106,7 @@ aside {
 
   md-select {
     font-size: 12px;
+
     span {
       width: 120px;
       float: left;
@@ -142,6 +155,11 @@ aside {
     .progress_reload {
       max-width: 150px;
       margin: 5px;
+
+      .md-container {
+        width: 150px;
+        height: 5px;
+      }
     }
   }
 
@@ -418,6 +436,28 @@ aside {
     .modalarchive_archiveMessage {
       border-bottom: 1px solid black;
     }
+    .selectHeader .header-searchbox {
+      border: none;
+      outline: none;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+    }
+
+    .select-header {
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
+      padding-left: 10.667px;
+      height: 48px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: auto;
+    }
+
+    .selectHeader md-content._md {
+      max-height: 240px;
+    }
 
     md-tab-item.md-tab.ng-scope.ng-isolate-scope.md-ink-ripple.md-active {
       color: white !important;
@@ -510,7 +550,7 @@ aside {
     }
   }
 
-  .progressBar_ico{
+  .progressBar_ico {
     padding: 10px;
   }
 }

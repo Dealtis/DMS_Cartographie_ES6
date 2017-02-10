@@ -83,22 +83,19 @@ angular
   .config(momentConfig)
   .config(mapConfig)
   .config(httpConfig)
+  .service('VariablesShare', VariablesShare)
   .component('app', App)
   .component('toolbar', toolBar)
   .component('messagetoolbar', messageToolbar)
   .component('mapcontainer', mapContainer)
   .component('asidecontainer', asideContainer)
   .service('api', Api)
-  .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
   .service('getTrajetsFun', getTrajetsFun)
   .service('getAttentesFun', getAttentesFun)
   .service('getProgressFun', getProgressFun)
   .service('getPredictFun', getPredictFun)
   .service('diversFun', diversFun);
-  // .run($cookies => {
-  //   $cookies.put('SOCID', '73');
-  // });
 
 Raven
   .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043', {

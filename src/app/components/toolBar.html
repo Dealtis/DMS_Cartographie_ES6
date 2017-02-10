@@ -23,7 +23,7 @@
     </md-menu-item>
   </md-menu-content>
 </md-menu>
-<md-input-container class="toolbar_select_chauffeurs" flex="10">
+<md-input-container class="toolbar_select_chauffeurs" flex="none">
   <label>Chauffeurs</label>
   <md-select ng-model="selectedChauffeurs" md-on-close="clearSearchTerm()" data-md-container-class="selectHeader" multiple>
     <md-select-header class="select-header">
@@ -41,7 +41,7 @@
 <md-button class="toolbar_button_cancelSelect md-icon-button md-accent" aria-label="Cancel" ng-show="selectedChauffeurs.length > 0" ng-click="cancelSelected()">
   <md-icon md-svg-icon="images/ico/ico_cancel.svg"></md-icon>
 </md-button>
-<div class="toolbar_checkbox" layout="column" layout-gt-sm="row"  layout-align="none" flex="none">
+<div class="toolbar_checkbox" layout="column" layout-gt-sm="row" layout-align="none" flex="none">
   <div>
     <div class="toolbar_checkbox_livraisons">
       <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar,'liv')" ng-disabled="!(selectedChauffeurs.length > 0)">
@@ -107,15 +107,22 @@
   </div>
   <div flex layout="column" layout-align="center center" class="toolbar_switch">
     <md-switch class="switch_auto" ng-model="switch_reloadAuto" aria-label="Switch auto 1" ng-change="reloadAuto(switch_reloadAuto)">
-      Rafraîchissement auto
+      <span ng-hide="switch_reloadAuto">Rafraîchissement auto</span>
+      <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
     </md-switch>
-    <md-progress-linear ng-show="switch_reloadAuto" class="progress_reload" md-mode="determinate" value="{{progressReload}}"></md-progress-linear>
   </div>
+  <md-input-container ng-show="adminMode">
+    <label>Cookie ID</label>
+    <md-select ng-model="societeId" ng-change="setCookie(societeId);">
+      <md-option ng-repeat="item in cookiesSoc" ng-value="item.socId">
+        {{item.socName}}
+      </md-option>
+    </md-select>
+  </md-input-container>
 </div>
 <div class="modalaide_container" ng-class="modalaide ? '-active' : '-disabled'">
   <md-button class="md-icon-button modalaide_close" aria-label="New" ng-click="modalaide = !modalaide">
     <md-icon md-svg-icon="images/ico/ico_close.svg"></md-icon>
   </md-button>
-  <div class="modalaide_content_container" layout="row">
-  </div>
+  <div class="modalaide_content_container" layout="row"></div>
 </div>

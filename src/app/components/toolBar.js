@@ -11,6 +11,7 @@ class ToolBarController {
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
+    $scope.adminMode = false;
     $scope.openMenu = ($mdOpenMenu, ev) => {
       $mdOpenMenu(ev);
     };
@@ -19,7 +20,9 @@ class ToolBarController {
     });
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
-    api.loadChauffeurs($cookies.get('SOCID')).then(chauffeurs => {
+    VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
+    VariablesShare.socID = $cookies.get('SOCID');
+    api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
@@ -85,43 +88,122 @@ class ToolBarController {
       }
     };
 
-    // // PRINT
-    // $scope.print = () => {
-    //   printElement($document[0].getElementById('printThis'));
-    //   const modThis = $document[0].querySelector("#printSection .modifyMe");
-    //   modThis.appendChild($document[0].createTextNode(" new"));
-    //   $window.print();
-    // };
+    // Mode admin
+    $scope.cookiesSoc = [{
+      socName: "Comaldis 28",
+      socId: 68
+    }, {
+      socName: "Comaldis 60",
+      socId: 69
+    }, {
+      socName: "Mj",
+      socId: 3
+    }, {
+      socName: "Rodis",
+      socId: 36
+    }, {
+      socName: "Jeantet",
+      socId: 16
+    }, {
+      socName: "Stjo",
+      socId: 55
+    }, {
+      socName: "Transaldis",
+      socId: 61
+    }, {
+      socName: "Sdtl",
+      socId: 29
+    }, {
+      socName: "Tradis",
+      socId: 82
+    }];
+
+    $scope.setCookie = val => {
+      VariablesShare.socID = val;
+      if (val === 68) {
+        VariablesShare.SocieteName = "COM28";
+      }
+      if (val === 69) {
+        VariablesShare.SocieteName = "COM60";
+      }
+      // reload chauffeurs
+      api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
+        $scope.chauffeurs = angular.fromJson(chauffeurs);
+        $scope.chauffeurs.forEach((chauffeur, index) => {
+          chauffeur.color = config.chauffColor[index];
+          saveChaufeurs.push(chauffeur);
+          VariablesShare.addChauffeur(chauffeur);
+        });
+      });
+
+      // reload pos societe
+      api.loadSocposition(VariablesShare.socID).then(posSociete => {
+        const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
+        const gpsSocLat = gpsPosSociete[0];
+        const gpsSocLong = gpsPosSociete[1].split('|');
+
+        // Center map to Societe Position
+        VariablesShare.mapObject.panTo({
+          lat: Number(gpsSocLat),
+          lng: Number(gpsSocLong[0])
+        });
+        // Add home marker
+        VariablesShare.homeMarker = {
+          id: 10,
+          coords: {
+            latitude: gpsSocLat,
+            longitude: gpsSocLong[0]
+          },
+          options: {
+            icon: {
+              url: 'images/ico/ico_home.svg'
+            }
+          }
+        };
+        VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
+      });
+      $scope.selectedChauffeurs.length = 0;
+      VariablesShare.cleanLastPos();
+      VariablesShare.cleanProgressBars();
+      VariablesShare.cleanAttentes();
+      VariablesShare.cleanTrajets();
+      VariablesShare.cleanTrajetMatrix();
+      VariablesShare.cleanPredict();
+    };
+
+    const adminKeys = [65, 68, 77, 73, 78];
+    let keyIndex = 0;
+
+    function keydown(e) {
+      if (e.keyCode === adminKeys[keyIndex++]) {
+        if (keyIndex === adminKeys.length) {
+          keyIndex = 0;
+          $log.log("admin");
+          $scope.adminMode = true;
+          $scope.$apply();
+        }
+      } else {
+        keyIndex = 0;
+      }
+    }
+
+    function stopListening() {
+      $document.off('keydown', keydown);
+    }
+
+    // Start listening to key typing.
+    $document.on('keydown', keydown);
+
+    // Stop listening when scope is destroyed.
+    $scope.$on('$destroy', stopListening);
+
+    // end mode admin
 
     $scope.allSelected = () => {
       saveChaufeurs.forEach(item => {
         $scope.selectedChauffeurs.push(item);
       });
-      if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
-        // function get last pos de selectedChauffeurs and set marker
-        getLastPos($scope.selectedChauffeurs);
-        // get informations des jauges and display it
-        setProgressBar($scope.selectedChauffeurs, $scope.dateCalendar);
-        // Condition d'affichage
-        if ($scope.cbLivraison) {
-          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'liv');
-        }
-        if ($scope.cbRamasses) {
-          getPositions($scope.selectedChauffeurs, true, $scope.dateCalendar, 'ram');
-        }
-        if ($scope.cbTrajet) {
-          getTrajets($scope.selectedChauffeurs, true, $scope.dateCalendar);
-        }
-        if ($scope.cbAttentes) {
-          getAttentes($scope.selectedChauffeurs, true, $scope.dateCalendar);
-        }
-        if ($scope.cbPredict) {
-          getPredicts($scope.selectedChauffeurs, true);
-        }
-        if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
-          // function afficher les positions gps des autres chauffeurs
-        }
-      }
+      whatToDo();
     };
 
     // watcher selectedChauffeurs
@@ -131,6 +213,11 @@ class ToolBarController {
 
     $scope.fitBounds = () => {
       VariablesShare.mapObject.setZoom(8);
+    };
+
+    $scope.refresh = () => {
+      whatToDo();
+      VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
     };
 
     function whatToDo() {
@@ -165,6 +252,11 @@ class ToolBarController {
           // function afficher les positions gps des autres chauffeurs
         }
       }
+
+      $log.log($scope.cbChauffeurs);
+      if ($scope.cbChauffeurs) {
+        getGpsChauffeurs(true);
+      }
     }
 
     function getPositions(selectedChaufeurs, checkbox, dateCalendar, typeMission) {
@@ -192,7 +284,7 @@ class ToolBarController {
     }
 
     function getLastPos(chauffeurs, other) {
-      uiGmapGoogleMapApi.then(maps => {
+      uiGmapGoogleMapApi.then(() => {
         chauffeurs.forEach(chauffeur => {
           api.loadLastPos(chauffeur.SALCODE).then(dataGps => {
             if (dataGps.length > 0) {
@@ -200,14 +292,14 @@ class ToolBarController {
               const posGps = dataGpsBrut.split(";");
               const heureGps = dataGps[0].DGPDERNIEREHEURE.split(" ");
               const addMarkerLastPos = {
-                id: Math.floor((Math.random() * 9999) + 1),
+                id: chauffeur.SALCODE,
                 coords: {
                   latitude: posGps[0],
                   longitude: posGps[1]
                 },
                 options: {
                   icon: {},
-                  animation: maps.Animation.Hp,
+                  // animation: maps.Animation.Hp,
                   labelAnchor: '20 40',
                   labelClass: "labels",
                   labelStyle: {
@@ -221,11 +313,6 @@ class ToolBarController {
                   rightclick: () => {
                     $log.log(chauffeur.color);
                   }
-                  /*eslint-disable */
-                  // animation_changed: (marker, eventName, model) => {
-                  //   $log.log(marker);
-                  // }
-                  /*eslint-enable */
                 }
               };
 
@@ -252,21 +339,6 @@ class ToolBarController {
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
       });
     }
-
-    // function printElement(elem) {
-    //   const domClone = elem.cloneNode(true);
-    //   let printSection = $document[0].getElementById('printSection');
-    //   $log.log(printSection);
-    //   if (!printSection) {
-    //     printSection = $document[0].createElement("div");
-    //     $log.log(printSection);
-    //     printSection.id = "printSection";
-    //     $document[0].body.appendChild(printSection);
-    //   }
-    //   $log.log(printSection);
-    //   printSection.innerHTML = "";
-    //   printSection.appendChild(domClone);
-    // }
 
     function reloadAuto(sw1) {
       if (sw1) {

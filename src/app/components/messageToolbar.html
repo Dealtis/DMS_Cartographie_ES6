@@ -80,8 +80,25 @@
   <div class="modalarchive_content_container">
     <md-tabs md-dynamic-height md-center-tabs>
       <md-tab label="Reçus">
-        <md-list class="md-dense" flex>
-          <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchive">
+        <div class="archive_toolbar" layout layout-align="center center">
+          <md-input-container class="archive_toolbar_select_chauffeurs" flex="none">
+            <label>Chauffeur</label>
+            <md-select ng-model="selectedChauffeursRecu" md-on-close="clearSearchTerm()" data-md-container-class="selectHeader">
+              <md-select-header class="select-header">
+                <input ng-model="searchTerm" type="search" placeholder="Choisissez le chauffeur" class="header-searchbox md-text">
+              </md-select-header>
+              <md-optgroup label="chauffeur">
+                <md-option>
+                  <em>Tous</em>
+                </md-option>
+                <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs |
+                  filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+        <md-list class="md-dense" flex cg-busy="{promise:messageArchiveEmisPromise,message:Chargement,template: require('./loading.html')}">
+          <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchiveRecu">
             <div class="md-list-item-text">
               <h3>{{m.chauffeur}}
                 {{m.datereception}}</h3>
@@ -91,7 +108,27 @@
         </md-list>
       </md-tab>
       <md-tab label="Emis">
-        <md-list class="md-dense" flex>
+        <div class="archive_toolbar" layout layout-align="space-around center">
+          <md-input-container class="archive_toolbar_select_chauffeurs" flex="none">
+            <label>Chauffeur</label>
+            <md-select ng-model="selectedChauffeursEmis" md-on-close="clearSearchTerm()" data-md-container-class="selectHeader">
+              <md-select-header class="select-header">
+                <input ng-model="searchTerm" type="search" placeholder="Choisissez le chauffeur" class="header-searchbox md-text">
+              </md-select-header>
+              <md-optgroup label="chauffeur">
+                <md-option>
+                  <em>Tous</em>
+                </md-option>
+                <md-option ng-value="chauffeur" ng-repeat="chauffeur in chauffeurs |
+                  filter:searchTerm">{{chauffeur.SALNOM}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+          <md-switch class="switch_auto" ng-model="switch_nonlu" aria-label="Switch auto non lu" ng-change="filterNonlu(switch_nonlu)">
+            <span ng-hide="switch_reloadAuto">Uniquement Non lu</span>
+          </md-switch>
+        </div>
+        <md-list class="md-dense" flex cg-busy="{promise:messageArchivePromise,message:Chargement,template: require('./loading.html')}">
           <md-list-item class="modalarchive_archiveMessage" ng-repeat="m in messageArchiveEmis">
             <div class="md-list-item-text">
               <h3>{{m.chauffeur}}

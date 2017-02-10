@@ -14,7 +14,7 @@ class MapContainerController {
       loadingHtml: "<div class='sk-cube-grid'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div><div class='sk-cube sk-cube3'></div><div class='sk-cube sk-cube4'></div><div class='sk-cube sk-cube5'></div><div class='sk-cube sk-cube6'></div><div class='sk-cube sk-cube7'></div><div class='sk-cube sk-cube8'></div><div class='sk-cube sk-cube9'></div></div>"
     });
 
-    if (angular.isUndefined($cookies.get('SOCID'))) {
+    if (angular.isUndefined(VariablesShare.socID)) {
       pleaseWait.pleaseWait({
         logo: 'images/ico/ico_home.svg',
         backgroundColor: '#eeeeee',
@@ -33,6 +33,18 @@ class MapContainerController {
             lat: searchBox.getPlaces()[0].geometry.location.lat(),
             lng: searchBox.getPlaces()[0].geometry.location.lng()
           });
+          $scope.markerPlaces = {
+            coords: {
+              latitude: searchBox.getPlaces()[0].geometry.location.lat(),
+              longitude: searchBox.getPlaces()[0].geometry.location.lng()
+            },
+            options: {
+              icon: {
+                url: 'images/ico/ico_places.svg'
+              }
+            }
+          }
+
         }
         /*eslint-enable */
       }
@@ -54,7 +66,7 @@ class MapContainerController {
 
     uiGmapGoogleMapApi.then(() => {
       // Get Position de la societe
-      api.loadSocposition($cookies.get('SOCID')).then(posSociete => {
+      api.loadSocposition(VariablesShare.socID).then(posSociete => {
         const gpsPosSociete = posSociete[0].SOCGOOGLEMAP.split(',');
         const gpsSocLat = gpsPosSociete[0];
         const gpsSocLong = gpsPosSociete[1].split('|');

@@ -83,24 +83,19 @@ angular
   .config(momentConfig)
   .config(mapConfig)
   .config(httpConfig)
+  .service('VariablesShare', VariablesShare)
   .component('app', App)
   .component('toolbar', toolBar)
   .component('messagetoolbar', messageToolbar)
   .component('mapcontainer', mapContainer)
   .component('asidecontainer', asideContainer)
   .service('api', Api)
-  .service('VariablesShare', VariablesShare)
   .service('getPositionsFun', getPositionsFun)
   .service('getTrajetsFun', getTrajetsFun)
   .service('getAttentesFun', getAttentesFun)
   .service('getProgressFun', getProgressFun)
   .service('getPredictFun', getPredictFun)
-  .service('diversFun', diversFun)
-  .run($cookies => {
-    $cookies.put('USRLOGIN', "rvanardo");
-    $cookies.put('SOCID', '73');
-    $cookies.put('VALDEF', '68|COM28_ME|COMALDIS|1|EUR|2|EURO|EURO|EURO|EURO|EURO|10|DEF|DEF|DEF|DEF|DEF|DEF|DEFAUT|DEFAULT|DEFECTO|DEFAUT|DEFAUT|10|1|FR|%2D1||%2FIMAGES%2FFLAG%2Fflags%5Fof%5FFrance%2Egif|	10.1.2.67	/	Session	243 o		');
-  });
+  .service('diversFun', diversFun);
 
 Raven
   .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043', {

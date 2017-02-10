@@ -436,6 +436,28 @@ aside {
     .modalarchive_archiveMessage {
       border-bottom: 1px solid black;
     }
+    .selectHeader .header-searchbox {
+      border: none;
+      outline: none;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+    }
+
+    .select-header {
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
+      padding-left: 10.667px;
+      height: 48px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: auto;
+    }
+
+    .selectHeader md-content._md {
+      max-height: 240px;
+    }
 
     md-tab-item.md-tab.ng-scope.ng-isolate-scope.md-ink-ripple.md-active {
       color: white !important;

@@ -20,9 +20,9 @@ class ToolBarController {
     });
     // Get Chauffeurs de la societe
     const saveChaufeurs = [];
-    const valDef = $cookies.get('VALDEF');
+    VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
     VariablesShare.socID = $cookies.get('SOCID');
-    api.loadChauffeurs(VariablesShare.socID, valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
+    api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
         chauffeur.color = config.chauffColor[index];
@@ -90,8 +90,11 @@ class ToolBarController {
 
     // Mode admin
     $scope.cookiesSoc = [{
-      socName: "Comaldis",
-      socId: 73
+      socName: "Comaldis 28",
+      socId: 68
+    }, {
+      socName: "Comaldis 60",
+      socId: 69
     }, {
       socName: "Mj",
       socId: 3
@@ -117,8 +120,14 @@ class ToolBarController {
 
     $scope.setCookie = val => {
       VariablesShare.socID = val;
+      if (val === 68) {
+        VariablesShare.SocieteName = "COM28";
+      }
+      if (val === 69) {
+        VariablesShare.SocieteName = "COM60";
+      }
       // reload chauffeurs
-      api.loadChauffeurs(VariablesShare.socID, valDef.split('|')[1].split('_')[0]).then(chauffeurs => {
+      api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
         $scope.chauffeurs = angular.fromJson(chauffeurs);
         $scope.chauffeurs.forEach((chauffeur, index) => {
           chauffeur.color = config.chauffColor[index];
@@ -171,6 +180,7 @@ class ToolBarController {
           keyIndex = 0;
           $log.log("admin");
           $scope.adminMode = true;
+          $scope.$apply();
         }
       } else {
         keyIndex = 0;
@@ -238,12 +248,14 @@ class ToolBarController {
         if ($scope.cbPredict) {
           getPredicts($scope.selectedChauffeurs, true);
         }
-        if ($scope.cbChauffeurs) {
-          getGpsChauffeurs(true);
-        }
         if ($scope.cbChauffeurs && !$scope.cbLivraison && !$scope.cbRamasses && !$scope.cbTrajet) {
           // function afficher les positions gps des autres chauffeurs
         }
+      }
+
+      $log.log($scope.cbChauffeurs);
+      if ($scope.cbChauffeurs) {
+        getGpsChauffeurs(true);
       }
     }
 
@@ -272,7 +284,7 @@ class ToolBarController {
     }
 
     function getLastPos(chauffeurs, other) {
-      uiGmapGoogleMapApi.then(maps => {
+      uiGmapGoogleMapApi.then(() => {
         chauffeurs.forEach(chauffeur => {
           api.loadLastPos(chauffeur.SALCODE).then(dataGps => {
             if (dataGps.length > 0) {
@@ -287,7 +299,7 @@ class ToolBarController {
                 },
                 options: {
                   icon: {},
-                  animation: maps.Animation.Hp,
+                  // animation: maps.Animation.Hp,
                   labelAnchor: '20 40',
                   labelClass: "labels",
                   labelStyle: {

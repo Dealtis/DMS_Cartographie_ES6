@@ -5,6 +5,7 @@ export class VariablesShare {
     this.q = $q;
     this.timeout = $timeout;
     const socID = 0;
+    const SocieteName = "";
     const mapObject = {};
     const chauffeurs = [];
     const markers = [];
@@ -23,6 +24,7 @@ export class VariablesShare {
     const progressBars = [];
 
     this.socID = socID;
+    this.Societe = SocieteName;
     this.mapObject = mapObject;
     this.chauffeurs = chauffeurs;
     this.markers = markers;

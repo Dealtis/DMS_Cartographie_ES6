@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 class MessageToolbarController {
   /* @ngInject */
   constructor($scope, $interval, $timeout, $parse, $mdToast, $cookies, $log, $element, VariablesShare, api, ngAudio) {
@@ -125,8 +127,9 @@ class MessageToolbarController {
     $scope.loadMessagesArchive = loadMessagesArchive;
 
     function loadMessagesArchive() {
-      $scope.messageArchive = [];
+      $scope.messageArchiveRecu = [];
       $scope.messageArchiveEmis = [];
+
       $scope.messageArchivePromise = api.loadMessages(VariablesShare.socID, '1440', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
@@ -136,10 +139,24 @@ class MessageToolbarController {
             datereception: message.DMEDATERECU,
             isLu: false
           };
-          $scope.messageArchive.push(newMessage);
+          $scope.messageArchiveRecu.push(newMessage);
         });
+        $scope.messageArchiveAllRecu = $scope.messageArchiveRecu;
+        if (angular.isDefined($scope.selectedChauffeursRecu)) {
+          $scope.messageArchiveRecu = _.filter($scope.messageArchiveAllRecu, {
+            chauffeur: $scope.selectedChauffeursRecu.NOMANDSOFT
+          });
+          if ($scope.messageArchiveRecu.length === 0) {
+            $scope.messageArchiveRecu.push({
+              id: 666,
+              text: `Aucun message de ${$scope.selectedChauffeursRecu.NOMANDSOFT}`,
+              isLu: false
+            });
+          }
+        }
       });
-      $scope.messageArchivePromise = api.loadMessages(VariablesShare.socID, '1440', '1').then(dataMessages => {
+
+      $scope.messageArchiveEmisPromise = api.loadMessages(VariablesShare.socID, '1440', '1').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -154,8 +171,109 @@ class MessageToolbarController {
           }
           $scope.messageArchiveEmis.push(newMessage);
         });
+
+        $scope.messageArchiveAllEmis = $scope.messageArchiveEmis;
+        if (angular.isDefined($scope.selectedChauffeursEmis)) {
+          $scope.messageArchiveEmis = _.filter($scope.messageArchiveAllEmis, {
+            chauffeur: $scope.selectedChauffeursEmis.NOMANDSOFT
+          });
+        }
+
+        if ($scope.switch_nonlu) {
+          $scope.messageArchiveEmis = _.filter($scope.messageArchiveEmis, {
+            datereception: "Non lu"
+          });
+          if ($scope.messageArchiveEmis.length === 0) {
+            $scope.messageArchiveEmis.push({
+              id: 666,
+              text: `Aucun message de ${$scope.selectedChauffeursEmis.NOMANDSOFT}`,
+              isLu: false
+            });
+          }
+        }
       });
     }
+
+    $scope.$watch('selectedChauffeursRecu', () => {
+      if (angular.isDefined($scope.selectedChauffeursRecu)) {
+        if ($scope.selectedChauffeursRecu === "Tous") {
+          $scope.messageArchiveRecu = [];
+          $scope.messageArchiveRecu = $scope.messageArchiveAllRecu;
+        } else {
+          $scope.messageArchiveRecu = _.filter($scope.messageArchiveAllRecu, {
+            chauffeur: $scope.selectedChauffeursRecu.NOMANDSOFT
+          });
+          if ($scope.messageArchiveRecu.length === 0) {
+            $scope.messageArchiveRecu.push({
+              id: 666,
+              text: `Aucun message de ${$scope.selectedChauffeursRecu.NOMANDSOFT}`,
+              isLu: false
+            });
+          }
+        }
+      }
+    });
+
+    $scope.$watch('selectedChauffeursEmis', () => {
+      if (angular.isDefined($scope.selectedChauffeursEmis)) {
+        if ($scope.selectedChauffeursEmis === "Tous") {
+          $scope.messageArchiveEmis = [];
+          $scope.messageArchiveEmis = $scope.messageArchiveAllEmis;
+          if ($scope.switch_nonlu) {
+            $scope.messageArchiveEmis = _.filter($scope.messageArchiveEmis, {
+              datereception: "Non lu"
+            });
+          }
+        } else {
+          $scope.messageArchiveEmis = _.filter($scope.messageArchiveAllEmis, {
+            chauffeur: $scope.selectedChauffeursEmis.NOMANDSOFT
+          });
+          if ($scope.switch_nonlu) {
+            $scope.messageArchiveEmis = _.filter($scope.messageArchiveEmis, {
+              datereception: "Non lu"
+            });
+          }
+          if ($scope.messageArchiveEmis.length === 0) {
+            $scope.messageArchiveEmis.push({
+              id: 666,
+              text: `Aucun message de ${$scope.selectedChauffeursEmis.NOMANDSOFT}`,
+              isLu: false
+            });
+          }
+        }
+      }
+    });
+
+    $scope.filterNonlu = bool => {
+      if (bool) {
+        $scope.messageArchiveEmis = _.filter($scope.messageArchiveEmis, {
+          datereception: "Non lu"
+        });
+        if ($scope.messageArchiveEmis.length === 0) {
+          $scope.messageArchiveEmis.push({
+            id: 666,
+            text: `Aucun message de ${$scope.selectedChauffeursEmis.NOMANDSOFT}`,
+            isLu: false
+          });
+        }
+      } else {
+        $scope.messageArchiveEmis = $scope.messageArchiveAllEmis;
+        if (angular.isDefined($scope.selectedChauffeursEmis)) {
+          if ($scope.selectedChauffeursEmis !== "Tous") {
+            $scope.messageArchiveEmis = _.filter($scope.messageArchiveAllEmis, {
+              chauffeur: $scope.selectedChauffeursEmis.NOMANDSOFT
+            });
+            if ($scope.messageArchiveEmis.length === 0) {
+              $scope.messageArchiveEmis.push({
+                id: 666,
+                text: `Aucun message de ${$scope.selectedChauffeursEmis.NOMANDSOFT}`,
+                isLu: false
+              });
+            }
+          }
+        }
+      }
+    };
   }
 }
 

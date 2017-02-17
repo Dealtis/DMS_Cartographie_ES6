@@ -11,20 +11,23 @@ class ToolBarController {
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
+
     $scope.adminMode = false;
     $scope.openMenu = ($mdOpenMenu, ev) => {
       $mdOpenMenu(ev);
     };
+
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
+
     // Get Chauffeurs de la societe
     let saveChaufeurs = [];
-    // VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
-    // VariablesShare.socID = $cookies.get('SOCID');
-    const v = "68|COM28_AF|COMALDIS|1|EUR|2|EURO|EURO|EURO|EURO|EURO|10|DEF|DEF|DEF|DEF|DEF|DEF|DEFAUT|DEFAULT|DEFECTO|DEFAUT|DEFAUT|10|1|FR|%2D1||%2FIMAGES%2FFLAG%2Fflags%5Fof%5FFrance%2Egif|";
-    VariablesShare.SocieteName = v.split('|')[1].split('_')[0];
-    VariablesShare.socID = 68;
+    VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
+    VariablesShare.socID = $cookies.get('SOCID');
+    // const v = "68|COM28_AF|COMALDIS|1|EUR|2|EURO|EURO|EURO|EURO|EURO|10|DEF|DEF|DEF|DEF|DEF|DEF|DEFAUT|DEFAULT|DEFECTO|DEFAUT|DEFAUT|10|1|FR|%2D1||%2FIMAGES%2FFLAG%2Fflags%5Fof%5FFrance%2Egif|";
+    // VariablesShare.SocieteName = v.split('|')[1].split('_')[0];
+    // VariablesShare.socID = 68;
     api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
@@ -35,7 +38,13 @@ class ToolBarController {
 
       /*eslint-disable */
       angular.element(document).ready(function() {
-        angular.element($document[0].querySelector('.gm-style').querySelector('input').placeholder = "Entrez une adresse");
+        if (angular.isDefined($document[0].querySelector('.gm-style'))) {
+          $document[0].querySelector('.gm-style').querySelector('input').placeholder = "Entrez une adresse";
+        }else {
+          setTimeout(function () {
+            $document[0].querySelector('.gm-style').querySelector('input').placeholder = "Entrez une adresse";
+          }, 10000);
+        }
       });
       /*eslint-enable */
     });

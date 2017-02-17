@@ -2,10 +2,20 @@ import _ from 'lodash';
 
 class MessageToolbarController {
   /* @ngInject */
-  constructor($scope, $interval, $timeout, $parse, $mdToast, $cookies, $log, $element, VariablesShare, api, ngAudio) {
+  constructor($scope, $document, $interval, $timeout, $parse, $mdToast, $cookies, $log, $element, VariablesShare, api, ngAudio) {
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
+    angular.element(document).ready(() => {
+      $document[0].querySelector('.messagetoolbar_newmessage_select_chauffeurs').querySelector("md-select").addEventListener('focus', () => {
+        if (angular.isDefined($scope.selectedChauffeurs)) {
+          if ($scope.selectedChauffeurs.length > 0) {
+            $document[0].querySelector('.messagetoolbar_newmessage_input').querySelector("input").focus();
+          }
+        }
+      }, true);
+    });
+
     $scope.messageNonlu = VariablesShare.messagesNonlu;
     $scope.messageArchive = [];
     $scope.chauffeurs = VariablesShare.chauffeurs;

@@ -96,6 +96,7 @@ angular
   .service('getProgressFun', getProgressFun)
   .service('getPredictFun', getPredictFun)
   .service('diversFun', diversFun);
+
 Raven
   .config('https://3210a38ae30c4a92b111ef6e6356460c@sentry.io/128043', {
     release: '0e4fdef81448dcfa0e16ecc4433ff3997aa53572'

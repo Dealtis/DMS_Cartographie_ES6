@@ -23,7 +23,7 @@
     </div>
     <md-input-container class="messagetoolbar_newmessage_input md-block" flex>
       <label>Message</label>
-      <input required name="message" ng-model="Textmessage">
+      <input required name="message" ng-model="Textmessage" ng-focus="true">
     </md-input-container>
     <div class="messagetoolbar_newmessage_sendbutton">
       <md-button class="md-icon-button" aria-label="Send" ng-click="sendMessage(selectedChauffeurs, Textmessage)">

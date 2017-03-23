@@ -77,7 +77,7 @@ import '../node_modules/ngPrint/ngPrint.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngCookies', 'ngAudio', 'ngRaven', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
+  .module(app, ['ui.router', 'ngMaterial', 'ngAnimate', 'angular.filter', 'ngMessages', 'ngCookies', 'ngAudio', 'ngRaven', 'angular.filter', 'cgBusy', 'vAccordion', 'uiGmapgoogle-maps'])
   .config(routesConfig)
   .config(compilerConfig)
   .config(momentConfig)

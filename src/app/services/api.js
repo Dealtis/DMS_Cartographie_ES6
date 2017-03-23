@@ -57,7 +57,6 @@ export class Api {
     this.log.log(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}&key=AIzaSyBOeBriCeuw0BETvQRlKloB4KoooPYzu4g`);
     return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${nom.split(' ').join('+')},${adr.split(' ').join('+')},${cp},${ville.split(' ').join('+')}&key=AIzaSyBOeBriCeuw0BETvQRlKloB4KoooPYzu4g`).then(result => result.data);
   }
-
   getMatrix(origins, destinations) {
     return this.http.get(`${url}mapsDirections?origins=${origins}&destinations=${destinations}`).then(result => result.data);
   }

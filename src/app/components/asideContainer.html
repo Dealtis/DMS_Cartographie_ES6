@@ -8,7 +8,7 @@
       </v-pane-header>
       <v-pane-content>
         <div class="progressBar_positions_container" layout="column" layout-align="center">
-            <div ng-repeat="p in progressBar.positionsLivraisons" layout="row" layout-align="none center">
+            <div ng-repeat="p in progressBar.positionsLivraisons | unique: 'num'" layout="row" layout-align="none center">
               <div class="progressBar_ico">
                 <img ng-src="{{p.ico}}" alt="">
               </div>

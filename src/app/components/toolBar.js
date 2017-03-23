@@ -11,17 +11,23 @@ class ToolBarController {
     $scope.clearSearchTerm = () => {
       $scope.searchTerm = '';
     };
+
     $scope.adminMode = false;
     $scope.openMenu = ($mdOpenMenu, ev) => {
       $mdOpenMenu(ev);
     };
+
     $element.find('input').on('keydown', ev => {
       ev.stopPropagation();
     });
+
     // Get Chauffeurs de la societe
-    const saveChaufeurs = [];
+    let saveChaufeurs = [];
     VariablesShare.SocieteName = $cookies.get('VALDEF').split('|')[1].split('_')[0];
     VariablesShare.socID = $cookies.get('SOCID');
+    // const v = "68|COM28_AF|COMALDIS|1|EUR|2|EURO|EURO|EURO|EURO|EURO|10|DEF|DEF|DEF|DEF|DEF|DEF|DEFAUT|DEFAULT|DEFECTO|DEFAUT|DEFAUT|10|1|FR|%2D1||%2FIMAGES%2FFLAG%2Fflags%5Fof%5FFrance%2Egif|";
+    // VariablesShare.SocieteName = v.split('|')[1].split('_')[0];
+    // VariablesShare.socID = 68;
     api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
       $scope.chauffeurs = angular.fromJson(chauffeurs);
       $scope.chauffeurs.forEach((chauffeur, index) => {
@@ -29,6 +35,18 @@ class ToolBarController {
         saveChaufeurs.push(chauffeur);
         VariablesShare.addChauffeur(chauffeur);
       });
+
+      /*eslint-disable */
+      angular.element(document).ready(function() {
+        if (angular.isDefined($document[0].querySelector('.gm-style'))) {
+          $document[0].querySelector('.gm-style').querySelector('input').placeholder = "Entrez une adresse";
+        }else {
+          setTimeout(function () {
+            $document[0].querySelector('.gm-style').querySelector('input').placeholder = "Entrez une adresse";
+          }, 10000);
+        }
+      });
+      /*eslint-enable */
     });
     // Get Positions
     $scope.getPositions = getPositions;
@@ -126,6 +144,7 @@ class ToolBarController {
       if (val === 69) {
         VariablesShare.SocieteName = "COM60";
       }
+      saveChaufeurs = [];
       // reload chauffeurs
       api.loadChauffeurs(VariablesShare.socID, VariablesShare.SocieteName).then(chauffeurs => {
         $scope.chauffeurs = angular.fromJson(chauffeurs);
@@ -163,12 +182,7 @@ class ToolBarController {
         VariablesShare.addmarkerLastPos(VariablesShare.homeMarker);
       });
       $scope.selectedChauffeurs.length = 0;
-      VariablesShare.cleanLastPos();
-      VariablesShare.cleanProgressBars();
-      VariablesShare.cleanAttentes();
-      VariablesShare.cleanTrajets();
-      VariablesShare.cleanTrajetMatrix();
-      VariablesShare.cleanPredict();
+      whatToDo();
     };
 
     const adminKeys = [65, 68, 77, 73, 78];
@@ -200,6 +214,7 @@ class ToolBarController {
     // end mode admin
 
     $scope.allSelected = () => {
+      $scope.selectedChauffeurs.length = 0;
       saveChaufeurs.forEach(item => {
         $scope.selectedChauffeurs.push(item);
       });
@@ -227,6 +242,7 @@ class ToolBarController {
       VariablesShare.cleanTrajets();
       VariablesShare.cleanTrajetMatrix();
       VariablesShare.cleanPredict();
+      VariablesShare.cleanLastPosOther();
       if (angular.isDefined($scope.selectedChauffeurs) && $scope.selectedChauffeurs.length > 0) {
         // function get last pos de selectedChauffeurs and set marker
         getLastPos($scope.selectedChauffeurs);
@@ -252,8 +268,6 @@ class ToolBarController {
           // function afficher les positions gps des autres chauffeurs
         }
       }
-
-      $log.log($scope.cbChauffeurs);
       if ($scope.cbChauffeurs) {
         getGpsChauffeurs(true);
       }

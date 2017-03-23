@@ -1,3 +1,5 @@
+// import _ from 'lodash';
+
 export class getProgressFun {
   /* @ngInject */
   constructor($log, $q, api, diversFun, VariablesShare) {
@@ -52,6 +54,10 @@ export class getProgressFun {
                   .then(dataPositions => {
                     progressBar.positionsLivraisons = [];
                     dataPositions.forEach(position => {
+                      // const schPos = _.find(progressBar.positionsLivraisons, pBar => {
+                      //   return position.NUM === pBar.num;
+                      // });
+                      // if (angular.isUndefined(schPos)) {
                       const heureSplit = position.DATESUIVI.split(" ");
                       if (position.CODEANO !== "FLASHAGE" && position.CODEANO !== "FLASHAGEIMP") {
                         const newLivraisons = {
@@ -60,7 +66,7 @@ export class getProgressFun {
                           memo: position.MEMO,
                           codeano: position.CODEANO,
                           datesuivi: heureSplit[1],
-                          nom: position.EXPNOM,
+                          nom: position.LIVNOM,
                           adressse: position.EXPADR,
                           cp: position.EXPVILCP,
                           ville: position.EXPVILLIB,
@@ -69,6 +75,7 @@ export class getProgressFun {
                         progressBar.positionsLivraisons.push(newLivraisons);
                         progressBar.positionsAll.push(newLivraisons);
                       }
+                      // }
                     });
                   });
               }
@@ -85,7 +92,7 @@ export class getProgressFun {
                           memo: position.MEMO,
                           codeano: position.CODEANO,
                           datesuivi: heureSplit[1],
-                          nom: position.LIVNOM,
+                          nom: position.EXPNOM,
                           adressse: position.EXPADR,
                           cp: position.EXPVILCP,
                           ville: position.EXPVILLIB,

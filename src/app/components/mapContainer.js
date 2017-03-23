@@ -5,9 +5,8 @@ import pleaseWait from '../../../node_modules/please-wait/build/please-wait.js';
 
 class MapContainerController {
   /* @ngInject */
-  constructor($scope, $log, $cookies, $document, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
+  constructor($scope, $log, $cookies, $document, $element, $templateCache, uiGmapGoogleMapApi, api, VariablesShare) {
     // Loading
-
     const loadingScreen = pleaseWait.pleaseWait({
       logo: 'images/ico/ico_home.svg',
       backgroundColor: '#eeeeee',

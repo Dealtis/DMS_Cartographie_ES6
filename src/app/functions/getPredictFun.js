@@ -19,9 +19,10 @@ export class getPredictFun {
         this.uiGmapGoogleMapApi.then(maps => {
           const promises = [];
           const failGeocode = [];
-          selectedChaufeurs.forEach(chauffeur => {
-            const deferred = this.q.defer();
-            this.api.loadPredict(chauffeur.NOMANDSOFT)
+          if (selectedChaufeurs.length < 4) {
+            selectedChaufeurs.forEach(chauffeur => {
+              const deferred = this.q.defer();
+              this.api.loadPredict(chauffeur.NOMANDSOFT)
               .then(dataPredict => {
                 // const schProgressbar = this.VariablesShare.progressBars.find(progressBar => {
                 //   return progressBar.chauffeur === chauffeur.SALNOM;
@@ -147,9 +148,9 @@ export class getPredictFun {
                   deferred.resolve();
                 }
               });
-            promises.push(deferred.promise);
-          });
-
+              promises.push(deferred.promise);
+            });
+          }
           this.q.all(promises).then(() => {
             // const toast = this.mdToast.simple()
             //   .textContent(`Pas de prédictions`)

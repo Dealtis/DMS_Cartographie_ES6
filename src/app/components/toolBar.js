@@ -214,6 +214,7 @@ class ToolBarController {
     // end mode admin
 
     $scope.allSelected = () => {
+      $scope.selectedChauffeurs.length = 0;
       saveChaufeurs.forEach(item => {
         $scope.selectedChauffeurs.push(item);
       });

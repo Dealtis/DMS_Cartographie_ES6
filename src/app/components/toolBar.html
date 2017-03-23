@@ -44,29 +44,29 @@
 <div class="toolbar_checkbox" layout="column" layout-gt-sm="row" layout-align="none" flex="none">
   <div>
     <div class="toolbar_checkbox_livraisons">
-      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar,'liv')" ng-disabled="!(selectedChauffeurs.length > 0)">
+      <md-checkbox class="md-primary" ng-model="cbLivraison" aria-label="Livraisons" ng-change="getPositions(selectedChauffeurs,cbLivraison,dateCalendar,'liv')" ng-disabled="!(selectedChauffeurs.length > 0) || selectedChauffeurs.length > 3">
         Livraisons
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_ramasses" flex>
-      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositions(selectedChauffeurs,cbRamasses,dateCalendar, 'ram')" ng-disabled="!(selectedChauffeurs.length > 0)">
+      <md-checkbox class="md-primary" ng-model="cbRamasses" aria-label="Ramasses" ng-change="getPositions(selectedChauffeurs,cbRamasses,dateCalendar, 'ram')" ng-disabled="!(selectedChauffeurs.length > 0) || selectedChauffeurs.length > 3">
         Ramasses
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_predict" flex>
-      <md-checkbox class="md-primary" ng-model="cbPredict" aria-label="Prédictions" ng-disabled="!(selectedChauffeurs.length > 0)" ng-change="getPredicts(selectedChauffeurs,cbPredict)">
+      <md-checkbox class="md-primary" ng-model="cbPredict" aria-label="Prédictions" ng-disabled="!(selectedChauffeurs.length > 0) || selectedChauffeurs.length > 3" ng-change="getPredicts(selectedChauffeurs,cbPredict)">
         Prédictions
       </md-checkbox>
     </div>
   </div>
   <div>
     <div class="toolbar_checkbox_trajet" flex>
-      <md-checkbox class="md-primary" ng-model="cbTrajet" aria-label="Trajet" ng-change="getTrajets(selectedChauffeurs,cbTrajet,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0)">
+      <md-checkbox class="md-primary" ng-model="cbTrajet" aria-label="Trajet" ng-change="getTrajets(selectedChauffeurs,cbTrajet,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0) || selectedChauffeurs.length > 3">
         Trajets
       </md-checkbox>
     </div>
     <div class="toolbar_checkbox_attentes" flex>
-      <md-checkbox class="md-primary" ng-model="cbAttentes" aria-label="Attentes" ng-change="getAttentes(selectedChauffeurs,cbAttentes,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0)">
+      <md-checkbox class="md-primary" ng-model="cbAttentes" aria-label="Attentes" ng-change="getAttentes(selectedChauffeurs,cbAttentes,dateCalendar)" ng-disabled="!(selectedChauffeurs.length > 0) || selectedChauffeurs.length > 3">
         Attentes
       </md-checkbox>
     </div>

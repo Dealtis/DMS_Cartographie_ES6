@@ -16,9 +16,10 @@ export class getAttentesFun {
       try {
         this.uiGmapGoogleMapApi.then(maps => {
           const promises = [];
-          selectedChaufeurs.forEach(chauffeur => {
-            const deferred = this.q.defer();
-            this.api.loadTrajet(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
+          if (selectedChaufeurs.length < 4) {
+            selectedChaufeurs.forEach(chauffeur => {
+              const deferred = this.q.defer();
+              this.api.loadTrajet(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar))
               .then(dataTrajet => {
                 if (dataTrajet.length > 0) {
                   const dataTrajetGps = dataTrajet[0].DGPPOSITION.split("|");
@@ -185,8 +186,9 @@ export class getAttentesFun {
                   deferred.resolve();
                 }
               });
-            promises.push(deferred.promise);
-          });
+              promises.push(deferred.promise);
+            });
+          }
           this.q.all(promises).then(() => {
             resolve("getAttentes finish");
           }, response => {

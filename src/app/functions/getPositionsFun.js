@@ -16,10 +16,11 @@ export class getPositionsFun {
       try {
         this.uiGmapGoogleMapApi.then(maps => {
           const promises = [];
+          if (selectedChaufeurs.length < 4) {
           // Get marker des differents chauffeurs select
-          selectedChaufeurs.forEach(chauffeur => {
-            const deferred = this.q.defer();
-            this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
+            selectedChaufeurs.forEach(chauffeur => {
+              const deferred = this.q.defer();
+              this.api.loadPositions(chauffeur.SALCODE, this.diversFun.convertDate(dateCalendar), typeMission)
               .then(dataPositions => {
                 if (dataPositions.length > 0) {
                   dataPositions.forEach(pos => {
@@ -100,8 +101,9 @@ export class getPositionsFun {
                 }
                 deferred.resolve();
               });
-            promises.push(deferred.promise);
-          });
+              promises.push(deferred.promise);
+            });
+          }
           this.q.all(promises).then(() => {
             resolve("getPosition finish");
           }, response => {

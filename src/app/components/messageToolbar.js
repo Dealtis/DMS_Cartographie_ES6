@@ -18,6 +18,7 @@ class MessageToolbarController {
 
     $scope.messageNonlu = VariablesShare.messagesNonlu;
     $scope.messageArchive = [];
+    $scope.messageLoad = [];
     $scope.chauffeurs = VariablesShare.chauffeurs;
     $scope.forminput = {};
     $scope.messagetoolbarInputmessageActive = false;
@@ -30,9 +31,10 @@ class MessageToolbarController {
           datereception: message.DMEDATERECU,
           isLu: false
         };
+        $scope.messageLoad.push(newMessage);
         VariablesShare.addMessage(newMessage);
       });
-      if (VariablesShare.messagesNonlu.length > 0) {
+      if ($scope.messageNonlu.length > 0) {
         // if mute
         if ($cookies.get('isSoundMuted') === "false") {
           const sound = ngAudio.load('assets/sounds/newmessage.mp3');
@@ -102,7 +104,7 @@ class MessageToolbarController {
     };
 
     $interval(() => {
-      api.loadMessages(VariablesShare.socID, '2', '2').then(dataMessages => {
+      api.loadMessages(VariablesShare.socID, '15', '2').then(dataMessages => {
         dataMessages.forEach(message => {
           const newMessage = {
             id: Number(message.DMEID),
@@ -111,7 +113,13 @@ class MessageToolbarController {
             datereception: message.DMEDATERECU,
             isLu: false
           };
-          VariablesShare.addMessage(newMessage);
+          // isMessage in messageLoad
+          const schMsg = _.find($scope.messageLoad, msg => {
+            return msg.id === newMessage.id;
+          });
+          if (angular.isUndefined(schMsg)) {
+            VariablesShare.addMessage(newMessage);
+          }
         });
         if (VariablesShare.messagesNonlu.length > 0) {
           // if mute
@@ -127,6 +135,7 @@ class MessageToolbarController {
       $scope.messageNonlu.forEach((message, index) => {
         if (message.id === id) {
           $scope.messageNonlu.splice(index, 1);
+          message.isLu = true;
         }
       });
       if ($scope.messageNonlu.length === 0) {
@@ -134,6 +143,7 @@ class MessageToolbarController {
       }
       VariablesShare.messagesNonlu = $scope.messageNonlu;
     };
+
     $scope.loadMessagesArchive = loadMessagesArchive;
 
     function loadMessagesArchive() {
